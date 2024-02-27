@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { SettingsProvider } from "@/context/setting";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +17,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <SettingsProvider
+          defaultSettings={{
+            themeMode: "light", // 'light' | 'dark'
+            themeDirection: "ltr", //  'rtl' | 'ltr'
+            themeContrast: "default", // 'default' | 'bold'
+            themeLayout: "vertical", // 'vertical' | 'horizontal' | 'mini'
+            themeColorPresets: "default", // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
+            themeStretch: false,
+          }}
+        >
+          {children}
+        </SettingsProvider>
+      </body>
     </html>
   );
 }
