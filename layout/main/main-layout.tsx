@@ -1,21 +1,21 @@
-import { Box } from '@mui/material';
-import Navbar from './navbar';
-import { heightNav, widthNav } from './config-navbar';
+import { Box } from "@mui/material";
+import Navbar from "./navbar";
+import { heightNav, widthNav } from "./config-navbar";
 
 function MainLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <nav className="bottom-0 fixed z-50">
+      <Box component="nav" className="fixed z-40 bottom-0">
         <Box
-          className="flex flex-row md:flex-col w-screen text-[30px] justify-center  border border-r"
+          className="flex flex-row md:flex-col text-[30px] justify-center border border-r"
           sx={{
-            height: { sx: heightNav, md: '100vh' },
-            width: { md: widthNav },
+            width: { xs: "100vh", md: widthNav },
+            height: { xs: heightNav, md: "100vh" },
           }}
         >
           <Navbar />
         </Box>
-      </nav>
+      </Box>
       <div className="mx-[var(--header-size)]">
         <main>{children}</main>
       </div>
