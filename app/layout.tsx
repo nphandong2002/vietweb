@@ -1,10 +1,7 @@
+import { AuthConsumer, AuthProvider } from "@/context/auth";
+import { SettingsProvider } from "@/context/settings";
+import { ThemeProvider } from "@/theme";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { SettingsProvider } from "@/context/setting";
-import { ThemeProvider } from "@mui/material";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,19 +15,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <SettingsProvider
-          defaultSettings={{
-            themeMode: "light", // 'light' | 'dark'
-            themeDirection: "ltr", //  'rtl' | 'ltr'
-            themeContrast: "default", // 'default' | 'bold'
-            themeLayout: "vertical", // 'vertical' | 'horizontal' | 'mini'
-            themeColorPresets: "default", // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
-            themeStretch: false,
-          }}
-        >
-          <ThemeProvider>{children}</ThemeProvider>
-        </SettingsProvider>
+      <body>
+        <AuthProvider>
+          <SettingsProvider
+            defaultSettings={{
+              themeMode: "light", // 'light' | 'dark'
+              themeDirection: "ltr", //  'rtl' | 'ltr'
+              themeContrast: "default", // 'default' | 'bold'
+              themeLayout: "vertical", // 'vertical' | 'horizontal' | 'mini'
+              themeColorPresets: "default", // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
+              themeStretch: false,
+            }}
+          >
+            <AuthConsumer>{children}</AuthConsumer>
+          </SettingsProvider>
+        </AuthProvider>
       </body>
     </html>
   );
