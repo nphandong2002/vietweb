@@ -10,7 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Drawer, { drawerClasses } from "@mui/material/Drawer";
 // theme
-// import { paper } from "src/shared/theme/css";
+import { paper } from "@/theme/css";
 //
 import Iconify from "../iconify";
 // import Scrollbar from "../../scrollbar";
@@ -161,7 +161,7 @@ export default function SettingsDrawer() {
       }}
       sx={{
         [`& .${drawerClasses.paper}`]: {
-          // ...paper({ theme, bgcolor: theme.palette.background.default }),
+          ...paper({ theme, bgcolor: theme.palette.background.default }),
           width: 280,
         },
       }}

@@ -1,4 +1,4 @@
-import SvgColor from "@/compoments/svg-color";
+import SvgColor from "@/components/svg-color";
 import { useSettingsContext } from "@/context/settings";
 import { useLocales } from "@/locales";
 import { paths } from "@/routes/paths";
@@ -27,4 +27,5 @@ export function useNavData() {
     ],
     [t],
   );
+  return data;
 }

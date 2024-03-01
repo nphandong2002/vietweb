@@ -1,7 +1,10 @@
+import "@/locales/i18n";
+
 import { AuthConsumer, AuthProvider } from "@/context/auth";
 import { SettingsProvider } from "@/context/settings";
 import { ThemeProvider } from "@/theme";
 import type { Metadata } from "next";
+import { LocalizationProvider } from "@/locales";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,18 +20,22 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AuthProvider>
-          <SettingsProvider
-            defaultSettings={{
-              themeMode: "light", // 'light' | 'dark'
-              themeDirection: "ltr", //  'rtl' | 'ltr'
-              themeContrast: "default", // 'default' | 'bold'
-              themeLayout: "vertical", // 'vertical' | 'horizontal' | 'mini'
-              themeColorPresets: "default", // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
-              themeStretch: false,
-            }}
-          >
-            <AuthConsumer>{children}</AuthConsumer>
-          </SettingsProvider>
+          <LocalizationProvider>
+            <SettingsProvider
+              defaultSettings={{
+                themeMode: "light", // 'light' | 'dark'
+                themeDirection: "ltr", //  'rtl' | 'ltr'
+                themeContrast: "default", // 'default' | 'bold'
+                themeLayout: "vertical", // 'vertical' | 'horizontal' | 'mini'
+                themeColorPresets: "default", // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
+                themeStretch: false,
+              }}
+            >
+              <ThemeProvider>
+                <AuthConsumer>{children}</AuthConsumer>
+              </ThemeProvider>
+            </SettingsProvider>
+          </LocalizationProvider>
         </AuthProvider>
       </body>
     </html>
