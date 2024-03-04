@@ -10,7 +10,7 @@ import {
   ThemeOptions,
 } from "@mui/material/styles";
 // locales
-import { useLocales } from "src/locales";
+import { useLocales } from "@/locales";
 // components
 // system
 import { palette } from "./palette";
@@ -22,10 +22,9 @@ import { componentsOverrides } from "./overrides";
 import { presets } from "./options/presets";
 import { darkMode } from "./options/dark-mode";
 import { contrast } from "./options/contrast";
-import RTL, { direction } from "./options/right-to-left";
 //
 import NextAppDirEmotionCacheProvider from "./next-emotion-cache";
-import { useSettingsContext } from "../setting";
+import { useSettingsContext } from "../settings";
 
 // ----------------------------------------------------------------------
 
@@ -38,16 +37,9 @@ export default function ThemeProvider({ children }: Props) {
 
   const settings = useSettingsContext();
 
-  const darkModeOption = darkMode(settings.themeMode);
+  const darkModeOption = darkMode(settings.theme.mode);
 
-  const presetsOption = presets(settings.themeColorPresets);
-
-  const contrastOption = contrast(
-    settings.themeContrast === "bold",
-    settings.themeMode,
-  );
-
-  const directionOption = direction(settings.themeDirection);
+  const presetsOption = presets(settings.theme.color);
 
   const baseOption = useMemo(
     () => ({
@@ -65,30 +57,17 @@ export default function ThemeProvider({ children }: Props) {
       merge(
         // Base
         baseOption,
-        // Direction: remove if not in use
-        directionOption,
         // Dark mode: remove if not in use
         darkModeOption,
         // Presets: remove if not in use
         presetsOption,
-        // Contrast: remove if not in use
-        contrastOption.theme,
       ),
-    [
-      baseOption,
-      directionOption,
-      darkModeOption,
-      presetsOption,
-      contrastOption.theme,
-    ],
+    [baseOption, darkModeOption, presetsOption],
   );
 
   const theme = createTheme(memoizedValue as ThemeOptions);
 
-  theme.components = merge(
-    componentsOverrides(theme),
-    contrastOption.components,
-  );
+  theme.components = componentsOverrides(theme);
 
   const themeWithLocale = useMemo(
     () => createTheme(theme, currentLang.systemValue),
@@ -98,10 +77,8 @@ export default function ThemeProvider({ children }: Props) {
   return (
     <NextAppDirEmotionCacheProvider options={{ key: "css" }}>
       <MuiThemeProvider theme={themeWithLocale}>
-        <RTL themeDirection={settings.themeDirection}>
-          <CssBaseline />
-          {children}
-        </RTL>
+        <CssBaseline />
+        {children}
       </MuiThemeProvider>
     </NextAppDirEmotionCacheProvider>
   );

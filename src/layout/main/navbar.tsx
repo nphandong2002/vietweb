@@ -1,13 +1,14 @@
 "use client";
 
 import Logo from "@/components/logo";
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, useTheme } from "@mui/material";
 import useNavbar from "./config-navbar";
 import NavbarItem from "./navbar-item";
 import { NAV } from "../config-layout";
 
 function Navbar() {
   const dataNavbar = useNavbar();
+  const theme = useTheme();
   return (
     <Stack
       component="nav"
@@ -18,6 +19,9 @@ function Navbar() {
         width: { xs: "100vw", sm: NAV.W_MINI, md: NAV.W_VERTICAL },
         height: { xs: NAV._H, sm: "100vh" },
         justifyItems: "center",
+        borderRight: (theme) => `dashed 1px ${theme.palette.divider}`,
+        borderTop: (theme) => `dashed 1px ${theme.palette.divider}`,
+        overflow: "auto",
       }}
       direction={{ xs: "row", sm: "column" }}
     >

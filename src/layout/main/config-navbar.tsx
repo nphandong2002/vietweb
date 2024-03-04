@@ -1,4 +1,5 @@
 import Image from "@/components/image";
+import { useSettingsContext } from "@/context/settings";
 import { paths } from "@/router/path";
 import { useMemo } from "react";
 
@@ -10,6 +11,7 @@ const icon = (name: string) => (
 );
 
 function useNavbar() {
+  const settings = useSettingsContext();
   const data = useMemo(
     () => [
       { title: "home", icon: icon("ic_home"), path: paths.home.root },
@@ -18,7 +20,11 @@ function useNavbar() {
       { title: "video", icon: icon("ic_chat"), path: paths.video.root },
       { title: "music", icon: icon("ic_chat"), path: paths.music.root },
       { title: "todo", icon: icon("ic_chat"), path: paths.todo.root },
-      { title: "setting", icon: icon("ic_setting"), onClick: () => {} },
+      {
+        title: "setting",
+        icon: icon("ic_setting"),
+        onClick: settings.onToggle,
+      },
     ],
     [],
   );

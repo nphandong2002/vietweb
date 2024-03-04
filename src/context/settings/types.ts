@@ -111,7 +111,7 @@ export type SettingsValueProps = {
 
 export type SettingsContextProps = SettingsValueProps & {
   // Update
-  onUpdate: (name: string, value: string | boolean) => void;
+  onUpdate: (name: string, value: any) => void;
   // Direction by lang
   onChangeDirectionByLang: (lang: string) => void;
   // Reset
