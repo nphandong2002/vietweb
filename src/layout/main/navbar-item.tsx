@@ -46,7 +46,7 @@ function NavbarItem({ icon, title, onClick = () => {}, path }: NavbarItemType) {
           flexShrink: 0,
           cursor: "pointer",
           width: 1,
-          color: theme.palette.text.secondary,
+          color: theme.palette.text.primary,
 
           ...(active && activeStyles),
           "&:hover": {

@@ -1,4 +1,4 @@
-import { Link, Stack, StackProps } from "@mui/material";
+import { Link, Stack, StackProps, alpha, useTheme } from "@mui/material";
 import Image from "../image";
 import { forwardRef } from "react";
 import { RouterLink } from "@/router/components";
@@ -9,6 +9,7 @@ export interface LogoProps extends StackProps {
 
 const Logo = forwardRef<HTMLDivElement, LogoProps>(
   ({ disabledLink = false, sx, ...other }, ref) => {
+    const theme = useTheme();
     let logo = (
       <Stack
         direction="row"
@@ -21,7 +22,13 @@ const Logo = forwardRef<HTMLDivElement, LogoProps>(
         }}
         {...other}
       >
-        <Image src="./logo.png" alt="logo" />
+        <Image
+          src="./logo.png"
+          alt="logo"
+          sx={{
+            filter: `drop-shadow(0px 0px 7px ${theme.palette.primary.main})`,
+          }}
+        />
       </Stack>
     );
     if (disabledLink) {
