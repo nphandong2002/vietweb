@@ -19,13 +19,18 @@ function Navbar() {
         width: { xs: "100vw", sm: NAV.W_MINI, md: NAV.W_VERTICAL },
         height: { xs: NAV._H, sm: "100vh" },
         justifyItems: "center",
+        alignItems: "center",
         borderRight: (theme) => `dashed 1px ${theme.palette.divider}`,
         borderTop: (theme) => `dashed 1px ${theme.palette.divider}`,
         overflow: "auto",
       }}
       direction={{ xs: "row", sm: "column" }}
     >
-      <Logo />
+      <Logo
+        sx={{
+          my: "1rem",
+        }}
+      />
 
       <Stack
         flexGrow={1}
