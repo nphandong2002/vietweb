@@ -25,6 +25,7 @@ import { fShortenNumber } from "@/utils/format-number";
 import Image from "@/components/image";
 import Iconify from "@/components/iconify";
 import { IUserProfilePost } from "./type";
+import { useMockedUser } from "@/hooks/use-mocked-user";
 
 // ----------------------------------------------------------------------
 
@@ -33,24 +34,7 @@ interface Props {
 }
 
 export default function PostItem({ post }: Props) {
-  const user = {
-    id: "8864c717-587d-472a-929a-8e5f298024da-0",
-    displayName: "Jaydon Frankie",
-    email: "demo@minimals.cc",
-    password: "demo1234",
-    photoURL:
-      "https://scontent.fhan14-3.fna.fbcdn.net/v/t39.30808-6/430983528_954877156151783_6643767964462410369_n.jpg?stp=dst-jpg_p75x225&_nc_cat=103&cb=99be929b-b574a898&ccb=1-7&_nc_sid=524774&_nc_ohc=WeT34Z8VnbgAX8JrGMy&_nc_ht=scontent.fhan14-3.fna&oh=00_AfAvthoPqWJB2fdDGB43Z50kcviTDS97FUpQ1i6do-oixQ&oe=65EC7D3B",
-    phoneNumber: "+40 777666555",
-    country: "United States",
-    address: "90210 Broadway Blvd",
-    state: "California",
-    city: "San Francisco",
-    zipCode: "94116",
-    about:
-      "Praesent turpis. Phasellus viverra nulla ut metus varius laoreet. Phasellus tempus.",
-    role: "admin",
-    isPublic: true,
-  };
+  const { user } = useMockedUser();
 
   const commentRef = useRef<HTMLInputElement>(null);
 

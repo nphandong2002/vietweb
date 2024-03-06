@@ -10,6 +10,7 @@ function MainLayout({ children }: { children: React.ReactNode }) {
         component="main"
         sx={{
           ml: { xs: 0, sm: `${NAV.W_MINI}px`, md: `${NAV.W_VERTICAL}px` },
+          px: "10px",
         }}
       >
         {children}
