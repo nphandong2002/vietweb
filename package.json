@@ -9,10 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.29.9",
     "@emotion/cache": "^11.10.5",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@iconify/react": "^4.1.1",
+    "@liveblocks/client": "^1.9.7",
+    "@liveblocks/node": "^1.9.7",
+    "@liveblocks/react": "^1.9.7",
     "@mui/lab": "^5.0.0-alpha.166",
     "@mui/material": "^5.14.4",
     "@mui/x-data-grid": "^6.11.0",
@@ -30,7 +34,8 @@
     "react-dom": "^18",
     "react-i18next": "^14.0.5",
     "react-lazy-load-image-component": "^1.6.0",
-    "simplebar-react": "^3.2.4"
+    "simplebar-react": "^3.2.4",
+    "ws": "^8.16.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.202",
