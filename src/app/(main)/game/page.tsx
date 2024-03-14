@@ -1,5 +1,15 @@
-function HomePage() {
-  return <div>Home</div>;
+"use client";
+import { useEffect, useRef } from "react";
+
+function GamePage() {
+  return (
+    <canvas
+      style={{
+        width: "100%",
+        height: "100%",
+      }}
+    ></canvas>
+  );
 }
 
-export default HomePage;
+export default GamePage;

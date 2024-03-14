@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
-import { ClerkProvider } from "@clerk/nextjs";
-import { TITLE } from "@/config-global";
+import { Suspense } from "react";
 import { Inter } from "next/font/google";
+
+import { TITLE } from "@/config-global";
+import ConvexProvider from "@/context/convex";
+import { SplashScreen } from "@/components/loading-screen";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,10 +24,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={inter.className}>{children}</body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body className={inter.className}>
+        <Suspense fallback={<SplashScreen />}>
+          <ConvexProvider>{children}</ConvexProvider>
+        </Suspense>
+      </body>
+    </html>
   );
 }
