@@ -1,18 +1,19 @@
 "use client";
 
-import { Stack, useTheme } from "@mui/material";
+import { Box, Stack, useTheme } from "@mui/material";
 
 import Logo from "@/components/logo";
 import Scrollbar from "@/components/scrollbar";
+import { hideScroll } from "@/context/theme/css";
+
+import NavbarItem from "./navbar-item";
+import NavbarUser from "./navbar-user";
+import useNavbar from "./config-navbar";
 
 import { NAV } from "../config-layout";
-import NavbarItem from "./navbar-item";
-import useNavbar from "./config-navbar";
-import { hideScroll } from "@/context/theme/css";
 
 function Navbar() {
   const dataNavbar = useNavbar();
-  const theme = useTheme();
   return (
     <Stack
       component="nav"
@@ -59,6 +60,7 @@ function Navbar() {
             ))}
           </Stack>
         </Scrollbar>
+        <NavbarUser />
       </Stack>
     </Stack>
   );

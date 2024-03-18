@@ -13,7 +13,7 @@ function ConvexProvider({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
       <ConvexProviderWithClerk useAuth={useAuth} client={convex}>
-        <Authenticated>{children}</Authenticated>
+        {children}
         <AuthLoading>
           <SplashScreen />
         </AuthLoading>
