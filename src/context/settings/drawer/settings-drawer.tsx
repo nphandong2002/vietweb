@@ -13,12 +13,14 @@ import Drawer, { drawerClasses } from "@mui/material/Drawer";
 import { paper } from "@/context/theme/css";
 
 //
-import BaseOptions from "./base-option";
-import PresetsOptions from "./presets-options";
-import FullScreenOption from "./fullscreen-option";
-import { useSettingsContext } from "../settings-context";
 import Iconify from "@/components/iconify";
 import Scrollbar from "@/components/scrollbar";
+
+import BaseOptions from "./base-option";
+import PresetsOptions from "./presets-options";
+import LanguagePopover from "./language-popover";
+import FullScreenOption from "./fullscreen-option";
+import { useSettingsContext } from "../settings-context";
 
 // ----------------------------------------------------------------------
 
@@ -105,6 +107,8 @@ export default function SettingsDrawer() {
         backdrop: { invisible: true },
       }}
       sx={{
+        position: "fixed",
+        zIndex: 99999,
         [`& .${drawerClasses.paper}`]: {
           ...paper({ theme, bgcolor: theme.palette.background.default }),
           width: 280,
@@ -120,6 +124,8 @@ export default function SettingsDrawer() {
           {renderMode}
 
           {renderPresets}
+
+          <LanguagePopover />
         </Stack>
       </Scrollbar>
 

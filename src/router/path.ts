@@ -4,7 +4,7 @@ const ROOT = {
   video: "/video",
   home: "/",
   message: "/message",
-  todo: "/todo",
+  note: "/note",
 };
 
 export const paths = {
@@ -23,7 +23,7 @@ export const paths = {
   message: {
     root: ROOT.message,
   },
-  todo: {
-    root: ROOT.todo,
+  note: {
+    root: ROOT.note,
   },
 };

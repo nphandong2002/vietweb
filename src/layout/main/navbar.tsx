@@ -18,11 +18,13 @@ function Navbar() {
     <Stack
       component="nav"
       sx={{
+        background: (theme) => theme.palette.background.default,
         position: "fixed",
         zIndex: 9999,
         bottom: 0,
         borderRight: (theme) => `dashed 1px ${theme.palette.primary.light}`,
         borderTop: (theme) => `dashed 1px ${theme.palette.primary.light}`,
+        py: 1,
       }}
     >
       <Stack
@@ -43,21 +45,22 @@ function Navbar() {
             },
           }}
         >
-          <Logo
-            sx={{
-              my: "1rem",
-            }}
-          />
-          <Stack
-            flexGrow={1}
-            sx={{ width: 1 }}
-            direction={{ xs: "row", sm: "column" }}
-            justifyContent={{ xs: "center", sm: "start" }}
-            alignItems={{ sm: "center", md: "start" }}
-          >
-            {dataNavbar.map((nbar) => (
-              <NavbarItem key={"nav" + JSON.stringify(nbar.title)} {...nbar} />
-            ))}
+          <Stack direction={{ xs: "row", sm: "column" }} alignItems="center">
+            <Logo sx={{ display: { xs: "none", sm: "block" }, my: 4 }} />
+            <Stack
+              flexGrow={1}
+              sx={{ width: 1 }}
+              direction={{ xs: "row", sm: "column" }}
+              justifyContent={{ xs: "center", sm: "start" }}
+              alignItems={{ sm: "center", md: "start" }}
+            >
+              {dataNavbar.map((nbar) => (
+                <NavbarItem
+                  key={"nav" + JSON.stringify(nbar.title)}
+                  {...nbar}
+                />
+              ))}
+            </Stack>
           </Stack>
         </Scrollbar>
         <NavbarUser />
