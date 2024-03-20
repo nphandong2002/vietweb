@@ -2,7 +2,7 @@
 
 import { m } from "framer-motion";
 
-import { Avatar, Box, IconButton, Stack, Typography } from "@mui/material";
+import { Avatar, MenuItem, IconButton, Stack, Typography } from "@mui/material";
 import { useUser } from "@clerk/nextjs";
 
 import uuidv4 from "@/utils/uuidv4";
@@ -11,6 +11,9 @@ import { varHover } from "@/components/animate";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import CustomPopover, { usePopover } from "@/components/custom-popover";
 import { useResponsive } from "@/hooks/use-responsive";
+import { useLocales } from "@/locales";
+import { paths } from "@/router/path";
+import { useRouter } from "@/router/hooks";
 
 let id = uuidv4();
 const defaultUser = {
@@ -23,12 +26,25 @@ const defaultUser = {
 
 function NavbarUser() {
   const { user } = useUser();
+  const { t } = useLocales();
+  const router = useRouter();
+
   const { state, update, reset } = useLocalStorage("customerId", defaultUser);
   const popover = usePopover();
   const mdDown = useResponsive("down", "md");
 
   const userData = user ?? state;
-  const OPTIONS = [{}];
+  const handleClickItem = (path: string) => {
+    popover.onClose();
+    router.push(path);
+  };
+  const OPTIONS = [
+    {
+      label: t("login"),
+      path: paths.login,
+      customer: true,
+    },
+  ];
   return (
     <Stack
       direction="row"
@@ -79,7 +95,16 @@ function NavbarUser() {
         container={popover.open}
         hiddenArrow
       >
-        {userData.customer ? "Login" : "logout"}
+        <Stack sx={{ p: 1 }}>
+          {OPTIONS.map((option) => (
+            <MenuItem
+              key={option.label}
+              onClick={() => handleClickItem(option.path)}
+            >
+              {option.label}
+            </MenuItem>
+          ))}
+        </Stack>
       </CustomPopover>
     </Stack>
   );

@@ -8,6 +8,7 @@ const ROOT = {
 };
 
 export const paths = {
+  login: "/log-in",
   game: {
     root: ROOT.game,
   },
