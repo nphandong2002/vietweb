@@ -3,7 +3,7 @@
 import { m } from "framer-motion";
 
 import { Avatar, MenuItem, IconButton, Stack, Typography } from "@mui/material";
-import { useUser } from "@clerk/nextjs";
+import { SignOutButton, useUser } from "@clerk/nextjs";
 
 import uuidv4 from "@/utils/uuidv4";
 import Iconify from "@/components/iconify";
@@ -104,6 +104,11 @@ function NavbarUser() {
               {option.label}
             </MenuItem>
           ))}
+          {!userData.customer && (
+            <SignOutButton>
+              <MenuItem>{t("logout")}</MenuItem>
+            </SignOutButton>
+          )}
         </Stack>
       </CustomPopover>
     </Stack>

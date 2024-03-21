@@ -6,13 +6,7 @@ export const metadata: Metadata = {
   title: "Trang chủ",
 };
 function HomePage() {
-  return (
-    <div>
-      {_userFeeds.map((post) => (
-        <Post key={post.id} post={post} />
-      ))}
-    </div>
-  );
+  return <></>;
 }
 
 export default HomePage;
