@@ -38,13 +38,7 @@ function NavbarUser() {
     popover.onClose();
     router.push(path);
   };
-  const OPTIONS = [
-    {
-      label: t("login"),
-      path: paths.login,
-      customer: true,
-    },
-  ];
+  const OPTIONS = [];
   return (
     <Stack
       direction="row"
@@ -96,14 +90,20 @@ function NavbarUser() {
         hiddenArrow
       >
         <Stack sx={{ p: 1 }}>
-          {OPTIONS.map((option) => (
-            <MenuItem
-              key={option.label}
-              onClick={() => handleClickItem(option.path)}
-            >
-              {option.label}
+          {userData.customer ? (
+            <MenuItem onClick={() => handleClickItem(paths.login)}>
+              {t("login")}
             </MenuItem>
-          ))}
+          ) : (
+            OPTIONS.map((option) => (
+              <MenuItem
+                key={option.label}
+                onClick={() => handleClickItem(option.path)}
+              >
+                {option.label}
+              </MenuItem>
+            ))
+          )}
           {!userData.customer && (
             <SignOutButton>
               <MenuItem>{t("logout")}</MenuItem>

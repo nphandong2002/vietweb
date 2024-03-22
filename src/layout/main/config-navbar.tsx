@@ -1,8 +1,11 @@
+"use client";
+
+import { useMemo } from "react";
+
+import { paths } from "@/router/path";
+import { useLocales } from "@/locales";
 import Image from "@/components/image";
 import { useSettingsContext } from "@/context/settings";
-import { useLocales } from "@/locales";
-import { paths } from "@/router/path";
-import { useMemo } from "react";
 
 const icon = (name: string) => (
   <Image

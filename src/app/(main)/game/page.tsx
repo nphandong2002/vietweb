@@ -1,7 +1,13 @@
 "use client";
+import { useQuery } from "convex/react";
 import { useEffect, useRef } from "react";
 
+import { api } from "@/shared/compoments/convex";
+
 function GamePage() {
+  // const data = useQuery(api.game.rooms.get);
+  // console.log(data);
+
   return (
     <canvas
       style={{
