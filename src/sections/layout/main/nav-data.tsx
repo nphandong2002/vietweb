@@ -1,7 +1,22 @@
 import { useMemo } from 'react';
+import { PATHS } from 'src/config';
+import { useLocales } from 'src/lib/locales';
+
+import Image from 'src/sections/compoment/image';
+
+const icon = (name: string) => (
+  <Image
+    src={`/assets/icons/navbar/${name}.svg`}
+    width="1" 
+    height="1"
+  />
+);
 
 function useNavData() {
-  const data = useMemo(() => {}, []);
+  const { t } = useLocales();
+  const data = useMemo(() => [
+    { title: t("home"), path: PATHS.home.root, icon: icon('ic_home') }
+  ], [t]);
   return data;
 }
 
