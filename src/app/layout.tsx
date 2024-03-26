@@ -1,22 +1,16 @@
-import 'src/lib/locales/i18n';
+import "src/lib/locales/i18n";
 
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import { SITE } from "src/config";
 
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import './globals.css';
-import { SITE } from 'src/config';
-
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: { default: SITE || "", template: "%s | " + SITE },
-  description: 'VIETWEB hãy là chính bạn',
-  themeColor: '#000000',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-  },
+  description: "VIETWEB hãy là chính bạn",
+  themeColor: "#000000",
 };
 
 export default function RootLayout({
