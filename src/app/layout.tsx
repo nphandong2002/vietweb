@@ -10,7 +10,6 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: { default: SITE || "", template: "%s | " + SITE },
   description: "VIETWEB hãy là chính bạn",
-  themeColor: "#000000",
 };
 
 export default function RootLayout({

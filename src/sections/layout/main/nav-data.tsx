@@ -6,7 +6,7 @@ import { useLocales } from "src/lib/locales";
 
 import Image from "src/sections/compoment/image";
 
-const icon = (name: string) => <Image src={`/assets/icons/navbar/${name}.svg`} width="1" height="1" />;
+const icon = (name: string) => <Image src={`/assets/icons/navbar/${name}.svg`} height={30} width={30}/>;
 
 export function useNavData() {
   const { t } = useLocales();

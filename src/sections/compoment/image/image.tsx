@@ -5,16 +5,16 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import { ImageProps } from "./type";
 
-const Image = forwardRef<HTMLSpanElement, ImageProps>(({ src, className, customFallback = "/no-image.png", ...props }, ref) => {
+const Image = forwardRef<HTMLDivElement, ImageProps>(({ src, className, customFallback = "/no-image.png", ...props }, ref) => {
   const [fallback, setFallback] = useState<string>("");
 
   const handleError = () => {
     setFallback(customFallback);
   };
   return (
-    <span ref={ref} className={className}>
+    <div ref={ref} className={"overflow-hidden relative" + className}>
       <LazyLoadImage src={fallback || src} placeholderSrc="/cool-loading-animated-gif-1.gif" {...props} onError={handleError} />
-    </span>
+    </div>
   );
 });
 
