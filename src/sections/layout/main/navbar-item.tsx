@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { useActiveLink } from 'src/shared/hooks/router/use-active-link';
 
 export type NavItemProps = {
@@ -14,14 +13,15 @@ export type NavItemProps = {
 };
 
 function NavbarItem({ title, path, icon }: NavItemProps) {
-  const pathname = usePathname();
   const active = useActiveLink(path);
 
   return (
-    <div>
-      <Link className="flex w-full justify-center lg:justify-start items-center" href={path}>
-        <div>{icon}</div>
-        <span className="hidden lg:inline-block">{title}</span>
+    <div className="min-h-[var(--navitem-height,40px)] bg-[var(--)]">
+      <Link className="flex justify-center lg:justify-start items-center" href={path}>
+        <div className="m-2">{icon}</div>
+        <div className="hidden overflow-hidden text-ellipsis lg:inline-block ">
+          {title + title + title + title}
+        </div>
       </Link>
     </div>
   );

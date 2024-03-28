@@ -10,6 +10,9 @@ const icon = (name: string) => <Image src={`/assets/icons/navbar/${name}.svg`} h
 
 export function useNavData() {
   const { t } = useLocales();
-  const data = useMemo(() => [{ title: t("home"), path: PATHS.home.root, icon: icon("ic_home") }], [t]);
+  const data = useMemo(() => [
+    { title: t("home"), path: PATHS.home.root, icon: icon("ic_home") },
+
+  ], [t]);
   return data;
 }

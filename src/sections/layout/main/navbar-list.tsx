@@ -1,5 +1,3 @@
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
 
 import Each from 'src/sections/compoment/each';
 
@@ -8,7 +6,9 @@ import NavbarItem from './navbar-item';
 
 function NavbarList() {
   const useNavbar = useNavData();
-  return <Each of={useNavbar} render={(item) => <NavbarItem title={item.title} icon={item.icon} path={item.path} />} />;
+  return <div className='overflow-auto'>
+    <Each of={useNavbar} render={(item) => <NavbarItem title={item.title} icon={item.icon} path={item.path} />} />
+  </div>;
 }
 
 export default NavbarList;
