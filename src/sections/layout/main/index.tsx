@@ -1,5 +1,5 @@
 import { defaultTypeLayout } from 'src/shared/types/layout';
-import NavBar from './navbar';
+import NavBar from './_compoment/navbar/navbar';
 import CssInit from './css-init';
 
 function MainLayout({ children }: defaultTypeLayout) {
@@ -7,7 +7,7 @@ function MainLayout({ children }: defaultTypeLayout) {
     <main className="flex">
       <CssInit />
       <NavBar />
-      {children}
+      <div className="grow md:mx-[var(--min-width-nav)] lg:mx-[var(--width-nav)]">{children}</div>
     </main>
   );
 }

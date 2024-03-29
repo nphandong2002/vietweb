@@ -1,4 +1,4 @@
-import HomePage from 'src/pages/home';
+import HomePage from 'src/sections/pages/home';
 function HomePageRoot() {
   return <HomePage />;
 }

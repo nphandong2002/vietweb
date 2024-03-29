@@ -16,12 +16,10 @@ function NavbarItem({ title, path, icon }: NavItemProps) {
   const active = useActiveLink(path);
 
   return (
-    <div className="min-h-[var(--navitem-height,40px)] bg-[var(--)]">
+    <div className="min-h-[var(--navitem-height,40px)] bg-[var(--bg-primary)]">
       <Link className="flex justify-center lg:justify-start items-center" href={path}>
         <div className="m-2">{icon}</div>
-        <div className="hidden overflow-hidden text-ellipsis lg:inline-block ">
-          {title + title + title + title}
-        </div>
+        <div className="hidden overflow-hidden text-ellipsis lg:inline-block ">{title}</div>
       </Link>
     </div>
   );

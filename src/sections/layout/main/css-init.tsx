@@ -10,6 +10,7 @@ function CssInit() {
         --min-width-nav: ${M_W_NAV}px;
         --width-nav: ${W_NAV}px;
         --navitem-height: ${h_NAV_ITEM}px;
+        --bg-default: ${'a'};
      }`}
     </style>
   );

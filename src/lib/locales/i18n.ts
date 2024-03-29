@@ -17,7 +17,7 @@ import translationAr from './langs/ar.json';
 // ----------------------------------------------------------------------
 
 const lng = localStorageGetItem('i18nextLng', defaultLang.value);
-
+window.console.log(lng);
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)

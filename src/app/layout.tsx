@@ -1,13 +1,14 @@
-import "src/lib/locales/i18n";
+import 'src/lib/locales/i18n';
 
-import type { Metadata } from "next";
-import "./globals.css";
-import { SITE } from "src/config";
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
+import type { Metadata } from 'next';
+import './globals.css';
+import { SITE } from 'src/config';
 
 export const metadata: Metadata = {
-  title: { default: SITE || "", template: "%s | " + SITE },
-  description: "VIETWEB hãy là chính bạn",
+  title: { default: SITE || '', template: '%s | ' + SITE },
+  description: 'VIETWEB hãy là chính bạn',
 };
 
 export default function RootLayout({
@@ -17,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body >{children}</body>
+      <body>{children}</body>
     </html>
   );
 }
