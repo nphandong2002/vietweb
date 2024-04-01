@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { PATHS } from 'src/config';
-import { useLocales } from 'src/lib/locales';
+import { useLocales } from 'src/locales';
 
 import Image from 'src/sections/compoment/image';
 

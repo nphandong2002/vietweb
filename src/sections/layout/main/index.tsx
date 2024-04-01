@@ -1,4 +1,7 @@
+'use client';
+
 import { defaultTypeLayout } from 'src/shared/types/layout';
+
 import NavBar from './_compoment/navbar/navbar';
 import CssInit from './css-init';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useLocales } from 'src/lib/locales';
+import { useLocales } from 'src/locales';
 import Each from 'src/sections/compoment/each';
 import IconButton from 'src/sections/compoment/icon-button';
 import Iconify from 'src/sections/compoment/iconify';
