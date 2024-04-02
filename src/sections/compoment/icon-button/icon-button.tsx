@@ -1,4 +1,5 @@
 import { MouseEventHandler } from 'react';
+
 import { cn } from 'src/lib/utils';
 import { defaultCompomentType } from 'src/shared/types/compoment';
 
@@ -8,9 +9,9 @@ type IconButtonType = defaultCompomentType & {
 };
 
 function IconButton({ children, className = '', active, onClick }: IconButtonType) {
-  const ClassName = 'rounded-full m-2 ' + className;
+  const ClassName = 'rounded-full p-2 ' + className;
   return (
-    <button className={ClassName + cn(active && 'bg-[var(--bg-primary)]')} onClick={onClick}>
+    <button className={ClassName + cn(active && 'active')} onClick={onClick}>
       {children}
     </button>
   );

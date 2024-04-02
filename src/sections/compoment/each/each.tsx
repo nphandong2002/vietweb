@@ -1,4 +1,4 @@
-import { Children, ReactNode } from "react";
+import { Children, ReactNode } from 'react';
 interface EachProps<T> {
   render: (item: T, index: number) => ReactNode;
   of: T[];

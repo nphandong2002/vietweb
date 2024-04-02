@@ -1,8 +1,8 @@
 'use client';
 
 import { createContext, useContext } from 'react';
+import { SettingsContextProps } from 'src/shared/types/setting';
 //
-import { SettingsContextProps } from './types';
 
 // ----------------------------------------------------------------------
 

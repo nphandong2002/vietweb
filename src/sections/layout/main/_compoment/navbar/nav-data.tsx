@@ -7,7 +7,7 @@ import { useLocales } from 'src/locales';
 import Image from 'src/sections/compoment/image';
 
 const icon = (name: string) => (
-  <Image src={`/assets/icons/navbar/${name}.svg`} height={30} width={30} />
+  <Image src={`/assets/icons/navbar/${name}.svg`} height={30} width={30} alt={`nav_${name}`} />
 );
 
 export function useNavData() {
@@ -15,7 +15,7 @@ export function useNavData() {
   const data = useMemo(
     () => [
       { title: t('home'), path: PATHS.home.root, icon: icon('ic_home') },
-      { title: t('setting'), path: PATHS.setting.root, icon: icon('ic_home') },
+      { title: t('setting'), path: PATHS.setting.root, icon: icon('ic_setting') },
     ],
     [t]
   );

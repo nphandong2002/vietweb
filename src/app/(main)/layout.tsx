@@ -1,9 +1,9 @@
 'use client';
 
 import MainLayout from 'src/sections/layout/main';
-import { defaultTypeLayout } from 'src/shared/types/layout';
+import { defaultType } from 'src/shared/types/common';
 
-function MainLayoutRoot({ children }: defaultTypeLayout) {
+function MainLayoutRoot({ children }: defaultType) {
   return <MainLayout>{children}</MainLayout>;
 }
 
