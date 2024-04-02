@@ -1,10 +1,16 @@
 import { useLocales } from 'src/locales';
-import Each from 'src/sections/compoment/each';
-import IconButton from 'src/sections/compoment/icon-button';
-import Iconify from 'src/sections/compoment/iconify';
+import BaseOption from './base-option';
 
 function Language() {
-  return <div></div>;
+  const { t, allLangs, currentLang, onChangeLang } = useLocales();
+  return (
+    <BaseOption
+      options={allLangs}
+      label="language"
+      value={currentLang.value}
+      onChange={onChangeLang}
+    />
+  );
 }
 
 export default Language;

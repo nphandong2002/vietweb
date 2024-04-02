@@ -1,29 +1,31 @@
-import { useLocales } from "src/locales";
+import { useLocales } from 'src/locales';
+import Each from 'src/sections/compoment/each';
+import IconButton from 'src/sections/compoment/icon-button';
+import Iconify from 'src/sections/compoment/iconify';
 
 type Props = {
-  icons: string[];
-  options: string[];
+  label: string;
+  options: { icon: string; value: string }[];
   value: string;
   onChange: (newValue: string) => void;
 };
-function BaseOption({ icons, options, value, onChange }: Props) {
-    const {
-    t,
-    allLangs,
-    currentLang: { value: currentLangValue },
-    onChangeLang,
-  } = useLocales();
-    return <div>{t('language')}</div>
+function BaseOption({ label, options, value: mode, onChange }: Props) {
+  const { t } = useLocales();
+  return (
+    <div>
+      <div>{t(label)}</div>
       <div className="flex flex-row">
         <Each
-          of={allLangs}
+          of={options}
           render={({ icon, value }) => (
-            <IconButton active={value === currentLangValue} onClick={() => onChangeLang(value)}>
+            <IconButton active={value === mode} onClick={() => onChange(value)}>
               <Iconify icon={icon} width={24} />
             </IconButton>
           )}
         />
-      </div>;
+      </div>
+    </div>
+  );
 }
 
 export default BaseOption;

@@ -22,7 +22,7 @@ function CssInit() {
         --navitem-height: ${h_NAV_ITEM}px;
         --bg-default: ${theme.preset};
         --bg-body: ${paletteData.background.default};
-        --bg-navbar: ;
+        --bg-navbar: ${paletteData.background.neutral};
         --bg-active: ${alpha(theme.preset, 0.4)};
      }`}
     </style>
