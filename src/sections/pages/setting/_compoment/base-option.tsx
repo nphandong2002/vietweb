@@ -7,9 +7,10 @@ type Props = {
   label: string;
   options: { icon: string; value: string }[];
   value: string;
+  fillColor?: string;
   onChange: (newValue: string) => void;
 };
-function BaseOption({ label, options, value: mode, onChange }: Props) {
+function BaseOption({ fillColor, label, options, value: mode, onChange }: Props) {
   const { t } = useLocales();
   return (
     <div>
@@ -19,7 +20,16 @@ function BaseOption({ label, options, value: mode, onChange }: Props) {
           of={options}
           render={({ icon, value }) => (
             <IconButton active={value === mode} onClick={() => onChange(value)}>
-              <Iconify icon={icon} width={24} />
+              <Iconify
+                icon={icon}
+                width={24}
+                style={{
+                  ...(fillColor &&
+                    value === mode && {
+                      color: fillColor,
+                    }),
+                }}
+              />
             </IconButton>
           )}
         />

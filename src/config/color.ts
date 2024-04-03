@@ -26,7 +26,7 @@ export function palette(mode: 'light' | 'dark') {
     background: {
       paper: '#FFFFFF',
       default: '#676767',
-      neutral: '#F4F6F8',
+      neutral: '#545454',
     },
   };
   return mode == 'light' ? light : dark;

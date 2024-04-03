@@ -8,6 +8,9 @@ import './globals.css';
 import { SITE } from 'src/config';
 import SettingProvider from 'src/shared/context/setting';
 import { defaultType } from 'src/shared/types/common';
+import ProgressBar from 'src/sections/compoment/progress-bar';
+import { localStorageGetItem } from 'src/shared/utils/storage-available';
+import { defaultLang } from 'src/locales';
 
 export const metadata: Metadata = {
   title: { default: SITE || '', template: '%s | ' + SITE },
@@ -15,8 +18,10 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: defaultType) {
+  const lng = localStorageGetItem('i18nextLng', defaultLang.value);
+
   return (
-    <html lang="en">
+    <html lang={lng}>
       <SettingProvider
         defaultSetting={{
           theme: {
@@ -25,6 +30,7 @@ export default function RootLayout({ children }: defaultType) {
           },
         }}
       >
+        <ProgressBar />
         <body>{children}</body>
       </SettingProvider>
     </html>

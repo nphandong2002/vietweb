@@ -17,9 +17,10 @@ function SettingPage() {
         label="mode"
         onChange={(value) => updateTheme('mode', value)}
         value={data.theme.mode}
+        fillColor="#fbff00"
         options={[
           {
-            icon: 'twemoji:sun',
+            icon: 'fa-solid:sun',
             value: 'light',
           },
           {

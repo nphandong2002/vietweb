@@ -20,10 +20,16 @@ function CssInit() {
         --min-width-nav: ${M_W_NAV}px;
         --width-nav: ${W_NAV}px;
         --navitem-height: ${h_NAV_ITEM}px;
+
+
+
         --bg-default: ${theme.preset};
         --bg-body: ${paletteData.background.default};
         --bg-navbar: ${paletteData.background.neutral};
         --bg-active: ${alpha(theme.preset, 0.4)};
+
+        --cl-default: ${paletteData.text.primary};
+
      }`}
     </style>
   );

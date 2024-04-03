@@ -1,5 +1,3 @@
-'use client';
-
 import NavbarList from './navbar-list';
 
 function NavBar() {
