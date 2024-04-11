@@ -1,5 +1,3 @@
-'use client';
-
 import { defaultType } from 'src/shared/types/common';
 
 import NavBar from './_compoment/navbar/navbar';

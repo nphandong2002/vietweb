@@ -1,4 +1,5 @@
 import Link from 'next/link';
+
 import { cn } from 'src/lib/utils';
 import { useActiveLink } from 'src/shared/hooks/router/use-active-link';
 

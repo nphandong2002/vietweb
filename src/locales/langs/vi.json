@@ -4,5 +4,12 @@
   "game": "Trò chơi",
   "language": "Ngôn ngữ",
   "color": "Màu sắc",
-  "mode": "Chế độ"
+  "mode": "Chế độ",
+  "username": "Tên đăng nhập",
+  "password": "Mật khẩu",
+  "room": "Phòng",
+  "add": "Thêm mới",
+  "validate": {
+    "required": "Vui lòng nhập {{field}}"
+  }
 }

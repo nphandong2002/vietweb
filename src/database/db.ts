@@ -1,10 +1,9 @@
-import { createKysely } from '@vercel/postgres-kysely';
-import { AccountTable, UserTable } from './schema/user-schema';
+import { PrismaClient } from "@prisma/client";
 
-export interface Database {
-  users: UserTable;
-  account: AccountTable;
+declare global {
+  var prisma: PrismaClient | undefined;
 }
 
-export const db = createKysely<Database>();
-export { sql } from 'kysely';
+export const db = globalThis.prisma || new PrismaClient();
+
+if (process.env.NODE_ENV !== "production") globalThis.prisma = db;

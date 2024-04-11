@@ -12,4 +12,5 @@ export const PATHS = {
   room: { root: root.room },
   login: { root: root.login },
   register: { root: root.register },
+  error: '/error'
 };
