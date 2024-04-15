@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { PATHS } from 'src/config';
 import { useLocales } from 'src/locales';
 
-import Image from 'src/sections/compoment/image';
+import Image from 'src/sections/component/image';
 
 const icon = (name: string) => (
   <Image src={`/assets/icons/navbar/${name}.svg`} height={30} width={30} alt={`nav_${name}`} />

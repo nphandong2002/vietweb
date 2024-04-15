@@ -4,7 +4,7 @@ import 'src/locales/i18n';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 import type { Metadata } from 'next';
-import { SessionProvider } from 'next-auth/react'
+import { SessionProvider } from 'next-auth/react';
 
 import './globals.css';
 
@@ -13,7 +13,7 @@ import { SITE } from 'src/config';
 import { defaultLang } from 'src/locales';
 import { defaultType } from 'src/shared/types/common';
 import SettingProvider from 'src/shared/context/setting';
-import ProgressBar from 'src/sections/compoment/progress-bar';
+import ProgressBar from 'src/sections/component/progress-bar';
 import { localStorageGetItem } from 'src/shared/utils/storage-available';
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: defaultType) {
   const lng = localStorageGetItem('i18nextLng', defaultLang.value);
-  
+
   const session = await auth();
 
   return (

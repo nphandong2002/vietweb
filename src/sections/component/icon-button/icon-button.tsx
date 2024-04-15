@@ -1,9 +1,9 @@
 import { MouseEventHandler } from 'react';
 
 import { cn } from 'src/lib/utils';
-import { defaultCompomentType } from 'src/shared/types/compoment';
+import { defaultcomponentType } from 'src/shared/types/component';
 
-type IconButtonType = defaultCompomentType & {
+type IconButtonType = defaultcomponentType & {
   active?: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement>;
 };

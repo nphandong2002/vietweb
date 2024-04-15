@@ -1,9 +1,9 @@
 'use client';
 
 import { useLocales } from 'src/locales';
-import Color from './_compoment/color';
-import Language from './_compoment/lang';
-import BaseOption from './_compoment/base-option';
+import Color from './_component/color';
+import Language from './_component/lang';
+import BaseOption from './_component/base-option';
 import { useSettingsContext } from 'src/shared/context/setting';
 
 function SettingPage() {

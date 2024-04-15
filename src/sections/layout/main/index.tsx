@@ -1,7 +1,7 @@
 import { defaultType } from 'src/shared/types/common';
 
-import NavBar from './_compoment/navbar/navbar';
-import CssInit from './_compoment/css/css-init';
+import NavBar from './_component/navbar/navbar';
+import CssInit from './_component/css/css-init';
 
 function MainLayout({ children }: defaultType) {
   return (

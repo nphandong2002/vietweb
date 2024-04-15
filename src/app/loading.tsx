@@ -1,6 +1,6 @@
 'use client';
 
-import { SplashScreen } from 'src/sections/compoment/loading';
+import { SplashScreen } from 'src/sections/component/loading';
 
 // ----------------------------------------------------------------------
 

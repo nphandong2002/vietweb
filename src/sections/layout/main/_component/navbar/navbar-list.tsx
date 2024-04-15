@@ -1,4 +1,4 @@
-import Each from 'src/sections/compoment/each';
+import Each from 'src/sections/component/each';
 
 import { useNavData } from './nav-data';
 import NavbarItem from './navbar-item';

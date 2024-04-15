@@ -1,4 +1,4 @@
-export type defaultCompomentType = {
+export type defaultcomponentType = {
   children: React.ReactNode;
   className?: string;
 };
