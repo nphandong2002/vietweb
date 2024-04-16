@@ -9,6 +9,9 @@
   "password": "Mật khẩu",
   "room": "Phòng",
   "add": "Thêm mới",
+  "cancel": "Huỷ",
+  "login": "Đăng nhập",
+  "register": "Đăng ký",
   "validate": {
     "required": "Vui lòng nhập {{field}}"
   }

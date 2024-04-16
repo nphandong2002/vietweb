@@ -21,14 +21,20 @@ function CssInit() {
         --width-nav: ${W_NAV}px;
         --navitem-height: ${h_NAV_ITEM}px;
 
-
-
         --bg-default: ${theme.preset};
         --bg-body: ${paletteData.background.default};
         --bg-navbar: ${paletteData.background.neutral};
+        --bg-color: ${paletteData.background.neutral};
+        --bg-hover: ${alpha(paletteData.background.neutral, 0.4)};
         --bg-active: ${alpha(theme.preset, 0.4)};
+        --bg-primary:  ${theme.preset};
 
         --cl-default: ${paletteData.text.primary};
+
+        --text-error: ${paletteData.text.error};
+
+        --border-width: 1px;
+        --boder-color-input: ${alpha(paletteData.background.neutral, 0.4)};
 
      }`}
     </style>

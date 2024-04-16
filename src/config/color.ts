@@ -10,6 +10,7 @@ export function palette(mode: 'light' | 'dark') {
       primary: '#161C24',
       secondary: '#637381',
       disabled: '#919EAB',
+      error: '#e53935',
     },
     background: {
       paper: '#FFFFFF',
@@ -22,11 +23,12 @@ export function palette(mode: 'light' | 'dark') {
       primary: '#FFFFFF',
       secondary: '#637381',
       disabled: '#919EAB',
+      error: '#e53935',
     },
     background: {
       paper: '#FFFFFF',
       default: '#676767',
-      neutral: '#545454',
+      neutral: 'rgb(33,33,33)',
     },
   };
   return mode == 'light' ? light : dark;
