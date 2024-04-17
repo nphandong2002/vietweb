@@ -23,9 +23,10 @@ function CssInit() {
 
         --bg-default: ${theme.preset};
         --bg-body: ${paletteData.background.default};
-        --bg-navbar: ${paletteData.background.neutral};
+        --background: ${paletteData.background.default};
+        --bg-navbar: ${paletteData.background.default};
         --bg-color: ${paletteData.background.neutral};
-        --bg-hover: ${alpha(paletteData.background.neutral, 0.4)};
+        --bg-hover: ${alpha(theme.preset, 0.4)};
         --bg-active: ${alpha(theme.preset, 0.4)};
         --bg-primary:  ${theme.preset};
 
@@ -34,7 +35,7 @@ function CssInit() {
         --text-error: ${paletteData.text.error};
 
         --border-width: 1px;
-        --boder-color-input: ${alpha(paletteData.background.neutral, 0.4)};
+        --border-color-input: ${alpha(paletteData.background.neutral, 0.4)};
 
      }`}
     </style>

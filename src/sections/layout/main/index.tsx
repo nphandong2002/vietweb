@@ -8,8 +8,8 @@ function MainLayout({ children }: defaultType) {
     <main className="flex bg-[var(--bg-body)] h-screen text-[var(--cl-default)]">
       <CssInit />
       <NavBar />
-      <div className="grow md:mx-[var(--min-width-nav)] lg:mx-[var(--width-nav)]">
-        <div className="m-2">{children}</div>
+      <div className="grow md:ml-[var(--min-width-nav)] lg:ml-[var(--width-nav)]">
+        <div className="m-4">{children}</div>
       </div>
     </main>
   );

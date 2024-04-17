@@ -27,8 +27,8 @@ export function palette(mode: 'light' | 'dark') {
     },
     background: {
       paper: '#FFFFFF',
-      default: '#676767',
-      neutral: 'rgb(33,33,33)',
+      default: 'rgb(22, 28, 36)',
+      neutral: 'rgba(145, 158, 171, 0.12)',
     },
   };
   return mode == 'light' ? light : dark;

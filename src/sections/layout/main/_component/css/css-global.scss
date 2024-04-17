@@ -1,6 +1,9 @@
 .active {
   background-color: var(--bg-active);
 }
-.overflow-overlay{
+.overflow-overlay {
   overflow: overlay;
+}
+.border-input {
+  border: 1px soild var(--border-color-input);
 }

@@ -7,7 +7,17 @@
   "mode": "Chế độ",
   "username": "Tên đăng nhập",
   "password": "Mật khẩu",
-  "room": "Phòng",
+  "room": {
+    "label": "Phòng",
+    "name": "Tên phòng",
+    "type": {
+      "label": "Thể loại của phòng",
+      "draw": "Vẽ"
+    },
+    "new": {
+      "placeholder": "Nhập tên phòng"
+    }
+  },
   "add": "Thêm mới",
   "cancel": "Huỷ",
   "login": "Đăng nhập",
