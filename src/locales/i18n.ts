@@ -1,8 +1,10 @@
 'use client';
 
+import { z } from 'zod';
 import i18n from 'i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
+import { zodI18nMap } from 'zod-i18n-map';
 import { initReactI18next } from 'react-i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
 // utils
 import { localStorageGetItem } from 'src/shared/utils/storage-available';
 //
@@ -24,7 +26,7 @@ i18n
     resources: {
       en: { translations: translationEn },
       fr: { translations: translationFr },
-      vi: { translations: translationVi },
+      vi: { translations: translationVi, zod: translationVi.validate },
       cn: { translations: translationCn },
       ar: { translations: translationAr },
     },
@@ -38,4 +40,5 @@ i18n
     },
   });
 
+z.setErrorMap(zodI18nMap);
 export default i18n;

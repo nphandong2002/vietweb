@@ -45,7 +45,8 @@
     "uuid": "^9.0.1",
     "vaul": "^0.9.0",
     "yup": "^1.4.0",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "zod-i18n-map": "^2.27.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",

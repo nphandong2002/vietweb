@@ -9,12 +9,13 @@
   "password": "Mật khẩu",
   "room": {
     "label": "Phòng",
-    "name": "Tên phòng",
     "type": {
       "label": "Thể loại của phòng",
+      "placeholder": "Chọn kiểu phòng",
       "draw": "Vẽ"
     },
-    "new": {
+    "nameRoom": {
+      "label": "Tên phòng",
       "placeholder": "Nhập tên phòng"
     }
   },
@@ -22,7 +23,19 @@
   "cancel": "Huỷ",
   "login": "Đăng nhập",
   "register": "Đăng ký",
+  "auth": {
+    "username": {
+      "label": "Tên đăng nhập",
+      "placeholder": "Nhập tên đăng nhập"
+    },
+    "password": {
+      "label": "Mật khẩu",
+      "placeholder": "Nhập mật khẩu"
+    }
+  },
   "validate": {
-    "required": "Vui lòng nhập {{field}}"
+    "errors": {
+      "invalid_type_received_undefined": "Vui lòng nhập dữ liệu"
+    }
   }
 }

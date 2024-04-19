@@ -38,7 +38,7 @@ export default async function RootLayout({ children }: defaultType) {
           }}
         >
           <ProgressBar />
-          <body>{children}</body>
+          <body className="text-[var(--text-default)]">{children}</body>
         </SettingProvider>
       </SessionProvider>
     </html>

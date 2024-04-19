@@ -28,7 +28,7 @@ interface Color {
   colorSpace?: string;
 }
 
-function decomposeColor(colorValue: string | Color): Color {
+export function decomposeColor(colorValue: string | Color): Color {
   // Idempotent
   if (typeof colorValue != 'string') return colorValue;
   if (colorValue.charAt(0) === '#') {

@@ -1,6 +1,6 @@
 import { useFormContext } from 'react-hook-form';
 
-import { selectType } from 'src/shared/types/component';
+import { rhfSelectType } from 'src/shared/types/component';
 
 import Each from '../each';
 import {
@@ -13,7 +13,7 @@ import {
 } from '../ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
-function RHFSelect({ placeholder, options, description, label, name }: selectType) {
+function RHFSelect({ placeholder, options, description, label, name }: rhfSelectType) {
   const { control } = useFormContext();
 
   return (
@@ -21,7 +21,7 @@ function RHFSelect({ placeholder, options, description, label, name }: selectTyp
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="px-2 py-3 w-full">
+        <FormItem className="px-2 w-full">
           <FormLabel>{label}</FormLabel>
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
