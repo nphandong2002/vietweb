@@ -18,6 +18,7 @@ const SelectValue = React.forwardRef<
     {children}
   </SelectPrimitive.Value>
 ));
+SelectValue.displayName = SelectPrimitive.Value.displayName;
 
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,

@@ -17,7 +17,7 @@ function Color() {
   const debouncedValue = useDebounce(valueColor, 500);
   useEffect(() => {
     updateTheme('preset', debouncedValue);
-  }, [debouncedValue]);
+  }, [debouncedValue, updateTheme]);
 
   const handleChangeColor = (event: ChangeEvent<HTMLInputElement>) => {
     const color = event?.target.value;
