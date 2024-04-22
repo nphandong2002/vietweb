@@ -3,6 +3,7 @@ import { Button } from 'src/sections/component/ui/button';
 
 import NavbarList from './navbar-list';
 import LoginModal from 'src/sections/component/auth/login-modal';
+import RegisterModal from 'src/sections/component/auth/register-model';
 
 function NavBar() {
   const { t } = useLocales();
@@ -12,7 +13,7 @@ function NavBar() {
         <div className="md:h-screen w-screen h-[var(--height-nav)]  md:w-[var(--min-width-nav)] lg:w-[var(--width-nav)] flex flex-row md:flex-col justify-center">
           <NavbarList />
           <LoginModal />
-          <Button className="p-0">{t('register')}</Button>
+          <RegisterModal />
         </div>
       </div>
     </nav>

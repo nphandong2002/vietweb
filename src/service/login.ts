@@ -31,6 +31,7 @@ export const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: s
 
     return { success: 'messages_app.auth.confirm_mail_send' };
   }
+  console.log(existingUser);
 
   if (existingUser.isTwoFactorEnabled && existingUser.email) {
     if (!code) {

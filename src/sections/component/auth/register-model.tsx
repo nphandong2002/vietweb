@@ -23,7 +23,7 @@ import { loginValidate } from 'src/shared/validate/user-validate';
 import RHFInput from '../hook-form/rhf-input';
 import { FormError } from '../hook-form/form-error';
 
-function LoginModal() {
+function RegisterModal() {
   const { t } = useLocales();
   const form = useForm({
     resolver: zodResolver(loginValidate),
@@ -68,11 +68,11 @@ function LoginModal() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>{t('login')}</Button>
+        <Button>{t('register')}</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-center">{t('login')}</DialogTitle>
+          <DialogTitle className="text-center">{t('register')}</DialogTitle>
         </DialogHeader>
         <FormProvider methods={form} onSubmit={onSubmit}>
           <div className="flex flex-col items-center">
@@ -82,7 +82,7 @@ function LoginModal() {
           </div>
           <DialogFooter className="sm:justify-center">
             <Button type="submit" variant="secondary" className="w-full mx-2">
-              {t('login')}
+              {t('register')}
             </Button>
           </DialogFooter>
         </FormProvider>
@@ -91,4 +91,4 @@ function LoginModal() {
   );
 }
 
-export default LoginModal;
+export default RegisterModal;
