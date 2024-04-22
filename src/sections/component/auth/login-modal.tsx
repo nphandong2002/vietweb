@@ -1,6 +1,8 @@
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
-import { Button } from '../ui/button';
+'use client';
+
+import { useForm } from 'react-hook-form';
+import { useState, useTransition } from 'react';
+
 import {
   Dialog,
   DialogTitle,
@@ -9,18 +11,58 @@ import {
   DialogHeader,
   DialogTrigger,
   DialogContent,
-  DialogDescription,
 } from '../ui/dialog';
+import { Button } from '../ui/button';
 import { useLocales } from 'src/locales';
+import { login } from 'src/service/login';
 import FormProvider from 'src/shared/context/form/form-provider';
-import { useForm } from 'react-hook-form';
+import { loginValidate } from 'src/shared/validate/user-validate';
+
 import RHFInput from '../hook-form/rhf-input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { FormError } from '../hook-form/form-error';
 
 function LoginModal() {
   const { t } = useLocales();
-  const methods = useForm();
+  const form = useForm({
+    resolver: zodResolver(loginValidate),
+    defaultValues: {
+      username: '',
+      password: '',
+    },
+  });
+  const callbackUrl = window.location.href;
 
-  const onSubmit = methods.handleSubmit((data) => {});
+  const [showTwoFactor, setShowTwoFactor] = useState(false);
+  const [error, setError] = useState<string | undefined>('');
+  const [success, setSuccess] = useState<string | undefined>('');
+  const [isPending, startTransition] = useTransition();
+
+  const onSubmit = form.handleSubmit((data) => {
+    startTransition(() => {
+      login(data, callbackUrl)
+        .then((data) => {
+          if (data?.error) {
+            form.reset();
+            setError(data.error);
+          }
+
+          if (data?.success) {
+            form.reset();
+            setSuccess(data.success);
+          }
+
+          if (data?.twoFactor) {
+            setShowTwoFactor(true);
+          }
+        })
+        .catch((_) => {
+          console.error(_);
+          setError('Something went wrong');
+        });
+    });
+  });
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -30,18 +72,18 @@ function LoginModal() {
         <DialogHeader>
           <DialogTitle className="text-center">{t('login')}</DialogTitle>
         </DialogHeader>
-        <FormProvider methods={methods} onSubmit={onSubmit}>
-          <div className="flex items-center space-x-2">
-            <RHFInput name="username" />
+        <FormProvider methods={form} onSubmit={onSubmit}>
+          <div className="flex flex-col items-center">
+            <FormError message={error && t(error)} />
+            <RHFInput name="username" placeholder={t('auth.username.placeholder')} />
+            <RHFInput name="password" placeholder={t('auth.password.placeholder')} />
           </div>
-        </FormProvider>
-        <DialogFooter className="sm:justify-start">
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Close
+          <DialogFooter className="sm:justify-center">
+            <Button type="submit" variant="secondary" className="w-full mx-2">
+              {t('login')}
             </Button>
-          </DialogClose>
-        </DialogFooter>
+          </DialogFooter>
+        </FormProvider>
       </DialogContent>
     </Dialog>
   );

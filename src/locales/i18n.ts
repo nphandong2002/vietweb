@@ -26,7 +26,7 @@ i18n
     resources: {
       en: { translations: translationEn },
       fr: { translations: translationFr },
-      vi: { translations: translationVi, zod: translationVi.validate },
+      vi: { translations: translationVi, zod: translationVi.messages_app.zod },
       cn: { translations: translationCn },
       ar: { translations: translationAr },
     },

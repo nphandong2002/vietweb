@@ -33,9 +33,19 @@
       "placeholder": "Nhập mật khẩu"
     }
   },
-  "validate": {
-    "errors": {
+  "messages_app": {
+    "zod": {
       "invalid_type_received_undefined": "Vui lòng nhập dữ liệu"
+    },
+    "errors": {
+      "wrong": "Đã sảy ra lỗi !!",
+      "invalid_fields": "Các trường không hợp lệ",
+      "invalid_code": "Mã không hợp lệ",
+      "expired_code": "Mã đã hết hạn",
+      "auth": {
+        "not_user": "Người dùng không tồn tại !!",
+        "confirm_mail_send": "Vui lòng xác nhận Email !!"
+      }
     }
   }
 }
