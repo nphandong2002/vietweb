@@ -24,6 +24,10 @@
   "login": "Đăng nhập",
   "register": "Đăng ký",
   "auth": {
+    "email": {
+      "label": "Email",
+      "placeholder": "Nhập email"
+    },
     "username": {
       "label": "Tên đăng nhập",
       "placeholder": "Nhập tên đăng nhập"

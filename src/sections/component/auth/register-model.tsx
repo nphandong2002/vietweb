@@ -65,11 +65,7 @@ function RegisterModal() {
           <div className="flex flex-col items-center">
             <FormError message={error && t(error)} />
 
-            <RHFInput
-              name="username"
-              disabled={isPending}
-              placeholder={t('auth.username.placeholder')}
-            />
+            <RHFInput name="email" disabled={isPending} placeholder={t('auth.email.placeholder')} />
             <RHFInput
               name="password"
               disabled={isPending}
