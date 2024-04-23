@@ -60,7 +60,7 @@ function LoginModal() {
           }
         })
         .catch((_) => {
-          setError('Something went wrong');
+          setError('messages_app.errors.wrong');
         });
     });
   });
@@ -77,11 +77,20 @@ function LoginModal() {
         <FormProvider methods={form} onSubmit={onSubmit}>
           <div className="flex flex-col items-center">
             <FormError message={error && t(error)} />
-            <RHFInput name="username" placeholder={t('auth.username.placeholder')} />
-            <RHFInput name="password" placeholder={t('auth.password.placeholder')} />
+            <RHFInput
+              name="username"
+              disabled={isPending}
+              placeholder={t('auth.username.placeholder')}
+            />
+            <RHFInput
+              name="password"
+              disabled={isPending}
+              type="password"
+              placeholder={t('auth.password.placeholder')}
+            />
           </div>
           <DialogFooter className="sm:justify-center">
-            <Button type="submit" variant="secondary" className="w-full mx-2">
+            <Button type="submit" disabled={isPending} variant="secondary" className="w-full mx-2">
               {t('login')}
             </Button>
           </DialogFooter>

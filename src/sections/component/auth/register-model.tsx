@@ -1,9 +1,13 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { usePathname } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
+
+import { useLocales } from 'src/locales';
+import { register } from 'src/service/register';
+import FormProvider from 'src/shared/context/form/form-provider';
+import { registerValidate } from 'src/shared/validate/user-validate';
 
 import {
   Dialog,
@@ -15,52 +19,35 @@ import {
   DialogContent,
 } from '../ui/dialog';
 import { Button } from '../ui/button';
-import { useLocales } from 'src/locales';
-import { login } from 'src/service/login';
-import FormProvider from 'src/shared/context/form/form-provider';
-import { loginValidate } from 'src/shared/validate/user-validate';
-
 import RHFInput from '../hook-form/rhf-input';
 import { FormError } from '../hook-form/form-error';
 
 function RegisterModal() {
   const { t } = useLocales();
   const form = useForm({
-    resolver: zodResolver(loginValidate),
+    resolver: zodResolver(registerValidate),
     defaultValues: {
-      username: '',
+      email: '',
       password: '',
+      name: '',
     },
   });
-  const callbackUrl = usePathname();
 
-  const [showTwoFactor, setShowTwoFactor] = useState(false);
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const [isPending, startTransition] = useTransition();
 
   const onSubmit = form.handleSubmit((data) => {
+    setError('');
+    setSuccess('');
     startTransition(() => {
-      login(data, callbackUrl)
+      register(data)
         .then((data) => {
-          console.log(data);
-
-          if (data?.error) {
-            form.reset();
-            setError(data.error);
-          }
-
-          if (data?.success) {
-            form.reset();
-            setSuccess(data.success);
-          }
-
-          if (data?.twoFactor) {
-            setShowTwoFactor(true);
-          }
+          setError(data.error);
+          setSuccess(data.success);
         })
         .catch((_) => {
-          setError('Something went wrong');
+          setError('messages_app.errors.wrong');
         });
     });
   });
@@ -77,8 +64,19 @@ function RegisterModal() {
         <FormProvider methods={form} onSubmit={onSubmit}>
           <div className="flex flex-col items-center">
             <FormError message={error && t(error)} />
-            <RHFInput name="username" placeholder={t('auth.username.placeholder')} />
-            <RHFInput name="password" placeholder={t('auth.password.placeholder')} />
+
+            <RHFInput
+              name="username"
+              disabled={isPending}
+              placeholder={t('auth.username.placeholder')}
+            />
+            <RHFInput
+              name="password"
+              disabled={isPending}
+              type="password"
+              placeholder={t('auth.password.placeholder')}
+            />
+            <RHFInput name="name" disabled={isPending} placeholder={t('auth.name.placeholder')} />
           </div>
           <DialogFooter className="sm:justify-center">
             <Button type="submit" variant="secondary" className="w-full mx-2">

@@ -16,4 +16,8 @@ export type rhfSelectType = defaultRHF & {
     value: string;
   }[];
 };
-export type rhfInputType = defaultRHF & {};
+export interface rhfInputType extends React.InputHTMLAttributes<HTMLInputElement> {
+  label?: string | React.ReactNode;
+  description?: string | React.ReactNode;
+  name: string;
+}

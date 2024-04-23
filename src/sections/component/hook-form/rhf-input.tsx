@@ -2,7 +2,6 @@ import { useFormContext } from 'react-hook-form';
 
 import { rhfInputType } from 'src/shared/types/component';
 
-import Each from '../each';
 import {
   FormControl,
   FormDescription,
@@ -13,7 +12,7 @@ import {
 } from '../ui/form';
 import { Input } from '../ui/input';
 
-function RHFInput({ label, name, description, placeholder }: rhfInputType) {
+function RHFInput({ label, name, description, placeholder, ...props }: rhfInputType) {
   const { control } = useFormContext();
 
   return (
@@ -24,7 +23,12 @@ function RHFInput({ label, name, description, placeholder }: rhfInputType) {
         <FormItem className="px-2  w-full">
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input placeholder={placeholder} onChange={field.onChange} value={field.value} />
+            <Input
+              placeholder={placeholder}
+              onChange={field.onChange}
+              value={field.value}
+              {...props}
+            />
           </FormControl>
           <FormDescription>{description}</FormDescription>
           <FormMessage />

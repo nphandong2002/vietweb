@@ -5,3 +5,8 @@ export const loginValidate = z.object({
   password: z.string().min(1),
   code: z.optional(z.string()),
 });
+export const registerValidate = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+  name: z.string().min(1),
+});

@@ -31,6 +31,10 @@
     "password": {
       "label": "Mật khẩu",
       "placeholder": "Nhập mật khẩu"
+    },
+    "name": {
+      "label": "Tên người dùng",
+      "placeholder": "Nhập tên người dùng"
     }
   },
   "messages_app": {
@@ -42,6 +46,7 @@
       "invalid_fields": "Các trường không hợp lệ",
       "invalid_code": "Mã không hợp lệ",
       "expired_code": "Mã đã hết hạn",
+      "exist_email": "Email đã tồn tại",
       "auth": {
         "not_user": "Người dùng không tồn tại !!",
         "confirm_mail_send": "Vui lòng xác nhận Email !!"

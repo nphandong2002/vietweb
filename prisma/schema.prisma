@@ -28,7 +28,7 @@ model User {
   image         String?
   password      String?
   phone         String?
-  birthday      DateTime
+  birthday      DateTime?
   avatar        String?
   preview       String?
   nick_name     String?
