@@ -15,14 +15,13 @@ import { getTwoFactorConfirmationByUserId, getTwoFactorTokenByEmail } from 'src/
 export const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: string | null) => {
   const validatedFields = LoginSchema.safeParse(values);
 
-  if (!validatedFields.success) return { error: 'messages_app.invalid_fields' };
+  if (!validatedFields.success) return { error: 'invalid_fields' };
 
   const { username, password, code } = validatedFields.data;
 
   const existingUser = await getUserByEmailorPhone(username);
 
-  if (!existingUser || !existingUser.email || !existingUser.password)
-    return { error: 'messages_app.not_user' };
+  if (!existingUser || !existingUser.email || !existingUser.password) return { error: 'not_user' };
 
   if (!existingUser.emailVerified) {
     const verificationToken = await generateVerificationToken(existingUser.email);
@@ -31,8 +30,8 @@ export const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: s
       verificationToken.email,
       verificationToken.token
     );
-    if (error) return { error: 'messages_app.mail_send_fail' };
-    return { success: 'messages_app.confirm_mail_send' };
+    if (error) return { error: 'mail_send_fail' };
+    return { success: 'confirm_mail_send' };
   }
 
   if (existingUser.isTwoFactorEnabled && existingUser.email) {
@@ -44,12 +43,12 @@ export const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: s
     }
     const twoFactorToken = await getTwoFactorTokenByEmail(existingUser.email);
 
-    if (!twoFactorToken) return { error: 'messages_app.invalid_code' };
-    if (twoFactorToken.token !== code) return { error: 'messages_app.invalid_code' };
+    if (!twoFactorToken) return { error: 'invalid_code' };
+    if (twoFactorToken.token !== code) return { error: 'invalid_code' };
 
     const hasExpired = new Date(twoFactorToken.expires) < new Date();
 
-    if (hasExpired) return { error: 'messages_app.expired_code' };
+    if (hasExpired) return { error: 'expired_code' };
 
     await db.twoFactorToken.delete({
       where: { id: twoFactorToken.id },
@@ -80,9 +79,9 @@ export const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: s
     if (error instanceof AuthError) {
       switch (error.type) {
         case 'CredentialsSignin':
-          return { error: 'messages_app.invalid_fields' };
+          return { error: 'invalid_fields' };
         default:
-          return { error: 'messages_app.wrong' };
+          return { error: 'wrong' };
       }
     }
     throw error;

@@ -58,7 +58,7 @@ function LoginModal() {
           if (data?.twoFactor) setShowTwoFactor(true);
         })
         .catch((_) => {
-          setError('messages_app.wrong');
+          setError('wrong');
         });
     });
   });
@@ -74,8 +74,8 @@ function LoginModal() {
         </DialogHeader>
         <FormProvider methods={form} onSubmit={onSubmit}>
           <div className="flex flex-col items-center">
-            <FormError message={error && t(error)} />
-            <FormSuccess message={success && t(success)} />
+            <FormError message={error && t(`messages_app.${error}`)} />
+            <FormSuccess message={success && t(`messages_app.${success}`)} />
 
             <RHFInput
               name="username"
