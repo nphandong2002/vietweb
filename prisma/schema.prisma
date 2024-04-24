@@ -23,7 +23,7 @@ enum UserRole {
 
 model User {
   id            String    @id @default(cuid())
-  name          String?
+  name          String
   email         String?   @unique
   emailVerified DateTime?
   image         String?
@@ -33,7 +33,6 @@ model User {
   avatar        String?
   preview       String?
   nick_name     String?
-  full_name     String?
 
   role          UserRole @default(USER)
   accounts      Account[]

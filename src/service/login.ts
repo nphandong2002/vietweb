@@ -5,11 +5,11 @@ import { AuthError } from 'next-auth';
 
 import { signIn } from 'src/auth';
 import { db } from 'src/database/db';
-import { DEFAULT_LOGIN_REDIRECT } from 'src/config';
 import { getUserByEmailorPhone } from 'src/database/user';
-import { generateTwoFactorToken, generateVerificationToken } from 'src/lib/token';
+import { DEFAULT_LOGIN_REDIRECT, useEmail } from 'src/config';
 import { sendTwoFactorTokenEmail, sendVerificationEmail } from 'src/lib/mail';
 import { loginValidate as LoginSchema } from 'src/shared/validate/user-validate';
+import { generateTwoFactorToken, generateVerificationToken } from 'src/lib/token';
 import { getTwoFactorConfirmationByUserId, getTwoFactorTokenByEmail } from 'src/database/auth';
 
 export const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: string | null) => {
@@ -20,10 +20,9 @@ export const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: s
   const { username, password, code } = validatedFields.data;
 
   const existingUser = await getUserByEmailorPhone(username);
-
   if (!existingUser || !existingUser.email || !existingUser.password) return { error: 'not_user' };
 
-  if (!existingUser.emailVerified) {
+  if (useEmail && !existingUser.emailVerified) {
     const verificationToken = await generateVerificationToken(existingUser.email);
 
     const { data, error } = await sendVerificationEmail(
@@ -34,7 +33,7 @@ export const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: s
     return { success: 'confirm_mail_send' };
   }
 
-  if (existingUser.isTwoFactorEnabled && existingUser.email) {
+  if (useEmail && existingUser.isTwoFactorEnabled && existingUser.email) {
     if (!code) {
       const twoFactorToken = await generateTwoFactorToken(existingUser.email);
       await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token);
