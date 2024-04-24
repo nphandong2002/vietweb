@@ -12,14 +12,14 @@ import { registerValidate } from 'src/shared/validate/user-validate';
 export const register = async (values: z.infer<typeof registerValidate>) => {
   const validatedFields = registerValidate.safeParse(values);
 
-  if (!validatedFields.success) return { error: 'messages_app.errors.invalid_fields' };
+  if (!validatedFields.success) return { error: 'messages_app.invalid_fields' };
 
   const { email, password, name } = validatedFields.data;
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const existingUser = await getUserByEmail(email);
 
-  if (existingUser) return { error: 'messages_app.errors.exist_email' };
+  if (existingUser) return { error: 'messages_app.exist_email' };
 
   await db.user.create({
     data: {
@@ -32,5 +32,5 @@ export const register = async (values: z.infer<typeof registerValidate>) => {
   const verificationToken = await generateVerificationToken(email);
   await sendVerificationEmail(verificationToken.email, verificationToken.token);
 
-  return { success: 'messages_app.errors.authconfirm_mail_send' };
+  return { success: 'messages_app.confirm_mail_send' };
 };

@@ -5,6 +5,11 @@ import { usePathname } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
+import { useLocales } from 'src/locales';
+import { login } from 'src/service/login';
+import FormProvider from 'src/shared/context/form/form-provider';
+import { loginValidate } from 'src/shared/validate/user-validate';
+
 import {
   Dialog,
   DialogTitle,
@@ -15,13 +20,9 @@ import {
   DialogContent,
 } from '../ui/dialog';
 import { Button } from '../ui/button';
-import { useLocales } from 'src/locales';
-import { login } from 'src/service/login';
-import FormProvider from 'src/shared/context/form/form-provider';
-import { loginValidate } from 'src/shared/validate/user-validate';
-
 import RHFInput from '../hook-form/rhf-input';
 import { FormError } from '../hook-form/form-error';
+import { FormSuccess } from '../hook-form/form-success';
 
 function LoginModal() {
   const { t } = useLocales();
@@ -40,11 +41,11 @@ function LoginModal() {
   const [isPending, startTransition] = useTransition();
 
   const onSubmit = form.handleSubmit((data) => {
+    setError('');
+    setSuccess('');
     startTransition(() => {
       login(data, callbackUrl)
         .then((data) => {
-          console.log(data);
-
           if (data?.error) {
             form.reset();
             setError(data.error);
@@ -54,13 +55,10 @@ function LoginModal() {
             form.reset();
             setSuccess(data.success);
           }
-
-          if (data?.twoFactor) {
-            setShowTwoFactor(true);
-          }
+          if (data?.twoFactor) setShowTwoFactor(true);
         })
         .catch((_) => {
-          setError('messages_app.errors.wrong');
+          setError('messages_app.wrong');
         });
     });
   });
@@ -77,6 +75,8 @@ function LoginModal() {
         <FormProvider methods={form} onSubmit={onSubmit}>
           <div className="flex flex-col items-center">
             <FormError message={error && t(error)} />
+            <FormSuccess message={success && t(success)} />
+
             <RHFInput
               name="username"
               disabled={isPending}
@@ -88,6 +88,10 @@ function LoginModal() {
               type="password"
               placeholder={t('auth.password.placeholder')}
             />
+
+            {showTwoFactor && (
+              <RHFInput name="code" disabled={isPending} placeholder={t('auth.code.placeholder')} />
+            )}
           </div>
           <DialogFooter className="sm:justify-center">
             <Button type="submit" disabled={isPending} variant="secondary" className="w-full mx-2">

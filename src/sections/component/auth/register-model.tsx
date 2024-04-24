@@ -21,6 +21,7 @@ import {
 import { Button } from '../ui/button';
 import RHFInput from '../hook-form/rhf-input';
 import { FormError } from '../hook-form/form-error';
+import { FormSuccess } from '../hook-form/form-success';
 
 function RegisterModal() {
   const { t } = useLocales();
@@ -47,7 +48,7 @@ function RegisterModal() {
           setSuccess(data.success);
         })
         .catch((_) => {
-          setError('messages_app.errors.wrong');
+          setError('messages_app.wrong');
         });
     });
   });
@@ -64,6 +65,7 @@ function RegisterModal() {
         <FormProvider methods={form} onSubmit={onSubmit}>
           <div className="flex flex-col items-center">
             <FormError message={error && t(error)} />
+            <FormSuccess message={success && t(success)} />
 
             <RHFInput name="email" disabled={isPending} placeholder={t('auth.email.placeholder')} />
             <RHFInput

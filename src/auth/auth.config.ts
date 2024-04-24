@@ -12,8 +12,7 @@ export default {
         const validatedFields = loginValidate.safeParse(credentials);
         if (validatedFields.success) {
           const { username, password } = validatedFields.data;
-          let passwordsMatch = await bcrypt.hash(password, 10);
-          const user = await getUserByEmailorPhone(username, passwordsMatch);
+          const user = await getUserByEmailorPhone(username);
           return user;
         }
         return null;

@@ -10,12 +10,11 @@ export const getUserByEmail = async (email: string) => {
   }
 };
 
-export const getUserByEmailorPhone = async (username: string,password: string) => {
+export const getUserByEmailorPhone = async (username: string) => {
   try {
     const user = await db.user.findMany({
       where: {
-        OR: [{ phone: username } , { email: username }],
-        password: password
+        OR: [{ phone: username }, { email: username }],
       },
     });
 

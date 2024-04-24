@@ -39,22 +39,27 @@
     "name": {
       "label": "Tên người dùng",
       "placeholder": "Nhập tên người dùng"
+    },
+    "code": {
+      "label": "Mã xác thực",
+      "placeholder": "Nhập mã xác thực"
     }
   },
   "messages_app": {
     "zod": {
-      "invalid_type_received_undefined": "Vui lòng nhập dữ liệu"
-    },
-    "errors": {
-      "wrong": "Đã sảy ra lỗi !!",
-      "invalid_fields": "Các trường không hợp lệ",
-      "invalid_code": "Mã không hợp lệ",
-      "expired_code": "Mã đã hết hạn",
-      "exist_email": "Email đã tồn tại",
-      "auth": {
-        "not_user": "Người dùng không tồn tại !!",
-        "confirm_mail_send": "Vui lòng xác nhận Email !!"
+      "invalid_type_received_undefined": "Vui lòng nhập dữ liệu",
+      "invalid_string": {
+        "email": "Nhập đúng định dạng email"
       }
-    }
+    },
+
+    "wrong": "Đã sảy ra lỗi !!",
+    "invalid_fields": "Các trường không hợp lệ",
+    "invalid_code": "Mã không hợp lệ",
+    "expired_code": "Mã đã hết hạn",
+    "exist_email": "Email đã tồn tại",
+    "confirm_mail_send": "Vui lòng xác nhận Email !!",
+    "mail_send_fail": "Không thể gửi Email",
+    "not_user": "Người dùng không tồn tại !!"
   }
 }
