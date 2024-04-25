@@ -9,7 +9,6 @@ import { RoomInfo } from 'src/shared/types/room';
 import { useCurrentUser } from 'src/shared/hooks/client/use-user';
 
 import NewRoomButton from './_compoment/new-room';
-import { generateAvatar } from 'src/shared/utils/avatar';
 import Link from 'next/link';
 import { PATHS } from 'src/config';
 import Image from 'next/image';
@@ -29,7 +28,7 @@ function RoomPage() {
       setrooms(resp);
     };
     fetchData();
-  }, [user, getRooms]);
+  }, [user, setrooms]);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5 mt-8 pb-10">

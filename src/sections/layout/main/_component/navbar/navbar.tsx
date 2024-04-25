@@ -27,7 +27,12 @@ function NavBar() {
           {user && (
             <div className="flex flex-row space-x-2 p-2 items-center">
               <div className="rounded-full">
-                <Image src={user.image || generateAvatar(user.name || '')} width={36} height={36} />
+                <Image
+                  src={user.image || generateAvatar(user.name || '')}
+                  alt="nav_user_avatar"
+                  width={36}
+                  height={36}
+                />
               </div>
               <div className="hidden md:block">{user.name}</div>
             </div>

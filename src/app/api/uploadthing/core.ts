@@ -1,13 +1,13 @@
-import { useCurrentUser } from 'src/shared/hooks/client/use-user';
+import { auth } from 'src/auth';
 import { createUploadthing, type FileRouter } from 'uploadthing/next';
 import { UploadThingError } from 'uploadthing/server';
 
 const f = createUploadthing();
 
-const handleAuth = () => {
-  const user = useCurrentUser();
-  if (!user) throw new UploadThingError('Unauthorized');
-  return { userId: user.id };
+const handleAuth = async () => {
+  const s = await auth();
+  if (!s) throw new UploadThingError('Unauthorized');
+  return { userId: s?.user.id };
 };
 
 export const ourFileRouter = {
