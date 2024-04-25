@@ -13,20 +13,20 @@ function Color() {
       theme: { preset },
     },
   } = useSettingsContext();
-  const [valueColor, setvalueColor] = useState(preset);
-  const debouncedValue = useDebounce(valueColor, 500);
-  useEffect(() => {
-    updateTheme('preset', debouncedValue);
-  }, [debouncedValue, updateTheme]);
+  // const [valueColor, setvalueColor] = useState(preset);
+  // const debouncedValue = useDebounce(valueColor, 500);
+  // useEffect(() => {
+  //   updateTheme('preset', debouncedValue);
+  // }, [debouncedValue, updateTheme]);
 
   const handleChangeColor = (event: ChangeEvent<HTMLInputElement>) => {
     const color = event?.target.value;
-    setvalueColor(color);
+    updateTheme('preset', color);
   };
   return (
     <div>
       <div>{t('color')}</div>
-      <input type="color" onChange={handleChangeColor} value={valueColor} />
+      <input type="color" onChange={handleChangeColor} value={preset} />
     </div>
   );
 }
