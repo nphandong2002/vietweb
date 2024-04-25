@@ -20,6 +20,9 @@ enum UserRole {
   USER
   QTV
 }
+enum RoomType {
+  draw
+}
 
 model User {
   id            String    @id @default(cuid())
@@ -124,14 +127,14 @@ model Rooms {
   id String @id @default(cuid())
 
   title     String
-  image     String
+  image     String?
+  type      RoomType
 
   roomMember RoomMember[]
   userFavorites RoomUserFavorites[]
 
   authorId String
   user User @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  @@unique([authorId])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

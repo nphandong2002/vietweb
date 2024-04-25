@@ -1,4 +1,11 @@
 'use client';
+import {
+  enUS as enUSAdapter,
+  fr as frFRAdapter,
+  vi as viVNAdapter,
+  zhCN as zhCNAdapter,
+  arSA as arSAAdapter,
+} from 'date-fns/locale';
 
 // PLEASE REMOVE `LOCAL STORAGE` WHEN YOU CHANGE SETTINGS.
 // ----------------------------------------------------------------------
@@ -7,25 +14,30 @@ export const allLangs = [
   {
     label: 'English',
     value: 'en',
+    adapterLocale: enUSAdapter,
     icon: 'flagpack:gb-nir',
   },
   {
     label: 'French',
     value: 'fr',
+    adapterLocale: frFRAdapter,
     icon: 'flagpack:fr',
   },
   {
     label: 'Vietnamese',
+    adapterLocale: viVNAdapter,
     value: 'vi',
     icon: 'flagpack:vn',
   },
   {
     label: 'Chinese',
+    adapterLocale: zhCNAdapter,
     value: 'cn',
     icon: 'flagpack:cn',
   },
   {
     label: 'Arabic',
+    adapterLocale: arSAAdapter,
     value: 'ar',
     icon: 'flagpack:sa',
   },

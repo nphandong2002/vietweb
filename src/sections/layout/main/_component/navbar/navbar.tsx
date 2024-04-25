@@ -1,12 +1,13 @@
-import { useLocales } from 'src/locales';
-import { Button } from 'src/sections/component/ui/button';
+'use client';
 
-import NavbarList from './navbar-list';
-import LoginModal from 'src/sections/component/auth/login-modal';
-import RegisterModal from 'src/sections/component/auth/register-model';
-import { useCurrentUser } from 'src/shared/hooks/client/use-user';
+import { useLocales } from 'src/locales';
 import Image from 'src/sections/component/image';
 import { generateAvatar } from 'src/shared/utils/avatar';
+import LoginModal from 'src/sections/component/auth/login-modal';
+import { useCurrentUser } from 'src/shared/hooks/client/use-user';
+import RegisterModal from 'src/sections/component/auth/register-model';
+
+import NavbarList from './navbar-list';
 
 function NavBar() {
   const { t } = useLocales();

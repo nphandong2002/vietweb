@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useLocales } from 'src/locales';
 import { register } from 'src/service/register';
+import { MESSAGE } from 'src/shared/constain/message';
 import FormProvider from 'src/shared/context/form/form-provider';
 import { registerValidate } from 'src/shared/validate/user-validate';
 
@@ -34,21 +35,21 @@ function RegisterModal() {
     },
   });
 
+  const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
-  const [isPending, startTransition] = useTransition();
 
   const onSubmit = form.handleSubmit((data) => {
     setError('');
     setSuccess('');
     startTransition(() => {
       register(data)
-        .then((data) => {
-          setError(data.error);
-          setSuccess(data.success);
+        .then((resp) => {
+          resp?.error && setError(resp.error);
+          resp?.success && setSuccess(resp.success);
         })
         .catch((_) => {
-          setError('wrong');
+          setError(MESSAGE.ERROR.WRONG);
         });
     });
   });

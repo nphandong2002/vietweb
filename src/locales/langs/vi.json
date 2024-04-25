@@ -9,6 +9,7 @@
   "password": "Mật khẩu",
   "room": {
     "label": "Phòng",
+    "create": "Tạo phòng",
     "type": {
       "label": "Thể loại của phòng",
       "placeholder": "Chọn kiểu phòng",
@@ -68,6 +69,9 @@
     "not_user": "Người dùng không tồn tại !!",
 
     "not_token": "Token không tồn tại !!",
-    "expired_token": "Token đã hết hạn !!"
+    "expired_token": "Token đã hết hạn !!",
+
+    "create_room_success": "Tạo phòng thành công !!",
+    "create_room_fail": "Tạo phòng thất bại !!"
   }
 }

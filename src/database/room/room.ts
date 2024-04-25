@@ -1,5 +1,6 @@
-import { DatabaseOptionDefault } from 'src/shared/types/database-type';
+import { RoomCreate } from 'src/shared/types/room';
 import { checkOption } from 'src/shared/utils/database-utils';
+import { DatabaseOptionDefault } from 'src/shared/types/database-type';
 
 import { db } from '../db';
 
@@ -11,7 +12,7 @@ export const getRooms = async ({ page = 0, perpage = 10 }: DatabaseOptionDefault
           select: {
             avatar: true,
             id: true,
-            full_name: true,
+            name: true,
           },
         },
       },
@@ -49,7 +50,7 @@ export const getRoomUser = async (
           select: {
             avatar: true,
             id: true,
-            full_name: true,
+            name: true,
           },
         },
       },

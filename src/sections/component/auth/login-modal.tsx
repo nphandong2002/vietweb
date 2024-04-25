@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useLocales } from 'src/locales';
 import { login } from 'src/service/login';
+import { MESSAGE } from 'src/shared/constain/message';
 import FormProvider from 'src/shared/context/form/form-provider';
 import { loginValidate } from 'src/shared/validate/user-validate';
 
@@ -35,10 +36,10 @@ function LoginModal() {
   });
   const callbackUrl = usePathname();
 
+  const [isPending, startTransition] = useTransition();
   const [showTwoFactor, setShowTwoFactor] = useState(false);
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
-  const [isPending, startTransition] = useTransition();
 
   const onSubmit = form.handleSubmit((data) => {
     setError('');
@@ -58,7 +59,7 @@ function LoginModal() {
           if (data?.twoFactor) setShowTwoFactor(true);
         })
         .catch((_) => {
-          setError('wrong');
+          setError(MESSAGE.ERROR.WRONG);
         });
     });
   });

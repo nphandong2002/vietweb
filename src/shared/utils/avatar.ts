@@ -1,10 +1,9 @@
-export function generateAvatar(name: string): string {
+export function generateAvatar(name: string, type?: 'user' | 'room'): string {
+  if (typeof window === 'undefined') return '';
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
-
-  if (!context) {
-    throw new Error('Canvas context is not supported.');
-  }
+  if (!type) type = 'user';
+  if (!context) throw new Error('Canvas context is not supported.');
 
   // Cài đặt kích thước của canvas
   canvas.width = 100;
@@ -12,7 +11,9 @@ export function generateAvatar(name: string): string {
 
   // Vẽ avatar
   context.beginPath();
-  context.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2, 0, Math.PI * 2);
+  type == 'user'
+    ? context.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2, 0, Math.PI * 2)
+    : context.rect(0, 0, canvas.width, canvas.height);
   context.fillStyle = '#FFA500'; // Màu cam
   context.fill();
   context.closePath();
