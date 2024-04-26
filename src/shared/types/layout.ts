@@ -3,3 +3,6 @@ export interface RoomIdPageProps {
     roomId: string;
   };
 }
+export interface RoomDeailPageProps {
+  roomId: string;
+}

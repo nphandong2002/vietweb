@@ -72,3 +72,17 @@ export const getRoomUser = async (
     return [];
   }
 };
+
+export const getInfo = async (roomId: string) => {
+  try {
+    let info = await db.rooms.findFirst({
+      where: {
+        id: roomId,
+      },
+    });
+    return info;
+  } catch (error) {
+    console.error(error);
+    return {};
+  }
+};

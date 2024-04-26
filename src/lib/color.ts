@@ -1,3 +1,5 @@
+import { Color } from 'src/shared/types/canvas';
+
 function hexToRgb(color: string): string {
   color = color.slice(1);
   const re = new RegExp(`.{1,${color.length >= 6 ? 2 : 1}}`, 'g');
@@ -22,13 +24,13 @@ function intToHex(int: number): string {
   return hex.length === 1 ? `0${hex}` : hex;
 }
 
-interface Color {
+interface ColorValue {
   type: string;
   values: (string | number)[];
   colorSpace?: string;
 }
 
-export function decomposeColor(colorValue: string | Color): Color {
+export function decomposeColor(colorValue: string | ColorValue): ColorValue {
   // Idempotent
   if (typeof colorValue != 'string') return colorValue;
   if (colorValue.charAt(0) === '#') {
@@ -79,7 +81,7 @@ function clamp(value: number, min: number = 0, max: number = 1): number {
   return Math.min(Math.max(min, value), max);
 }
 
-function recomposeColor(color: Color): string {
+function recomposeColor(color: ColorValue): string {
   const { type, colorSpace } = color;
   let { values } = color;
   if (type.indexOf('rgb') !== -1) {
@@ -98,7 +100,7 @@ function recomposeColor(color: Color): string {
   return `${type}(${v})`;
 }
 
-export const alpha = function alpha(color: string | Color, value: number): string {
+export const alpha = function alpha(color: string | ColorValue, value: number): string {
   color = decomposeColor(color);
   value = clamp(value);
   if (color.type === 'rgb' || color.type === 'hsl') {
@@ -111,3 +113,12 @@ export const alpha = function alpha(color: string | Color, value: number): strin
   }
   return recomposeColor(color);
 };
+
+const COLORS = ['#DC2626', '#D97706', '#059669', '#7C3AED', '#DB2777'];
+export function connectionIdToColor(connectionId: number): string {
+  return COLORS[connectionId % COLORS.length];
+}
+
+export function colorToCss(color: Color) {
+  return `#${color.r.toString(16).padStart(2, '0')}${color.g.toString(16).padStart(2, '0')}${color.b.toString(16).padStart(2, '0')}`;
+}

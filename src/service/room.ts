@@ -16,4 +16,4 @@ export const getRooms = async (authId?: string, op?: DatabaseOptionDefault) => {
   return await dbRoom.getRoomUser(authId, op || {});
 };
 
-export const getRoomInfo = async () => {};
+export const getRoomInfo = async (roomid: string) => {};
