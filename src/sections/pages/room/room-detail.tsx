@@ -36,10 +36,23 @@ function RoomDetailPage({ roomId }: RoomDeailPageProps) {
     },
     [camera, canvasState]
   );
+  const onPointerLeave = useMutation(({ setMyPresence }) => {
+    setMyPresence({ cursor: null });
+  }, []);
+  const onPointerDown = useCallback((e: React.PointerEvent) => {}, []);
+  const onPointerUp = useCallback((e: React.PointerEvent) => {}, []);
+
   return (
     <div>
       <Participants />
-      <svg className="h-[100vh] w-[100vw]" onWheel={onWheel} onPointerMove={onPointerMove}>
+      <svg
+        className="h-[100vh] w-[100vw]"
+        onWheel={onWheel}
+        onPointerMove={onPointerMove}
+        onPointerLeave={onPointerLeave}
+        onPointerDown={onPointerDown}
+        onPointerUp={onPointerUp}
+      >
         <g
           style={{
             transform: `translate(${camera.x}px, ${camera.y}px)`,
