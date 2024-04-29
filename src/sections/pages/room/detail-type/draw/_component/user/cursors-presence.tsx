@@ -6,8 +6,8 @@ import { shallow } from '@liveblocks/client';
 import { colorToCss } from 'src/lib/color';
 import { useOthersConnectionIds, useOthersMapped } from 'src/liveblocks.config';
 
+import { Path } from '../layer';
 import { Cursor } from './cursor';
-import { Path } from './path';
 
 const Cursors = () => {
   const ids = useOthersConnectionIds();
@@ -26,7 +26,7 @@ const Drafts = () => {
       pencilDraft: other.presence.pencilDraft,
       penColor: other.presence.penColor,
     }),
-    shallow
+    shallow,
   );
 
   return (

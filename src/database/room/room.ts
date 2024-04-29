@@ -1,4 +1,4 @@
-import { RoomCreate } from 'src/shared/types/room';
+import { RoomCreate, RoomInfo } from 'src/shared/types/room';
 import { checkOption } from 'src/shared/utils/database-utils';
 import { DatabaseOptionDefault } from 'src/shared/types/database-type';
 
@@ -38,10 +38,7 @@ export const getRoomUserFavorites = async (userId: string, option?: DatabaseOpti
     return [];
   }
 };
-export const getRoomUser = async (
-  userid: string | null,
-  { page = 0, perpage = 10 }: DatabaseOptionDefault
-) => {
+export const getRoomUser = async (userid: string | null, { page = 0, perpage = 10 }: DatabaseOptionDefault) => {
   try {
     const roomFavorites = userid ? await getRoomUserFavorites(userid) : [];
     const rooms = await db.rooms.findMany({
@@ -76,6 +73,15 @@ export const getRoomUser = async (
 export const getInfo = async (roomId: string) => {
   try {
     let info = await db.rooms.findFirst({
+      include: {
+        user: {
+          select: {
+            avatar: true,
+            id: true,
+            name: true,
+          },
+        },
+      },
       where: {
         id: roomId,
       },
@@ -83,6 +89,6 @@ export const getInfo = async (roomId: string) => {
     return info;
   } catch (error) {
     console.error(error);
-    return {};
+    return null;
   }
 };

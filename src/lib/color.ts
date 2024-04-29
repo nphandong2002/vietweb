@@ -39,9 +39,7 @@ export function decomposeColor(colorValue: string | ColorValue): ColorValue {
   const marker = colorValue.indexOf('(');
   const type = colorValue.substring(0, marker);
   if (['rgb', 'rgba', 'hsl', 'hsla', 'color'].indexOf(type) === -1) {
-    throw new Error(
-      `The following formats are supported: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla(), color()`
-    );
+    throw new Error(`The following formats are supported: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla(), color()`);
   }
   let values = colorValue.substring(marker + 1, colorValue.length - 1);
   let colorSpace;
@@ -51,10 +49,7 @@ export function decomposeColor(colorValue: string | ColorValue): ColorValue {
     if (values.length === 4 && values[3].charAt(0) === '/') {
       v[3] = values[3].slice(1);
     }
-    if (
-      colorSpace &&
-      ['srgb', 'display-p3', 'a98-rgb', 'prophoto-rgb', 'rec-2020'].indexOf(colorSpace) === -1
-    )
+    if (colorSpace && ['srgb', 'display-p3', 'a98-rgb', 'prophoto-rgb', 'rec-2020'].indexOf(colorSpace) === -1)
       throw new Error('not support srgb, display-p3, a98-rgb, prophoto-rgb, rec-2020');
     let vs = v.map((value) => parseFloat(value));
     return {
@@ -121,4 +116,9 @@ export function connectionIdToColor(connectionId: number): string {
 
 export function colorToCss(color: Color) {
   return `#${color.r.toString(16).padStart(2, '0')}${color.g.toString(16).padStart(2, '0')}${color.b.toString(16).padStart(2, '0')}`;
+}
+export function getContrastingTextColor(color: Color) {
+  const luminance = 0.299 * color.r + 0.587 * color.g + 0.114 * color.b;
+
+  return luminance > 182 ? 'black' : 'white';
 }

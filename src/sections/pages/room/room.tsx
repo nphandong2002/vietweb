@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useLocales } from 'src/locales';
 import { getRooms } from 'src/service/room';
 import Each from 'src/sections/component/each';
-import { RoomInfo } from 'src/shared/types/room';
+import { RoomInfoList } from 'src/shared/types/room';
 import { useCurrentUser } from 'src/shared/hooks/client/use-user';
 
 import NewRoomButton from './_compoment/new-room';
@@ -20,7 +20,7 @@ function RoomPage() {
   const { t } = useLocales();
   const user = useCurrentUser();
   const opsTypeRoom = useTypeRoomData();
-  const [rooms, setrooms] = useState<RoomInfo>([]);
+  const [rooms, setrooms] = useState<RoomInfoList>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,9 +46,7 @@ function RoomPage() {
               <div className="relative  p-3">
                 <div className="flex flex-row items-center justify-between">
                   <p className="text-[13px] truncate max-w-full">{title} </p>
-                  <p className="text-[13px] truncate ">
-                    {opsTypeRoom.find((op) => op.value == type)?.label}
-                  </p>
+                  <p className="text-[13px] truncate ">{opsTypeRoom.find((op) => op.value == type)?.label}</p>
                 </div>
                 <p className="opacity-0 group-hover:opacity-100 transition-opacity text-[11px] text-muted-foreground truncate">
                   {user.name}, {fDate(createdAt)}
@@ -56,7 +54,7 @@ function RoomPage() {
                 <button
                   className={cn(
                     'opacity-0 group-hover:opacity-100 transition absolute top-3 right-3 text-muted-foreground hover:text-blue-600',
-                    'cursor-not-allowed opacity-75'
+                    'cursor-not-allowed opacity-75',
                   )}
                 ></button>
               </div>
