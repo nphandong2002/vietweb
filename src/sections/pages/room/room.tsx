@@ -15,17 +15,20 @@ import Image from 'next/image';
 import { cn } from 'src/lib/utils';
 import useTypeRoomData from './_compoment/type-room-config';
 import { fDate } from 'src/shared/utils/format-time';
+import Loading from 'src/app/loading';
 
 function RoomPage() {
   const { t } = useLocales();
   const user = useCurrentUser();
   const opsTypeRoom = useTypeRoomData();
+  const [loading, setloading] = useState(true);
   const [rooms, setrooms] = useState<RoomInfoList>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       let resp = await getRooms(user?.id);
       setrooms(resp);
+      setloading(true);
     };
     fetchData();
   }, [user, setrooms]);
@@ -34,6 +37,7 @@ function RoomPage() {
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5 mt-8 pb-10">
       {user && <NewRoomButton />}
       {!user && !rooms.length && <div></div>}
+      {loading && <Loading />}
       <Each
         of={rooms}
         render={({ id, image, title, createdAt, user, type }) => (
