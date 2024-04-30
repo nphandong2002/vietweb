@@ -1,30 +1,8 @@
-import { Kalam } from 'next/font/google';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
-
 import { cn } from 'src/lib/utils';
 import { colorToCss } from 'src/lib/color';
-import { TextLayer } from 'src/shared/types/canvas';
 import { useMutation } from 'src/liveblocks.config';
-import { FocusEventHandler, useEffect } from 'react';
-
-const font = Kalam({ subsets: ['latin'], weight: '400' });
-
-const calculateFontSize = (width: number, height: number) => {
-  const maxFontSize = 96;
-  const scaleFactor = 0.5;
-  const fontSizeBasedOnHeight = height * scaleFactor;
-  const fontSizeBasedOnWidth = width * scaleFactor;
-
-  return Math.min(fontSizeBasedOnHeight, fontSizeBasedOnWidth, maxFontSize);
-};
-
-interface TextProps {
-  id: string;
-  layer: TextLayer;
-  onPointerDown: (e: React.PointerEvent, id: string) => void;
-  selectionColor?: string;
-  setEditText: (a: boolean) => void;
-}
+import { TextProps, font, calculateFontSize } from './text';
 
 export const Text = ({ layer, onPointerDown, id, selectionColor, setEditText }: TextProps) => {
   const { x, y, width, height, fill, value } = layer;
@@ -52,9 +30,7 @@ export const Text = ({ layer, onPointerDown, id, selectionColor, setEditText }: 
     setEditText(false);
   };
 
-  useEffect(() => {
-    setEditText(true);
-  }, []);
+  useEffect(() => {}, []);
   return (
     <foreignObject
       x={x}

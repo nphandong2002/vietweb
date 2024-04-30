@@ -12,15 +12,12 @@ interface LayerPreviewProps {
   id: string;
   onLayerPointerDown: (e: React.PointerEvent, layerId: string) => void;
   selectionColor?: string;
+  setEditText: (a: boolean) => void;
 }
 
-export const LayerPreview = memo(({ id, onLayerPointerDown, selectionColor }: LayerPreviewProps) => {
+export const LayerPreview = memo(({ id, onLayerPointerDown, selectionColor, setEditText }: LayerPreviewProps) => {
   const layer = useStorage((root) => root.layers.get(id));
-
-  if (!layer) {
-    return null;
-  }
-
+  if (!layer) return null;
   switch (layer.type) {
     case LayerType.Path:
       return (
@@ -35,9 +32,25 @@ export const LayerPreview = memo(({ id, onLayerPointerDown, selectionColor }: La
         />
       );
     case LayerType.Note:
-      return <Note id={id} layer={layer} onPointerDown={onLayerPointerDown} selectionColor={selectionColor} />;
+      return (
+        <Note
+          id={id}
+          setEditText={setEditText}
+          layer={layer}
+          onPointerDown={onLayerPointerDown}
+          selectionColor={selectionColor}
+        />
+      );
     case LayerType.Text:
-      return <Text id={id} layer={layer} onPointerDown={onLayerPointerDown} selectionColor={selectionColor} />;
+      return (
+        <Text
+          setEditText={setEditText}
+          id={id}
+          layer={layer}
+          onPointerDown={onLayerPointerDown}
+          selectionColor={selectionColor}
+        />
+      );
     case LayerType.Ellipse:
       return <Ellipse id={id} layer={layer} onPointerDown={onLayerPointerDown} selectionColor={selectionColor} />;
     case LayerType.Rectangle:

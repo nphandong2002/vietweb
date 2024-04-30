@@ -5,6 +5,7 @@ import { cn } from 'src/lib/utils';
 import { useMutation } from 'src/liveblocks.config';
 import { NoteLayer } from 'src/shared/types/canvas';
 import { colorToCss, getContrastingTextColor } from 'src/lib/color';
+import { useEffect } from 'react';
 
 const font = Kalam({ subsets: ['latin'], weight: '400' });
 
@@ -22,9 +23,10 @@ interface NoteProps {
   layer: NoteLayer;
   onPointerDown: (e: React.PointerEvent, id: string) => void;
   selectionColor?: string;
+  setEditText: (a: boolean) => void;
 }
 
-export const Note = ({ layer, onPointerDown, id, selectionColor }: NoteProps) => {
+export const Note = ({ layer, onPointerDown, id, selectionColor, setEditText }: NoteProps) => {
   const { x, y, width, height, fill, value } = layer;
 
   const updateValue = useMutation(({ storage }, newValue: string) => {
@@ -36,7 +38,22 @@ export const Note = ({ layer, onPointerDown, id, selectionColor }: NoteProps) =>
   const handleContentChange = (e: ContentEditableEvent) => {
     updateValue(e.target.value);
   };
+  const deleteLayer = useMutation(({ storage }) => {
+    const liveLayers = storage.get('layers');
+    const liveLayersIds = storage.get('layerIds');
 
+    liveLayers.delete(id);
+    const index = liveLayersIds.indexOf(id);
+
+    if (index !== -1) liveLayersIds.delete(index);
+  }, []);
+  const onBlur = (e: any) => {
+    if (!e.target.textContent) deleteLayer();
+    setEditText(false);
+  };
+  useEffect(() => {
+    setEditText(true);
+  }, []);
   return (
     <foreignObject
       x={x}
@@ -53,6 +70,8 @@ export const Note = ({ layer, onPointerDown, id, selectionColor }: NoteProps) =>
       <ContentEditable
         html={value || ''}
         onChange={handleContentChange}
+        onFocus={() => setEditText(true)}
+        onBlur={onBlur}
         className={cn('h-full w-full flex items-center justify-center outline-none', font.className)}
         style={{
           color: fill ? getContrastingTextColor(fill) : '#000',

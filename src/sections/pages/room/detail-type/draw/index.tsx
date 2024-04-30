@@ -30,8 +30,9 @@ import { Path } from './_component/layer';
 import { Toolbar } from './_component/handler/toolbar';
 import { LayerPreview } from './_component/layer-preview';
 import { Participants } from './_component/user/participants';
-import { CursorsPresence } from './_component/user/cursors-presence';
+import { useSelectionBounds } from './_hook/use-selection-bounds';
 import { SelectionBox } from './_component/selection/selection-box';
+import { CursorsPresence } from './_component/user/cursors-presence';
 import { SelectionTools } from './_component/selection/selection-tools';
 
 const MAX_LAYERS = 100;
@@ -44,6 +45,7 @@ function RoomDetailDrawPage({ roomId }: RoomDeailPageProps) {
   const canRedo = useCanRedo();
   const layerIds = useStorage((root) => root.layerIds);
   const pencilDraft = useSelf((me) => me.presence.pencilDraft);
+  const [isEditText, setisEditText] = useState(false);
   const [canvasState, setCanvasState] = useState<CanvasState>({
     mode: CanvasMode.None,
   });
@@ -170,8 +172,7 @@ function RoomDetailDrawPage({ roomId }: RoomDeailPageProps) {
   //keyDown
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
-      console.log(e.key);
-
+      if (isEditText) return;
       switch (e.key) {
         case 'Delete': {
           deleteLayers();
@@ -242,7 +243,6 @@ function RoomDetailDrawPage({ roomId }: RoomDeailPageProps) {
   const onResizeHandlePointerDown = useCallback(
     (corner: Side, initialBounds: XYWH) => {
       history.pause();
-      console.log(corner);
 
       setCanvasState({
         mode: CanvasMode.Resizing,
@@ -393,6 +393,9 @@ function RoomDetailDrawPage({ roomId }: RoomDeailPageProps) {
               key={layerId}
               id={layerId}
               onLayerPointerDown={onLayerPointerDown}
+              setEditText={(a: boolean) => {
+                setisEditText(a);
+              }}
               selectionColor={layerIdsToColorSelection[layerId]}
             />
           ))}
