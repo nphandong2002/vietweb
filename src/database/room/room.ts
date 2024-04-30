@@ -1,4 +1,5 @@
-import { RoomCreate, RoomInfo } from 'src/shared/types/room';
+'use server';
+
 import { checkOption } from 'src/shared/utils/database-utils';
 import { DatabaseOptionDefault } from 'src/shared/types/database-type';
 

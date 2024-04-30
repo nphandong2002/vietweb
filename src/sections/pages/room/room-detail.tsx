@@ -2,8 +2,10 @@
 
 import { RoomType } from '@prisma/client';
 import { useEffect, useState } from 'react';
+
 import { getInfo } from 'src/database/room/room';
 import { RoomDeailPageProps } from 'src/shared/types/layout';
+
 import RoomDetailDrawPage from './detail-type/draw';
 
 function RoomDetailPage({ roomId }: RoomDeailPageProps) {

@@ -1,21 +1,21 @@
 'use client';
 
+import Link from 'next/link';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
+import { PATHS } from 'src/config';
+import { cn } from 'src/lib/utils';
+import Loading from 'src/app/loading';
 import { useLocales } from 'src/locales';
 import { getRooms } from 'src/service/room';
 import Each from 'src/sections/component/each';
+import { fDate } from 'src/shared/utils/format-time';
 import { RoomInfoList } from 'src/shared/types/room';
 import { useCurrentUser } from 'src/shared/hooks/client/use-user';
 
 import NewRoomButton from './_compoment/new-room';
-import Link from 'next/link';
-import { PATHS } from 'src/config';
-import Image from 'next/image';
-import { cn } from 'src/lib/utils';
 import useTypeRoomData from './_compoment/type-room-config';
-import { fDate } from 'src/shared/utils/format-time';
-import Loading from 'src/app/loading';
 
 function RoomPage() {
   const { t } = useLocales();
@@ -28,7 +28,7 @@ function RoomPage() {
     const fetchData = async () => {
       let resp = await getRooms(user?.id);
       setrooms(resp);
-      setloading(true);
+      setloading(false);
     };
     fetchData();
   }, [user, setrooms]);
