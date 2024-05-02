@@ -7,6 +7,8 @@
   "mode": "Chế độ",
   "username": "Tên đăng nhập",
   "password": "Mật khẩu",
+  "rename": "Thay đổi tên",
+  "confirm": "Xác nhận",
   "room": {
     "label": "Phòng",
     "create": "Tạo phòng",
@@ -18,7 +20,10 @@
     "nameRoom": {
       "label": "Tên phòng",
       "placeholder": "Nhập tên phòng"
-    }
+    },
+    "copy_link": "Sao chép địa chỉ phòng",
+    "delete": "Xoá phòng",
+    "rename": "Thay đổi tên của phòng"
   },
   "add": "Thêm mới",
   "cancel": "Huỷ",
@@ -72,6 +77,11 @@
     "expired_token": "Token đã hết hạn !!",
 
     "create_room_success": "Tạo phòng thành công !!",
-    "create_room_fail": "Tạo phòng thất bại !!"
+    "create_room_fail": "Tạo phòng thất bại !!",
+    "delete_room_success": "Xoá phòng {{name}} thành công",
+    "delete_room_fail": "Xoá phòng {{name}} thất bại",
+
+    "copy_success": "Sao chép thành công",
+    "copy_fail": "Sao chép không thành công"
   }
 }

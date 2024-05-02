@@ -13,6 +13,7 @@ import { SITE } from 'src/config';
 import { defaultLang } from 'src/locales';
 import { defaultType } from 'src/shared/types/common';
 import SettingProvider from 'src/shared/context/setting';
+import { Toaster } from 'src/sections/component/ui/sonner';
 import ProgressBar from 'src/sections/component/progress-bar';
 import { localStorageGetItem } from 'src/shared/utils/storage-available';
 
@@ -37,6 +38,7 @@ export default async function RootLayout({ children }: defaultType) {
             },
           }}
         >
+          <Toaster />
           <ProgressBar />
           <body className="text-[var(--text-default)]">{children}</body>
         </SettingProvider>

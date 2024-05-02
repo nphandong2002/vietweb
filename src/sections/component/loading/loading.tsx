@@ -1,6 +1,6 @@
 'use client';
 
-import { Loader } from 'lucide-react';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 export function SplashScreen() {
@@ -13,10 +13,8 @@ export function SplashScreen() {
     return null;
   }
   return (
-    <div className="fixed top-0 right-0 left-0 bottom-0">
-      <div className="bg-[var(--bg-body)] h-screen w-screen">
-        <Loader className="h-6 w-6 text-muted-foreground animate-spin" />
-      </div>
+    <div className="h-full w-full flex flex-col justify-center items-center">
+      <Image src="/logo.png" alt="Logo" width={120} height={120} className="animate-pulse duration-700" />
     </div>
   );
 }

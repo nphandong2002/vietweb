@@ -6,7 +6,9 @@ export const MESSAGE = {
     },
     ROOM: {
       CREATE: 'create_room_success',
+      DELETE: 'delete_room_success',
     },
+    COPY: 'copy_success',
   },
   ERROR: {
     WRONG: 'wrong',
@@ -29,6 +31,8 @@ export const MESSAGE = {
     },
     ROOM: {
       CREATE: 'create_room_fail',
+      DELETE: 'delete_room_fail',
     },
+    COPY: 'copy_fail',
   },
 };

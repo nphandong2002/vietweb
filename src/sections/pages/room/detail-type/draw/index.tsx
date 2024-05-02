@@ -26,11 +26,11 @@ import { Camera, CanvasMode, CanvasState, Color, LayerType, Point, Side, XYWH } 
 
 import { useDeleteLayers } from './_hook/use-delete-layers';
 
+import { Info } from './_component/info';
 import { Path } from './_component/layer';
 import { Toolbar } from './_component/handler/toolbar';
 import { LayerPreview } from './_component/layer-preview';
 import { Participants } from './_component/user/participants';
-import { useSelectionBounds } from './_hook/use-selection-bounds';
 import { SelectionBox } from './_component/selection/selection-box';
 import { CursorsPresence } from './_component/user/cursors-presence';
 import { SelectionTools } from './_component/selection/selection-tools';
@@ -363,6 +363,7 @@ function RoomDetailDrawPage({ roomId }: RoomDeailPageProps) {
   );
   return (
     <div className="relative">
+      <Info roomId={roomId} />
       <Participants />
       <Toolbar
         canvasState={canvasState}

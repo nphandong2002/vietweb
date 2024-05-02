@@ -93,3 +93,28 @@ export const getInfo = async (roomId: string) => {
     return null;
   }
 };
+
+export const deleteRoom = async (roomId: string) => {
+  try {
+    return await db.rooms.delete({
+      where: { id: roomId },
+    });
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+export const renameRoom = async (roomId: string, title: string) => {
+  try {
+    return await db.rooms.update({
+      where: { id: roomId },
+      data: {
+        title: title,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};

@@ -25,6 +25,7 @@ type Presence = {
 type Storage = {
   layers: LiveMap<string, LiveObject<Layer>>;
   layerIds: LiveList<string>;
+  action: LiveMap<string, LiveObject<Layer>>;
 };
 
 // Optionally, UserMeta represents static/readonly metadata on each user, as
