@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useStorage } from 'src/liveblocks.config';
-import { PetLayer, PetType, SizePet } from 'src/shared/types/canvas';
 import { pathPet } from './path-pet';
 
 interface LayerPreviewProps {
@@ -47,37 +46,38 @@ export const LayerPreview = ({ id, onLayerPointerDown }: LayerPreviewProps) => {
     animations: {},
     onLoaded: null,
   });
-  if (!layer) return <div>none</div>;
-  const typePet = layer.type;
-  const infoPet = {
-    url: `/assets/pet/${pathPet[typePet][layer.size]}`,
-    cols: layer.col,
-    rows: layer.row,
-  };
 
   useEffect(() => {
-    var r = new Image();
-    r.src = infoPet.url;
+    if (!layer || divInfo.url) return; // Check if layer is falsy or if divInfo.url already exists
     const loadImg = () => {
+      var r = new Image();
       let n = {
         ...divInfo,
-        ...infoPet,
+        url: `/assets/pet/${pathPet[layer.type][layer.size]}`,
+        cols: layer.col,
+        rows: layer.row,
       };
-      n.sheetWidth = r.width;
-      n.sheetHeight = r.height;
-      n.frameWidth = n.sheetWidth / n.cols / n.downsizeRatio;
-      n.frameHeight = n.sheetHeight / n.rows / n.downsizeRatio;
-      n.totalSprites = n.cols * n.rows - n.cutOffFrames;
-      setdivInfo(n);
+      r.src = n.url;
+      r.addEventListener(
+        'load',
+        () => {
+          n.sheetWidth = r.width;
+          n.sheetHeight = r.height;
+          n.frameWidth = n.sheetWidth / n.cols / n.downsizeRatio;
+          n.frameHeight = n.sheetHeight / n.rows / n.downsizeRatio;
+          n.totalSprites = n.cols * n.rows - n.cutOffFrames;
+          setdivInfo(n);
+        },
+        false,
+      );
     };
-    r.addEventListener('load', loadImg, false);
-    return r.removeEventListener('load', loadImg);
-  }, [infoPet, setdivInfo]);
+    loadImg();
+  }, [setdivInfo, layer, divInfo]);
   return (
     <foreignObject width={divInfo.frameWidth} height={divInfo.frameHeight}>
       <div
         style={{
-          backgroundImage: `url(${infoPet.url})`,
+          backgroundImage: `url(${divInfo.url})`,
           width: `${divInfo.frameWidth}px`,
           height: `${divInfo.frameHeight}px`,
         }}

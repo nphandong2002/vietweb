@@ -53,7 +53,7 @@ export const Note = ({ layer, onPointerDown, id, selectionColor, setEditText }: 
   };
   useEffect(() => {
     setEditText(true);
-  }, []);
+  }, [setEditText]);
   return (
     <foreignObject
       x={x}

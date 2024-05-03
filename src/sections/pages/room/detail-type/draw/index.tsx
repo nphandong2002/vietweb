@@ -222,7 +222,7 @@ function RoomDetailDrawPage({ roomId }: RoomDeailPageProps) {
     return () => {
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, [deleteLayers, history]);
+  }, [deleteLayers, history, isEditText]);
 
   //resize
   const resizeSelectedLayer = useMutation(

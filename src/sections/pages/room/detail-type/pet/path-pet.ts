@@ -14,16 +14,16 @@ export const pathPet = {
   [PetType.Black]: {
     [SizePet.MD]: 'black/black_1024x1024_8x8.png',
     [SizePet.SM]: 'black/black_512x512_8x8.png',
-    header: '  black_head_128x128.png',
+    header: 'black_head_128x128.png',
   },
   [PetType.Tabby]: {
     [SizePet.MD]: 'glay/glay_1024x1024_8x8.png',
     [SizePet.SM]: 'glay/glay_512x512_8x8.png',
-    header: ' tabby_head_128x128.png',
+    header: 'tabby_head_128x128.png',
   },
   [PetType.White]: {
     [SizePet.MD]: 'white/white_1024x1024_8x8.png',
     [SizePet.SM]: 'white/white_512x512_8x8.png',
-    header: ' white_head_128x128.png',
+    header: 'white_head_128x128.png',
   },
 };
