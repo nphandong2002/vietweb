@@ -1,7 +1,8 @@
 import { createClient, LiveList, LiveMap, LiveObject } from '@liveblocks/client';
-import { createRoomContext } from '@liveblocks/react';
+import { createLiveblocksContext, createRoomContext } from '@liveblocks/react';
 
-import { Layer, Color } from 'src/shared/types/canvas';
+import { Layer, Color, PetType, PetLayer } from 'src/shared/types/canvas';
+import { payloadAction, typeAction } from './shared/types/liveblock';
 
 const client = createClient({
   throttle: 16,
@@ -16,6 +17,9 @@ type Presence = {
   selection: string[];
   pencilDraft: [x: number, y: number, pressure: number][] | null;
   penColor: Color | null;
+  pet: {
+    petType: PetType;
+  };
 };
 
 // Optionally, Storage represents the shared document that persists in the
@@ -25,7 +29,7 @@ type Presence = {
 type Storage = {
   layers: LiveMap<string, LiveObject<Layer>>;
   layerIds: LiveList<string>;
-  action: LiveMap<string, LiveObject<Layer>>;
+  petLayer: LiveMap<string, LiveObject<PetLayer>>;
 };
 
 // Optionally, UserMeta represents static/readonly metadata on each user, as
@@ -92,3 +96,12 @@ export const {
     useRemoveReaction,
   },
 } = createRoomContext<Presence, Storage, UserMeta, RoomEvent, ThreadMetadata>(client, {});
+
+// export  const {
+//   suspense: {
+//     LiveblocksProvider,
+//     useInboxNotifications,
+//     useUnreadInboxNotificationsCount,
+//     useMarkAllInboxNotificationsAsRead,
+//   },
+// } = createLiveblocksContext(client);

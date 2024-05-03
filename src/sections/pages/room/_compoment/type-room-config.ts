@@ -9,8 +9,12 @@ function useTypeRoomData() {
         label: t('room.type.draw'),
         value: 'draw',
       },
+      {
+        label: 'pet',
+        value: 'pet',
+      },
     ],
-    [t]
+    [t],
   );
   return data;
 }

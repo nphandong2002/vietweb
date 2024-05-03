@@ -8,13 +8,13 @@ import { connectionIdToColor } from 'src/lib/color';
 
 interface CursorProps {
   connectionId: number;
+  useSVG?: boolean;
 }
 
-export const Cursor = memo(({ connectionId }: CursorProps) => {
+export const Cursor = memo(({ connectionId, useSVG = true }: CursorProps) => {
   const info = useOther(connectionId, (user) => user?.info);
   const cursor = useOther(connectionId, (user) => user.presence.cursor);
   const name = info?.name || 'Teammate';
-
   if (!cursor) return null;
   const { x, y } = cursor;
 

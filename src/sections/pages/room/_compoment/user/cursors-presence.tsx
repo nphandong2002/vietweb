@@ -6,8 +6,9 @@ import { shallow } from '@liveblocks/client';
 import { colorToCss } from 'src/lib/color';
 import { useOthersConnectionIds, useOthersMapped } from 'src/liveblocks.config';
 
-import { Path } from '../layer';
+import { Path } from '../../detail-type/draw/_component/layer';
 import { Cursor } from './cursor';
+import { RoomType } from '@prisma/client';
 
 const Cursors = () => {
   const ids = useOthersConnectionIds();
@@ -50,10 +51,10 @@ const Drafts = () => {
   );
 };
 
-export const CursorsPresence = memo(() => {
+export const CursorsPresence = memo(({ type = 'draw' }: { type?: RoomType }) => {
   return (
     <>
-      <Drafts />
+      {type == 'draw' && <Drafts />}
       <Cursors />
     </>
   );

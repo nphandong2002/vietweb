@@ -30,9 +30,9 @@ import { Info } from './_component/info';
 import { Path } from './_component/layer';
 import { Toolbar } from './_component/handler/toolbar';
 import { LayerPreview } from './_component/layer-preview';
-import { Participants } from './_component/user/participants';
+import { Participants } from '../../_compoment/user/participants';
 import { SelectionBox } from './_component/selection/selection-box';
-import { CursorsPresence } from './_component/user/cursors-presence';
+import { CursorsPresence } from '../../_compoment/user/cursors-presence';
 import { SelectionTools } from './_component/selection/selection-tools';
 
 const MAX_LAYERS = 100;
@@ -45,6 +45,7 @@ function RoomDetailDrawPage({ roomId }: RoomDeailPageProps) {
   const canRedo = useCanRedo();
   const layerIds = useStorage((root) => root.layerIds);
   const pencilDraft = useSelf((me) => me.presence.pencilDraft);
+
   const [isEditText, setisEditText] = useState(false);
   const [canvasState, setCanvasState] = useState<CanvasState>({
     mode: CanvasMode.None,
@@ -208,11 +209,8 @@ function RoomDetailDrawPage({ roomId }: RoomDeailPageProps) {
         }
         case 'z': {
           if (e.ctrlKey || e.metaKey) {
-            if (e.shiftKey) {
-              history.redo();
-            } else {
-              history.undo();
-            }
+            if (e.shiftKey) history.redo();
+            else history.undo();
             break;
           }
         }

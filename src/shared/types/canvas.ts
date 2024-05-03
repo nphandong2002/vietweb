@@ -16,6 +16,13 @@ export enum LayerType {
   Text,
   Note,
 }
+export enum PetType {
+  Calico,
+  Glay,
+  Black,
+  Tabby,
+  White,
+}
 
 export type RectangleLayer = {
   type: LayerType.Rectangle;
@@ -66,6 +73,19 @@ export type NoteLayer = {
   width: number;
   fill: Color;
   value?: string;
+};
+
+export enum SizePet {
+  SM,
+  MD,
+}
+export type PetLayer = {
+  type: PetType;
+  x: number;
+  y: number;
+  col: number;
+  row: number;
+  size: SizePet;
 };
 
 export type Point = {
