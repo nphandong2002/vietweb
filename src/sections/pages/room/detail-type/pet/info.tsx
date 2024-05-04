@@ -45,7 +45,7 @@ function PetInfo() {
       namePet: petCurrent?.name ?? '',
       typePet: petCurrent?.type ?? PetType.Calico,
     });
-  }, [petCurrent]);
+  }, [petCurrent, form]);
   const handlePetCurrent = useMutation(
     ({ storage, self }, { namePet, typePet }: { namePet: string; typePet: PetType }) => {
       let idPets = storage.get('petLayer');
