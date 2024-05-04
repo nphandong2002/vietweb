@@ -1,9 +1,9 @@
-import { useMutation, useSelf, useStorage } from 'src/liveblocks.config';
+import { useMutation, useStorage } from 'src/liveblocks.config';
 import { RoomDeailPageProps } from 'src/shared/types/layout';
 import { Participants } from '../../_compoment/user/participants';
 import { CursorsPresence } from '../../_compoment/user/cursors-presence';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Camera, CanvasMode, CanvasState, SizePet } from 'src/shared/types/canvas';
+import { useCallback, useRef, useState } from 'react';
+import { Camera, CanvasMode, CanvasState } from 'src/shared/types/canvas';
 import { pointerEventToCanvasPoint } from 'src/lib/utils';
 import { LayerPreview } from './layer-preview';
 import PetInfo from './info';

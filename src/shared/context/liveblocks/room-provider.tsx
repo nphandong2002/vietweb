@@ -5,7 +5,8 @@ import { ClientSideSuspense } from '@liveblocks/react';
 import { LiveMap, LiveList, LiveObject } from '@liveblocks/client';
 
 import { RoomProvider } from 'src/liveblocks.config';
-import { Layer, PetType,PetLayer } from 'src/shared/types/canvas';
+import { Layer, PetLayer } from 'src/shared/types/canvas';
+import { PetType } from 'src/sections/pages/room/detail-type/pet/type-pet';
 
 interface RoomProps {
   children: ReactNode;
@@ -29,7 +30,7 @@ export const Room = ({ children, roomId, fallback }: RoomProps) => {
       initialStorage={{
         layers: new LiveMap<string, LiveObject<Layer>>(),
         layerIds: new LiveList(),
-        petLayer:  new LiveMap<string, LiveObject<PetLayer>>(),
+        petLayer: new LiveMap<string, LiveObject<PetLayer>>(),
       }}
     >
       <ClientSideSuspense fallback={fallback}>{() => children}</ClientSideSuspense>

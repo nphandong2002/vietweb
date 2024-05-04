@@ -25,6 +25,12 @@
     "delete": "Xoá phòng",
     "rename": "Thay đổi tên của phòng"
   },
+  "room_pet": {
+    "name_pet": {
+      "label": "Tên của pet",
+      "placeholder": "Nhập tên của pet"
+    }
+  },
   "add": "Thêm mới",
   "cancel": "Huỷ",
   "login": "Đăng nhập",

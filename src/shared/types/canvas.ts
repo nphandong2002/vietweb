@@ -1,3 +1,5 @@
+import { PetStatus, PetType, Playhead, SizePet } from 'src/sections/pages/room/detail-type/pet/type-pet';
+
 export type Color = {
   r: number;
   g: number;
@@ -15,13 +17,6 @@ export enum LayerType {
   Path,
   Text,
   Note,
-}
-export enum PetType {
-  Calico,
-  Glay,
-  Black,
-  Tabby,
-  White,
 }
 
 export type RectangleLayer = {
@@ -75,17 +70,15 @@ export type NoteLayer = {
   value?: string;
 };
 
-export enum SizePet {
-  SM,
-  MD,
-}
 export type PetLayer = {
   type: PetType;
   x: number;
   y: number;
-  col: number;
-  row: number;
   size: SizePet;
+  xp: number;
+  name: string;
+  status: PetStatus;
+  playhead: Playhead;
 };
 
 export type Point = {
