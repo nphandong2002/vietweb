@@ -1,8 +1,8 @@
 import { createClient, LiveList, LiveMap, LiveObject } from '@liveblocks/client';
-import { createLiveblocksContext, createRoomContext } from '@liveblocks/react';
+import { createRoomContext } from '@liveblocks/react';
 
-import { Layer, Color, PetType, PetLayer } from 'src/shared/types/canvas';
-import { payloadAction, typeAction } from './shared/types/liveblock';
+import { Layer, Color, PetLayer } from 'src/shared/types/canvas';
+import { PetType } from './sections/pages/room/detail-type/pet/type-pet';
 
 const client = createClient({
   throttle: 16,
