@@ -14,8 +14,8 @@ import RHFInput from 'src/sections/component/hook-form/rhf-input';
 import RHFGroupRadio from 'src/sections/component/hook-form/rhf-groupRadio';
 
 import { PetType } from './type-pet';
-import { configPetNor } from './config-pet-nor';
-import { initPet } from './config-pet-common';
+import { configPetNor } from './config/config-pet-nor';
+import { initPet } from './config/config-pet-common';
 
 function PetInfo() {
   const self = useSelf();

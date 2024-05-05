@@ -1,4 +1,4 @@
-import { PetType, SizePet } from './type-pet';
+import { PetType, SizePet } from '../type-pet';
 
 export const initPet = {
   type: PetType.Calico,

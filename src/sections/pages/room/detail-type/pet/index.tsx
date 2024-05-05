@@ -1,12 +1,15 @@
-import { useMutation, useStorage } from 'src/liveblocks.config';
+import { useCallback, useRef, useState } from 'react';
+
+import { pointerEventToCanvasPoint } from 'src/lib/utils';
 import { RoomDeailPageProps } from 'src/shared/types/layout';
+import { useMutation, useStorage } from 'src/liveblocks.config';
+import { Camera, CanvasMode, CanvasState } from 'src/shared/types/canvas';
+
+import PetInfo from './info';
+import { LayerPreview } from './_compoment/layer-preview';
+
 import { Participants } from '../../_compoment/user/participants';
 import { CursorsPresence } from '../../_compoment/user/cursors-presence';
-import { useCallback, useRef, useState } from 'react';
-import { Camera, CanvasMode, CanvasState } from 'src/shared/types/canvas';
-import { pointerEventToCanvasPoint } from 'src/lib/utils';
-import { LayerPreview } from './layer-preview';
-import PetInfo from './info';
 
 function RoomDetailPetPage({ roomId }: RoomDeailPageProps) {
   const refSVG = useRef<SVGSVGElement>(null);
