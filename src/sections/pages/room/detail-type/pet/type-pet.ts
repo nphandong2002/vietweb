@@ -16,6 +16,7 @@ export enum workPet {
   Sleep3 = 'sleep3',
   Sleep4 = 'sleep4',
   Sleep5 = 'sleep5',
+  Move = 'move',
 }
 
 export enum PetType {

@@ -9,18 +9,18 @@ const liveblocks = new Liveblocks({
 export async function POST(request: Request) {
   const authorization = await auth();
   const { room } = await request.json();
-  
-  if (!authorization || !authorization.user?.id){
+
+  if (!authorization || !authorization.user?.id) {
     const userInfo = {
-      name:  'customer',
+      name: 'customer',
       picture: '',
-      isCustomer: true
+      isUser: false,
     };
-  
+
     const session = liveblocks.prepareSession(uuidv4(), { userInfo });
-  
+
     if (room) session.allow(room, session.READ_ACCESS);
-  
+
     const { status, body } = await session.authorize();
     return new Response(body, { status });
   }
@@ -30,6 +30,7 @@ export async function POST(request: Request) {
   const userInfo = {
     name: user.name || 'Teammeate',
     picture: user.image,
+    isUser: true,
   };
 
   const session = liveblocks.prepareSession(user.id, { userInfo });

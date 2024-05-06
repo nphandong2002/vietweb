@@ -40,6 +40,7 @@ type UserMeta = {
   info?: {
     name?: string;
     picture?: string;
+    isUser: boolean;
   };
 };
 

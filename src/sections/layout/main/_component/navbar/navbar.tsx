@@ -34,7 +34,7 @@ function NavBar() {
                   height={36}
                 />
               </div>
-              <div className="hidden md:block">{user.name}</div>
+              <div className="hidden lg:block">{user.name}</div>
             </div>
           )}
         </div>

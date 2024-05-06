@@ -24,21 +24,22 @@ import { colorToCss, connectionIdToColor } from 'src/lib/color';
 import { useDisableScrollBounce } from 'src/shared/hooks/client/use-disable-scroll-bounce';
 import { Camera, CanvasMode, CanvasState, Color, LayerType, Point, Side, XYWH } from 'src/shared/types/canvas';
 
-import { useDeleteLayers } from './_hook/use-delete-layers';
-
 import { Info } from './_component/info';
 import { Path } from './_component/layer';
 import { Toolbar } from './_component/handler/toolbar';
 import { LayerPreview } from './_component/layer-preview';
-import { Participants } from '../../_compoment/user/participants';
+import { useDeleteLayers } from './_hook/use-delete-layers';
 import { SelectionBox } from './_component/selection/selection-box';
-import { CursorsPresence } from '../../_compoment/user/cursors-presence';
 import { SelectionTools } from './_component/selection/selection-tools';
+
+import { Participants } from '../../_compoment/user/participants';
+import { CursorsPresence } from '../../_compoment/user/cursors-presence';
 
 const MAX_LAYERS = 100;
 function RoomDetailDrawPage({ roomId }: RoomDeailPageProps) {
   useDisableScrollBounce();
   //init
+  const self = useSelf();
   const refSVG = useRef<SVGSVGElement>(null);
   const history = useHistory();
   const canUndo = useCanUndo();
@@ -309,6 +310,7 @@ function RoomDetailDrawPage({ roomId }: RoomDeailPageProps) {
   }, []);
   const onPointerDown = useCallback(
     (e: React.PointerEvent) => {
+      if (!self.info?.isUser) return;
       if (refSVG.current) {
         let box = refSVG.current.getBoundingClientRect();
         e.clientX -= box.x;
@@ -345,7 +347,8 @@ function RoomDetailDrawPage({ roomId }: RoomDeailPageProps) {
   );
   const onLayerPointerDown = useMutation(
     ({ self, setMyPresence }, e: React.PointerEvent, layerId: string) => {
-      if (canvasState.mode === CanvasMode.Pencil || canvasState.mode === CanvasMode.Inserting) return;
+      if (!self.info?.isUser || canvasState.mode === CanvasMode.Pencil || canvasState.mode === CanvasMode.Inserting)
+        return;
       history.pause();
       e.stopPropagation();
       if (refSVG.current) {
@@ -361,17 +364,21 @@ function RoomDetailDrawPage({ roomId }: RoomDeailPageProps) {
   );
   return (
     <div className="relative">
-      <Info roomId={roomId} />
-      <Participants />
-      <Toolbar
-        canvasState={canvasState}
-        setCanvasState={setCanvasState}
-        canRedo={canRedo}
-        canUndo={canUndo}
-        undo={history.undo}
-        redo={history.redo}
-      />
-      <SelectionTools camera={camera} setLastUsedColor={setLastUsedColor} />
+      {self.info?.isUser && (
+        <>
+          <Info roomId={roomId} />
+          <Participants />
+          <Toolbar
+            canvasState={canvasState}
+            setCanvasState={setCanvasState}
+            canRedo={canRedo}
+            canUndo={canUndo}
+            undo={history.undo}
+            redo={history.redo}
+          />
+          <SelectionTools camera={camera} setLastUsedColor={setLastUsedColor} />
+        </>
+      )}
 
       <svg
         ref={refSVG}

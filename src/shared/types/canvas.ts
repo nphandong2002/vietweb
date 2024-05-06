@@ -79,8 +79,8 @@ export type PetLayer = {
   name: string;
   status: PetStatus;
   work: workPet;
-  // sheetWidth: number;
-  // sheetHeight: number;
+  width: number;
+  height: number;
 };
 
 export type Point = {

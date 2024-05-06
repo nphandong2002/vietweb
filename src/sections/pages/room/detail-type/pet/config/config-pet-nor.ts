@@ -109,6 +109,12 @@ export const animations: AnimationsPetType = {
     { sprite: 63, delay: 500 },
     { sprite: 64, delay: 500 },
   ],
+  [workPet.Move]: [
+    { sprite: 61, delay: 500 },
+    { sprite: 62, delay: 500 },
+    { sprite: 63, delay: 500 },
+    { sprite: 64, delay: 500 },
+  ],
 };
 export const configPetNor = {
   [PetType.Calico]: {

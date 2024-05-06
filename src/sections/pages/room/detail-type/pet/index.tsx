@@ -4,10 +4,10 @@ import { pointerEventToCanvasPoint } from 'src/lib/utils';
 import { RoomDeailPageProps } from 'src/shared/types/layout';
 import useInterval from 'src/shared/hooks/client/use-interval';
 import { useMutation, useSelf, useStorage } from 'src/liveblocks.config';
-import { Camera, CanvasMode, CanvasState } from 'src/shared/types/canvas';
+import { Camera, CanvasMode, CanvasState, Point } from 'src/shared/types/canvas';
 
 import PetInfo from './info';
-import { optionPet } from './type-pet';
+import { optionPet, workPet } from './type-pet';
 import { LayerPreview } from './_compoment/layer-preview';
 import { getRandomWorkNor } from './config/config-pet-common';
 
@@ -53,6 +53,7 @@ function RoomDetailPetPage({ roomId }: RoomDeailPageProps) {
   );
 
   useInterval(() => {
+    if (petCurrent && petCurrent.work == workPet.Move) return;
     const random = Math.floor(Math.random() * 10 + 1);
     let x = 0,
       y = 0;
@@ -66,14 +67,54 @@ function RoomDetailPetPage({ roomId }: RoomDeailPageProps) {
       y > box.height && (y = 0);
     }
     setPetCurrent({
-      x: (random % 3 == 0 && x) || undefined,
-      y: (random % 4 == 0 && y) || undefined,
       work: (random % 10 == 0 && getRandomWorkNor()) || undefined,
     });
   }, 100);
+  //select
+  const unselectLayers = useMutation(({ self, setMyPresence }) => {
+    if (self.presence.selection.length <= 0) return;
+    setMyPresence({ selection: [] });
+  }, []);
+  const translateSelectedLayers = useMutation(
+    ({ storage, self }, point: Point) => {
+      if (canvasState.mode !== CanvasMode.Translating) return;
+
+      const offset = {
+        x: point.x - canvasState.current.x,
+        y: point.y - canvasState.current.y,
+      };
+
+      const liveLayers = storage.get('petLayer');
+
+      for (const id of self.presence.selection) {
+        const layer = liveLayers.get(id);
+
+        if (layer) {
+          layer.update({
+            work: workPet.Move,
+            x: layer.get('x') + offset.x,
+            y: layer.get('y') + offset.y,
+          });
+        }
+      }
+
+      setCanvasState({ mode: CanvasMode.Translating, current: point });
+    },
+    [canvasState],
+  );
 
   //base
-  const onLayerPointerDown = () => {};
+  const onLayerPointerDown = useMutation(({ self, setMyPresence }, e: React.PointerEvent, layerId: string) => {
+    e.stopPropagation();
+    if (refSVG.current) {
+      let box = refSVG.current.getBoundingClientRect();
+      e.clientX -= box.x;
+      e.clientY -= box.y;
+    }
+    const point = pointerEventToCanvasPoint(e, camera);
+    if (!self.presence.selection.includes(layerId)) setMyPresence({ selection: [layerId] }, { addToHistory: true });
+    setCanvasState({ mode: CanvasMode.Translating, current: point });
+  }, []);
   const onPointerMove = useMutation(
     ({ setMyPresence }, e: React.PointerEvent) => {
       if (refSVG.current) {
@@ -82,6 +123,7 @@ function RoomDetailPetPage({ roomId }: RoomDeailPageProps) {
         e.clientY -= box.y;
       }
       const current = pointerEventToCanvasPoint(e, camera);
+      if (canvasState.mode === CanvasMode.Translating) translateSelectedLayers(current);
 
       setMyPresence({
         cursor: current,
@@ -98,21 +140,34 @@ function RoomDetailPetPage({ roomId }: RoomDeailPageProps) {
       y: camera.y - e.deltaY,
     }));
   }, []);
+  const onPointerUp = useMutation(({ setMyPresence }) => {
+    setMyPresence({ cursor: null });
+    unselectLayers();
+
+    setPetCurrent({
+      work: workPet.Idle3,
+    });
+  }, []);
 
   return (
     <div className="relative">
-      <Participants />
-      <PetInfo />
+      {self.info?.isUser && (
+        <>
+          <Participants />
+          <PetInfo />
+        </>
+      )}
       <svg
         ref={refSVG}
         onWheel={onWheel}
+        onPointerUp={onPointerUp}
         onPointerLeave={onPointerLeave}
         onPointerMove={onPointerMove}
         className="h-[100vh] w-full"
       >
         <CursorsPresence type="pet" />
         {Array.from(idPets.keys()).map((petId) => (
-          <LayerPreview key={petId} id={petId} onLayerPointerDown={onLayerPointerDown} />
+          <LayerPreview key={petId} id={petId} onLayerPointerDown={onLayerPointerDown} isBoss={idCurrent == petId} />
         ))}
       </svg>
     </div>

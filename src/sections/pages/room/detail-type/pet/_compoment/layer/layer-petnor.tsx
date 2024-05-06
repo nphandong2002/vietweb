@@ -4,8 +4,18 @@ import { PetLayer } from 'src/shared/types/canvas';
 
 import { animations, configPetNor } from '../../config/config-pet-nor';
 
-function LayerPetNor({ layer }: { layer: PetLayer }) {
-  const { type, x, y, work, name } = layer;
+function LayerPetNor({
+  layer,
+  onPointerDown,
+  id,
+  isBoss,
+}: {
+  layer: PetLayer;
+  onPointerDown: (e: React.PointerEvent, id: string) => void;
+  id: string;
+  isBoss: boolean;
+}) {
+  const { type, x, y, work, name, height, width } = layer;
   const configPet = configPetNor[type];
   const spriteSheet = animations[work];
   const startcurrentFrame = spriteSheet.length - 1;
@@ -39,19 +49,23 @@ function LayerPetNor({ layer }: { layer: PetLayer }) {
     <foreignObject
       style={{
         transform: `translateX(${x}px) translateY(${y}px)`,
+        cursor: isBoss ? 'grab' : 'default',
       }}
-      height={configPet.frameHeight}
-      width={configPet.frameWidth}
+      onPointerDown={(e) => (isBoss ? onPointerDown(e, id) : null)}
+      height={height}
+      width={width}
     >
-      <span>{name}</span>
-      <div
-        style={{
-          backgroundImage: `url('${configPet[0]}')`,
-          height: configPet.frameHeight,
-          width: configPet.frameWidth,
-          backgroundPosition: position,
-        }}
-      ></div>
+      <div className="w-full h-full flex flex-col items-center">
+        <span>{name}</span>
+        <div
+          style={{
+            backgroundImage: `url('${configPet[0]}')`,
+            height: configPet.frameHeight,
+            width: configPet.frameWidth,
+            backgroundPosition: position,
+          }}
+        ></div>
+      </div>
     </foreignObject>
   );
 }

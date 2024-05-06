@@ -59,6 +59,11 @@ function PetInfo() {
           ...initPet,
           type: typePet,
           name: namePet,
+          width:
+            namePet.length * 10 > configPetNor[typePet].frameWidth
+              ? namePet.length * 10
+              : configPetNor[typePet].frameWidth,
+          height: 21 + configPetNor[typePet].frameHeight,
         });
         liveLayerIds.push(idCurrent);
         idPets.set(idCurrent, pet);
@@ -68,6 +73,11 @@ function PetInfo() {
           ...pet,
           type: typePet,
           name: namePet,
+          width:
+            namePet.length * 10 > configPetNor[typePet].frameWidth
+              ? namePet.length * 10
+              : configPetNor[typePet].frameWidth,
+          height: 21 + configPetNor[typePet].frameHeight,
         });
       }
     },
