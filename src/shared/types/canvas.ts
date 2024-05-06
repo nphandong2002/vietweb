@@ -1,4 +1,4 @@
-import { PetStatus, PetType, Playhead, SizePet } from 'src/sections/pages/room/detail-type/pet/type-pet';
+import { PetStatus, PetType, Playhead, SizePet, workPet } from 'src/sections/pages/room/detail-type/pet/type-pet';
 
 export type Color = {
   r: number;
@@ -78,7 +78,9 @@ export type PetLayer = {
   xp: number;
   name: string;
   status: PetStatus;
-  playhead: Playhead;
+  work: workPet;
+  // sheetWidth: number;
+  // sheetHeight: number;
 };
 
 export type Point = {

@@ -7,15 +7,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useLocales } from 'src/locales';
 import uuidv4 from 'src/shared/utils/uuidv4';
-import { useMutation, useSelf, useStorage } from 'src/liveblocks.config';
 import { Button } from 'src/sections/component/ui/button';
 import FormProvider from 'src/shared/context/form/form-provider';
 import RHFInput from 'src/sections/component/hook-form/rhf-input';
+import { useMutation, useSelf, useStorage } from 'src/liveblocks.config';
 import RHFGroupRadio from 'src/sections/component/hook-form/rhf-groupRadio';
 
 import { PetType } from './type-pet';
-import { configPetNor } from './config/config-pet-nor';
 import { initPet } from './config/config-pet-common';
+import { configPetNor } from './config/config-pet-nor';
 
 function PetInfo() {
   const self = useSelf();
@@ -94,7 +94,9 @@ function PetInfo() {
               ),
             }))}
           />
-          <Button type="submit">{t('add')}</Button>
+          <div className="flex items-center justify-center w-full">
+            <Button type="submit">{t('confirm')}</Button>
+          </div>
         </FormProvider>
       </div>
     </div>

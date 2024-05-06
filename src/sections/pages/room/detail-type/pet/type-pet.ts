@@ -1,3 +1,5 @@
+import { PetLayer } from 'src/shared/types/canvas';
+
 export enum workPet {
   Action1 = 'action1',
   Action2 = 'action2',
@@ -24,7 +26,9 @@ export enum PetType {
   White = 'white',
 }
 
-export type AnimationsPetType = AnimationsPetTypeOne[];
+export type AnimationsPetType = {
+  [Key in workPet]: Datum[];
+};
 export type AnimationsPetTypeOne = {
   name: string;
   data: Datum[];
@@ -52,3 +56,4 @@ export enum SizePet {
   SM,
   MD,
 }
+export type optionPet = Partial<PetLayer>;

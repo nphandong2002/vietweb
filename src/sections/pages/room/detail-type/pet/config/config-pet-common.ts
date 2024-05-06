@@ -1,5 +1,10 @@
-import { PetType, SizePet } from '../type-pet';
+import { PetType, SizePet, workPet } from '../type-pet';
+import { workNor } from './config-pet-nor';
 
+export const getRandomWorkNor = () => {
+  const i = Math.floor(Math.random() * workNor.length);
+  return workNor[i];
+};
 export const initPet = {
   type: PetType.Calico,
   x: 0,
@@ -13,10 +18,13 @@ export const initPet = {
     sleepy: 100,
     loyalty: 100,
   },
-  playhead: {
-    delay: 50,
-    script: [],
-    currentSprite: 0,
-    currentFrame: 0,
-  },
+  work: getRandomWorkNor(),
 };
+
+export const movePet = {
+  'left': {
+    x: -1,
+    y: 0,
+    transform: 0,
+  }
+}
