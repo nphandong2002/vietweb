@@ -9,6 +9,11 @@
   "password": "Mật khẩu",
   "rename": "Thay đổi tên",
   "confirm": "Xác nhận",
+  "user": {
+    "online": "{{name}} đã trực tuyến",
+    "offline": "{{name}} đã mất kết nối",
+    "you": "Bạn"
+  },
   "room": {
     "label": "Phòng",
     "create": "Tạo phòng",

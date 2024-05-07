@@ -325,7 +325,7 @@ function RoomDetailDrawPage({ roomId }: RoomDeailPageProps) {
       }
       setCanvasState({ origin: point, mode: CanvasMode.Pressing });
     },
-    [camera, canvasState.mode, setCanvasState, refSVG, startDrawing],
+    [camera, canvasState.mode, setCanvasState, refSVG, startDrawing, self.info?.isUser],
   );
   const onPointerUp = useMutation(
     ({}, e) => {
@@ -370,7 +370,10 @@ function RoomDetailDrawPage({ roomId }: RoomDeailPageProps) {
           <Participants />
           <Toolbar
             canvasState={canvasState}
-            setCanvasState={setCanvasState}
+            setCanvasState={(newState) => {
+              unselectLayers();
+              setCanvasState(newState);
+            }}
             canRedo={canRedo}
             canUndo={canUndo}
             undo={history.undo}

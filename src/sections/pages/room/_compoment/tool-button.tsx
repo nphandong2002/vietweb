@@ -8,7 +8,7 @@ import { Button } from 'src/sections/component/ui/button';
 interface ToolButtonProps {
   label: string;
   icon: LucideIcon;
-  onClick: () => void;
+  onClick?: () => void;
   isActive?: boolean;
   isDisabled?: boolean;
 }

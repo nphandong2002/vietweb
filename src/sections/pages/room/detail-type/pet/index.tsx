@@ -13,6 +13,7 @@ import { getRandomWorkNor } from './config/config-pet-common';
 
 import { Participants } from '../../_compoment/user/participants';
 import { CursorsPresence } from '../../_compoment/user/cursors-presence';
+import RoomPetToolbar from './_compoment/handle/room-pet-toolbar';
 
 function RoomDetailPetPage({ roomId }: RoomDeailPageProps) {
   //layerPet
@@ -70,6 +71,18 @@ function RoomDetailPetPage({ roomId }: RoomDeailPageProps) {
       work: (random % 10 == 0 && getRandomWorkNor()) || undefined,
     });
   }, 100);
+
+  useEffect(() => {
+    if (refSVG.current) {
+      let box = refSVG.current.getBoundingClientRect();
+
+      setCamera((c) => ({
+        ...c,
+        width: box.width,
+        height: box.height,
+      }));
+    }
+  }, [refSVG]);
   //select
   const unselectLayers = useMutation(({ self, setMyPresence }) => {
     if (self.presence.selection.length <= 0) return;
@@ -133,9 +146,11 @@ function RoomDetailPetPage({ roomId }: RoomDeailPageProps) {
   );
   const onPointerLeave = useMutation(({ setMyPresence }) => {
     setMyPresence({ cursor: null });
+    unselectLayers();
   }, []);
   const onWheel = useCallback((e: React.WheelEvent) => {
     setCamera((camera) => ({
+      ...camera,
       x: camera.x - e.deltaX,
       y: camera.y - e.deltaY,
     }));
@@ -155,6 +170,7 @@ function RoomDetailPetPage({ roomId }: RoomDeailPageProps) {
         <>
           <Participants />
           <PetInfo />
+          <RoomPetToolbar camera={camera} setCamera={setCamera} petCurrent={petCurrent} />
         </>
       )}
       <svg
@@ -163,12 +179,18 @@ function RoomDetailPetPage({ roomId }: RoomDeailPageProps) {
         onPointerUp={onPointerUp}
         onPointerLeave={onPointerLeave}
         onPointerMove={onPointerMove}
-        className="h-[100vh] w-full"
+        className="w-full"
+        style={{
+          height: `calc(98vh - 1rem)`,
+          transform: `translate(${camera.x}px, ${camera.y}px)`,
+        }}
       >
-        <CursorsPresence type="pet" />
-        {Array.from(idPets.keys()).map((petId) => (
-          <LayerPreview key={petId} id={petId} onLayerPointerDown={onLayerPointerDown} isBoss={idCurrent == petId} />
-        ))}
+        <g>
+          <CursorsPresence type="pet" />
+          {Array.from(idPets.keys()).map((petId) => (
+            <LayerPreview key={petId} id={petId} onLayerPointerDown={onLayerPointerDown} isBoss={idCurrent == petId} />
+          ))}
+        </g>
       </svg>
     </div>
   );

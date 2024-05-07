@@ -1,9 +1,13 @@
-import { Circle, MousePointer2, Pencil, Redo2, Square, StickyNote, Type, Undo2 } from 'lucide-react';
+import { Circle, MousePointer2, Pencil, Redo2, SlidersHorizontal, Square, StickyNote, Type, Undo2 } from 'lucide-react';
 
 import { Skeleton } from 'src/sections/component/ui/skeleton';
 import { CanvasMode, CanvasState, LayerType } from 'src/shared/types/canvas';
 
-import { ToolButton } from './tool-button';
+import { ToolButton } from '../../../../_compoment/tool-button';
+import PopoverCustom from 'src/sections/component/popover/popover';
+import { Label } from 'src/sections/component/ui/label';
+import { ColorPicker } from './color-picker';
+import { Popover, PopoverContent, PopoverTrigger } from 'src/sections/component/ui/popover';
 
 interface ToolbarProps {
   canvasState: CanvasState;
@@ -80,6 +84,19 @@ export const Toolbar = ({ canvasState, setCanvasState, undo, redo, canRedo, canU
           onClick={() => setCanvasState({ mode: CanvasMode.Pencil })}
           isActive={canvasState.mode === CanvasMode.Pencil}
         />
+        <Popover>
+          <PopoverTrigger>
+            <ToolButton label="setting" icon={SlidersHorizontal} />
+          </PopoverTrigger>
+          <PopoverContent align="start">
+            <div className="grid gap-4">
+              <div className="grid grid-cols-3 items-center gap-4">
+                <Label htmlFor="width">Color</Label>
+                <ColorPicker onChange={() => {}} />
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
       </div>
       <div className="bg-[var(--bg-color)] rounded-md gap-y-1 p-1.5 flex flex-col items-center shadow-md">
         <ToolButton label="Undo" icon={Undo2} onClick={undo} isDisabled={!canUndo} />
