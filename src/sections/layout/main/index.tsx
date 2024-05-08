@@ -1,5 +1,4 @@
 import { defaultType } from 'src/shared/types/common';
-import '@radix-ui/themes/styles.css';
 
 import NavBar from './_component/navbar/navbar';
 import CssInit from './_component/css/css-init';
