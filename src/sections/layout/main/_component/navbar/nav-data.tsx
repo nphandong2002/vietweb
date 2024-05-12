@@ -17,8 +17,9 @@ export function useNavData() {
       { title: t('home'), path: PATHS.home.root, icon: icon('ic_home') },
       { title: t('room.label'), path: PATHS.room.root, icon: icon('ic_room') },
       { title: t('setting'), path: PATHS.setting.root, icon: icon('ic_setting') },
+      { title: t('pet.title'), path: PATHS.pet.root, icon: icon('ic_pet') },
     ],
-    [t]
+    [t],
   );
   return data;
 }

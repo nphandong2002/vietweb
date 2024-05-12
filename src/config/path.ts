@@ -4,6 +4,7 @@ const root = {
   login: '/login',
   register: '/register',
   setting: '/setting',
+  pet: '/pet',
 };
 
 export const PATHS = {
@@ -12,6 +13,7 @@ export const PATHS = {
   room: { root: root.room, detail: (id: string) => `${root.room}/${id}` },
   login: { root: root.login },
   register: { root: root.register },
+  pet: { root: root.pet },
   error: '/error',
 };
 

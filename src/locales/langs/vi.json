@@ -40,6 +40,14 @@
   "cancel": "Huỷ",
   "login": "Đăng nhập",
   "register": "Đăng ký",
+  "pet": {
+    "title": "Thú cưng",
+    "skin": "Giao diện",
+    "name_pet": {
+      "label": "Tên của pet",
+      "placeholder": "Nhập tên của pet"
+    }
+  },
   "auth": {
     "email": {
       "label": "Email",
