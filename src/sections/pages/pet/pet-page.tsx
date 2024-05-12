@@ -18,6 +18,7 @@ function PetPage() {
       <FormProvider methods={form} onSubmit={onSubmit}>
         <RHFInput name="namePet" placeholder={t('pet.name_pet.placeholder')} />
         <PetTabsInfo />
+        <div></div>
       </FormProvider>
     </div>
   );
