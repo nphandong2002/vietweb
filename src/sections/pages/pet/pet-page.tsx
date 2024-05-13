@@ -7,6 +7,7 @@ import FormProvider from 'src/shared/context/form/form-provider';
 import RHFInput from 'src/sections/component/hook-form/rhf-input';
 
 import PetTabsInfo from './_compoment/tabs/pet-tabs';
+import LayerPet from './_compoment/canvas/layer-pet';
 
 function PetPage() {
   const { t } = useLocales();
@@ -18,7 +19,7 @@ function PetPage() {
       <FormProvider methods={form} onSubmit={onSubmit}>
         <RHFInput name="namePet" placeholder={t('pet.name_pet.placeholder')} />
         <PetTabsInfo />
-        <div></div>
+        <div>{/* <LayerPet /> */}</div>
       </FormProvider>
     </div>
   );
