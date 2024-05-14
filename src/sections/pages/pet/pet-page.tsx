@@ -19,7 +19,9 @@ function PetPage() {
       <FormProvider methods={form} onSubmit={onSubmit}>
         <RHFInput name="namePet" placeholder={t('pet.name_pet.placeholder')} />
         <PetTabsInfo />
-        <div>{/* <LayerPet /> */}</div>
+        <div>
+          <LayerPet skinName="meow" />
+        </div>
       </FormProvider>
     </div>
   );
