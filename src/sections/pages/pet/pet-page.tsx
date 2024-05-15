@@ -15,14 +15,16 @@ function PetPage() {
   const form = useForm();
   const onSubmit = form.handleSubmit((data) => {});
   return (
-    <div className="bg-[var(--bg-color)] rounded-md p-1.5 flex gap-y-1 flex-col items-center shadow-md">
-      <FormProvider methods={form} onSubmit={onSubmit}>
-        <RHFInput name="namePet" placeholder={t('pet.name_pet.placeholder')} />
-        <PetTabsInfo />
-        <div>
-          <LayerPet skinName="meow" />
-        </div>
-      </FormProvider>
+    <div className="flex flex-row">
+      <div className="bg-[var(--bg-color)] rounded-md p-1.5 flex gap-y-1 flex-row items-center shadow-md">
+        <FormProvider methods={form} onSubmit={onSubmit}>
+          <RHFInput name="namePet" placeholder={t('pet.name_pet.placeholder')} />
+          <PetTabsInfo />
+        </FormProvider>
+      </div>
+      <div>
+        <LayerPet skinName="meow" />
+      </div>
     </div>
   );
 }

@@ -1,57 +1,200 @@
-enum TextureFilter {
-  Nearest = 9728,
-  Linear = 9729,
-  MipMapNearestNearest = 9984,
-  MipMapLinearNearest = 9985,
-  MipMapNearestLinear = 9986,
-  MipMapLinearLinear = 9987,
-}
-
-enum WrapMode {
-  Repeat = 10497,
-  ClampToEdge = 33071,
-  MirroredRepeat = 33648,
-}
-
-enum ScaleMode {
-  NEAREST = 0,
-  LINEAR = 1,
-}
-
 enum MipmapMode {
   OFF = 0,
   POW2 = 1,
   ON = 2,
   ON_MANUAL = 3,
 }
+enum ScaleMode {
+  NEAREST = 0,
+  LINEAR = 1,
+}
+enum TextureFilter {
+  Nearest,
+  Linear,
+  MipMapNearestNearest,
+}
+
+enum WrapMode {
+  ClampToEdge,
+  Repeat,
+}
+
+class Rectangle {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  static readonly EMPTY = new Rectangle(0, 0, 0, 0);
+  constructor(x = 0, y = 0, width = 0, height = 0) {
+    this.x = Number(x);
+    this.y = Number(y);
+    this.width = Number(width);
+    this.height = Number(height);
+  }
+  get left() {
+    return this.x;
+  }
+  get right() {
+    return this.x + this.width;
+  }
+  get top() {
+    return this.y;
+  }
+  get bottom() {
+    return this.y + this.height;
+  }
+  clone() {
+    return new Rectangle(this.x, this.y, this.width, this.height);
+  }
+  copyFrom(rect: Rectangle) {
+    this.x = rect.x;
+    this.y = rect.y;
+    this.width = rect.width;
+    this.height = rect.height;
+    return this;
+  }
+  copyTo(rect: Rectangle) {
+    rect.x = this.x;
+    rect.y = this.y;
+    rect.width = this.width;
+    rect.height = this.height;
+    return rect;
+  }
+  contains(x: number, y: number) {
+    return (
+      this.width > 0 &&
+      this.height > 0 &&
+      x >= this.x &&
+      x < this.x + this.width &&
+      y >= this.y &&
+      y < this.y + this.height
+    );
+  }
+  intersects(rect: Rectangle, edge: any) {
+    if (!edge) {
+      const minX = this.x < rect.x ? rect.x : this.x;
+      if (this.right > rect.right ? rect.right : this.right <= minX) return false;
+      const minY = this.y < rect.y ? rect.y : this.y;
+      return this.bottom > rect.bottom ? rect.bottom : this.bottom > minY;
+    }
+    const left = this.left,
+      right = this.right,
+      top = this.top,
+      bottom = this.bottom;
+    if (right <= left || bottom <= top) return false;
+    const a = new Point(rect.left, rect.top),
+      b = new Point(rect.left, rect.bottom),
+      c = new Point(rect.right, rect.top),
+      d = new Point(rect.right, rect.bottom);
+    if (c.x <= a.x || b.y <= a.y) return false;
+    const det = edge.a * edge.d - edge.b * edge.c;
+    if (det === 0) return false;
+    edge.apply(a, a);
+    edge.apply(b, b);
+    edge.apply(c, c);
+    edge.apply(d, d);
+    if (
+      Math.max(a.x, b.x, c.x, d.x) <= left ||
+      Math.min(a.x, b.x, c.x, d.x) >= right ||
+      Math.max(a.y, b.y, c.y, d.y) <= top ||
+      Math.min(a.y, b.y, c.y, d.y) >= bottom
+    )
+      return false;
+    const max = Math.max,
+      min = Math.min,
+      bx = max(a.x, b.x, c.x, d.x),
+      by = max(a.y, b.y, c.y, d.y),
+      ax = min(a.x, b.x, c.x, d.x),
+      ay = min(a.y, b.y, c.y, d.y);
+    if (max(ax, ay) <= min(left, right) || min(bx, by) >= max(left, right)) return false;
+    const num = det * (b.y - a.y),
+      num2 = det * (a.x - b.x),
+      num3 = num * left + num2 * top,
+      num4 = num * right + num2 * bottom;
+    if (
+      max(num3, num4) <= min(num * d.x + num2 * d.y, num * c.x + num2 * c.y) ||
+      min(num3, num4) >= max(num * d.x + num2 * d.y, num * c.x + num2 * c.y)
+    )
+      return false;
+    const num5 = edge.a * (a.y - c.y) + edge.b * (c.x - a.x),
+      num6 = edge.b * (b.y - d.y) + edge.a * (d.x - b.x),
+      num7 = num5 * a.x + num6 * a.y,
+      num8 = num5 * b.x + num6 * b.y;
+    return (
+      max(num3, num4) > min(num5 * c.x + num6 * c.y, num5 * d.x + num6 * d.y) &&
+      min(num3, num4) < max(num5 * c.x + num6 * c.y, num5 * d.x + num6 * d.y)
+    );
+  }
+  pad(x = 0, y = x) {
+    this.x -= x;
+    this.y -= y;
+    this.width += 2 * x;
+    this.height += 2 * y;
+    return this;
+  }
+  fit(rect: Rectangle) {
+    const rx1 = Math.max(this.x, rect.x),
+      rx2 = Math.min(this.x + this.width, rect.x + rect.width),
+      ry1 = Math.max(this.y, rect.y),
+      ry2 = Math.min(this.y + this.height, rect.y + rect.height);
+    this.x = rx1;
+    this.width = Math.max(rx2 - rx1, 0);
+    this.y = ry1;
+    this.height = Math.max(ry2 - ry1, 0);
+    return this;
+  }
+  ceil(x = 1, epsilon = 0.001) {
+    const dx = Math.ceil((this.x + this.width - epsilon) * x) / x,
+      dy = Math.ceil((this.y + this.height - epsilon) * x) / x;
+    this.x = Math.floor((this.x + epsilon) * x) / x;
+    this.y = Math.floor((this.y + epsilon) * x) / x;
+    this.width = dx - this.x;
+    this.height = dy - this.y;
+    return this;
+  }
+  enlarge(rect: Rectangle) {
+    const rx1 = Math.min(this.x, rect.x),
+      rx2 = Math.max(this.x + this.width, rect.x + rect.width),
+      ry1 = Math.min(this.y, rect.y),
+      ry2 = Math.max(this.y + this.height, rect.y + rect.height);
+    this.x = rx1;
+    this.width = rx2 - rx1;
+    this.y = ry1;
+    this.height = ry2 - ry1;
+    return this;
+  }
+  toString() {
+    return `[@pixi/math:Rectangle x=${this.x} y=${this.y} width=${this.width} height=${this.height}]`;
+  }
+}
+
+class SpineRegion {}
 
 class TextureRegion {
-  page: TexturePage;
   name: string;
-  texture: Texture;
+  page: TexturePage;
+  texture: any; // assuming some type of texture class
   index: number;
-
   constructor() {
+    this.name = '';
     this.page = null;
-    this.name = null;
     this.texture = null;
     this.index = 0;
   }
 }
 
 class TexturePage {
+  baseTexture: any; // assuming some type of baseTexture class
   name: string;
-  baseTexture: PIXI.BaseTexture;
   width: number;
   height: number;
   minFilter: TextureFilter;
   magFilter: TextureFilter;
   uWrap: WrapMode;
   vWrap: WrapMode;
-
   constructor() {
-    this.name = null;
     this.baseTexture = null;
+    this.name = '';
     this.width = 0;
     this.height = 0;
     this.minFilter = TextureFilter.Nearest;
@@ -59,58 +202,55 @@ class TexturePage {
     this.uWrap = WrapMode.ClampToEdge;
     this.vWrap = WrapMode.ClampToEdge;
   }
-
   setFilters() {
-    const t = this.baseTexture;
+    const baseTex = this.baseTexture;
     switch (this.minFilter) {
       case TextureFilter.Linear:
-        t.scaleMode = ScaleMode.LINEAR;
+        baseTex.scaleMode = ScaleMode.LINEAR;
         break;
       case TextureFilter.Nearest:
-        t.scaleMode = ScaleMode.NEAREST;
+        baseTex.scaleMode = ScaleMode.NEAREST;
         break;
       default:
-        t.mipmap = MipmapMode.POW2;
-        if (this.minFilter === TextureFilter.MipMapNearestNearest) {
-          t.scaleMode = ScaleMode.NEAREST;
-        } else {
-          t.scaleMode = ScaleMode.LINEAR;
-        }
+        baseTex.mipmap = MipmapMode.POW2;
+        this.minFilter === TextureFilter.MipMapNearestNearest
+          ? (baseTex.scaleMode = ScaleMode.NEAREST)
+          : (baseTex.scaleMode = ScaleMode.LINEAR);
         break;
     }
   }
 }
 
-class TextureAtlas {
+class TextureLoader {}
+
+class SpineAtlas {
   pages: TexturePage[];
   regions: TextureRegion[];
-
-  constructor(
-    textureData: string,
-    textureLoader: (page: TexturePage, callback: (texture: PIXI.BaseTexture) => void) => void,
-    onComplete?: (atlas: TextureAtlas) => void,
-  ) {
+  constructor(jsonData: any, textureLoader: TextureLoader, callback: (atlas: SpineAtlas | null) => void) {
     this.pages = [];
     this.regions = [];
-    if (textureData) {
-      this.load(textureData, textureLoader, onComplete);
-    }
+    if (jsonData) this.addSpineAtlas(jsonData, textureLoader, callback);
   }
-
-  addTexture(name: string, texture: PIXI.Texture): TextureRegion {
-    let page = this.pages.find((p) => p.baseTexture === texture.baseTexture);
+  addTexture(name: string, texture: any) {
+    const pages = this.pages;
+    let page = null;
+    for (let i = 0; i < pages.length; i++)
+      if (pages[i].baseTexture === texture.baseTexture) {
+        page = pages[i];
+        break;
+      }
     if (!page) {
       page = new TexturePage();
       page.name = 'texturePage';
-      const baseTexture = texture.baseTexture;
-      page.width = baseTexture.realWidth;
-      page.height = baseTexture.realHeight;
-      page.baseTexture = baseTexture;
+      const baseTex = texture.baseTexture;
+      page.width = baseTex.realWidth;
+      page.height = baseTex.realHeight;
+      page.baseTexture = baseTex;
       page.minFilter = TextureFilter.Nearest;
       page.magFilter = TextureFilter.Nearest;
       page.uWrap = WrapMode.ClampToEdge;
       page.vWrap = WrapMode.ClampToEdge;
-      this.pages.push(page);
+      pages.push(page);
     }
     const region = new TextureRegion();
     region.name = name;
@@ -120,126 +260,10 @@ class TextureAtlas {
     this.regions.push(region);
     return region;
   }
-
-  private load(
-    textureData: string,
-    textureLoader: (page: TexturePage, callback: (texture: PIXI.BaseTexture) => void) => void,
-    onComplete?: (atlas: TextureAtlas) => void,
-  ): void {
-    const reader = new LineReader(textureData);
-    let line: string;
-    const values: string[] = [];
-
-    const parsePageData = () => {
-      let page: TexturePage = null;
-      for (;;) {
-        if (!line) return onComplete && onComplete(this);
-        if (line.trim().length === 0) {
-          page = null;
-          line = reader.readLine();
-        } else {
-          if (!page) {
-            page = new TexturePage();
-            page.name = line.trim();
-            let entry = reader.readEntry(values);
-            while (entry !== 0) {
-              switch (values[0]) {
-                case 'size':
-                  page.width = parseInt(values[1]);
-                  page.height = parseInt(values[2]);
-                  break;
-                case 'filter':
-                  page.minFilter = TextureFilter[values[1]];
-                  page.magFilter = TextureFilter[values[2]];
-                  break;
-                case 'repeat':
-                  if (values[1].indexOf('x') !== -1) page.uWrap = WrapMode.Repeat;
-                  if (values[1].indexOf('y') !== -1) page.vWrap = WrapMode.Repeat;
-                  break;
-                case 'pma':
-                  page.baseTexture.alphaMode = values[1] === 'true' ? PIXI.ALPHA_MODES.PMA : PIXI.ALPHA_MODES.UNPACK;
-                  break;
-              }
-              entry = reader.readEntry(values);
-            }
-            this.pages.push(page);
-            textureLoader(page, (texture) => {
-              if (!texture) {
-                const index = this.pages.indexOf(page);
-                if (index !== -1) this.pages.splice(index, 1);
-                onComplete && onComplete(null);
-              } else {
-                page.baseTexture = texture;
-                page.setFilters();
-                parsePageData();
-              }
-            });
-            break;
-          } else {
-            const region = new TextureRegion();
-            region.name = line.trim();
-            region.page = page;
-            let entry = reader.readEntry(values);
-            while (entry !== 0) {
-              switch (values[0]) {
-                case 'xy':
-                  region.texture.frame.x = parseInt(values[1]);
-                  region.texture.frame.y = parseInt(values[2]);
-                  break;
-                case 'size':
-                  region.texture.frame.width = parseInt(values[1]);
-                  region.texture.frame.height = parseInt(values[2]);
-                  break;
-                case 'rotate':
-                  region.texture.rotate = values[1] === 'true' ? 6 : parseFloat(values[1]) / 45;
-                  break;
-                case 'index':
-                  region.index = parseInt(values[1]);
-                  break;
-              }
-              entry = reader.readEntry(values);
-            }
-            this.regions.push(region);
-          }
-        }
-      }
-    };
-
-    parsePageData();
+  addSpineAtlas(jsonData: any, textureLoader: TextureLoader, callback: (atlas: SpineAtlas | null) => void) {
+    return this.load(jsonData, textureLoader, callback);
   }
-
-  findRegion(name: string): TextureRegion {
-    return this.regions.find((region) => region.name === name);
-  }
-
-  dispose(): void {
-    for (const page of this.pages) {
-      page.baseTexture.destroy();
-    }
-  }
-}
-
-class LineReader {
-  index: number;
-  lines: string[];
-
-  constructor(text: string) {
-    this.index = 0;
-    this.lines = text.split(/\r\n|\r|\n/);
-  }
-
-  readLine(): string {
-    return this.index >= this.lines.length ? null : this.lines[this.index++];
-  }
-
-  readEntry(values: string[]): number {
-    if (!values) values = [];
-    const line = this.readLine();
-    if (!line) return 0;
-    const words = line.split(' ');
-    for (let i = 0; i < words.length; i++) {
-      values[i] = words[i];
-    }
-    return words.length;
+  dispose() {
+    for (let i = 0; i < this.pages.length; i++) this.pages[i].baseTexture.dispose();
   }
 }

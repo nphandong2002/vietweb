@@ -497,17 +497,7 @@ declare namespace PIXI {
       UTILITY: number;
     };
   }
-  enum AlphaMode {
-    NO_PREMULTIPLIED_ALPHA,
-    PREMULTIPLY_ON_UPLOAD,
-    PREMULTIPLIED_ALPHA,
-  }
 
-  namespace AlphaMode {
-    export const NPM = AlphaMode.NO_PREMULTIPLIED_ALPHA;
-    export const UNPACK = AlphaMode.PREMULTIPLY_ON_UPLOAD;
-    export const PMA = AlphaMode.PREMULTIPLIED_ALPHA;
-  }
   // display
 
   interface StageOptions {
@@ -2651,9 +2641,8 @@ declare namespace PIXI {
     premultipliedAlpha: boolean;
     imageUrl: string | null;
     protected isPowerOfTwo: boolean;
-    mipmap: boolean | number;
+    mipmap: boolean;
     wrap?: boolean;
-    alphaMode: AlphaMode;
     protected _glTextures: any;
     protected _enabled: number;
     protected _id?: number;
