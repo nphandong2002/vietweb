@@ -1,3 +1,4 @@
+import { SCALE_MODES, BaseTexture, Resource, WRAP_MODES, Texture, ALPHA_MODES } from 'pixi.js';
 export enum TextureFilter {
   Nearest = 9728,
   Linear = 9729,
@@ -6,42 +7,24 @@ export enum TextureFilter {
   MipMapNearestLinear = 9986,
   MipMapLinearLinear = 9987,
 }
-export type TextureFilterKey = keyof typeof TextureFilter;
-export enum WrapMode {
-  Repeat = 10497,
-  ClampToEdge = 33071,
-  MirroredRepeat = 33648,
-}
-
-export enum ScaleMode {
-  NEAREST = 0,
-  LINEAR = 1,
-}
-
-export enum MipmapMode {
-  OFF = 0,
-  POW2 = 1,
-  ON = 2,
-  ON_MANUAL = 3,
-}
 export type TexturePage = {
   name: string | null;
-  baseTexture: any;
+  baseTexture: BaseTexture<Resource>;
   width: number;
   height: number;
-  minFilter: TextureFilter;
-  magFilter: TextureFilter;
-  uWrap: WrapMode;
-  vWrap: WrapMode;
+  minFilter: SCALE_MODES;
+  magFilter: SCALE_MODES;
+  uWrap: WRAP_MODES;
+  vWrap: WRAP_MODES;
+  pma: ALPHA_MODES;
 };
 
 export type TextureRegion = {
   page: TexturePage | null;
   name: string | null;
-  texture: TextTure;
+  texture: Texture<Resource> | null;
   index: number;
 };
-
 export type TextTure = {
   x: number;
   y: number;
@@ -54,14 +37,3 @@ export type TextTure = {
   rotate: number;
   index: number;
 };
-enum AlphaModeValue {
-  NO_PREMULTIPLIED_ALPHA,
-  PREMULTIPLY_ON_UPLOAD,
-  PREMULTIPLIED_ALPHA,
-}
-
-export enum ALPHA_MODES {
-  NPM = AlphaModeValue.NO_PREMULTIPLIED_ALPHA,
-  UNPACK = AlphaModeValue.PREMULTIPLY_ON_UPLOAD,
-  PMA = AlphaModeValue.PREMULTIPLIED_ALPHA,
-}

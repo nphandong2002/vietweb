@@ -2497,5 +2497,4 @@ bounds:86,495,102,76
 rotate:90
 wings/wing9
 bounds:1092,945,96,77
-
 `;
