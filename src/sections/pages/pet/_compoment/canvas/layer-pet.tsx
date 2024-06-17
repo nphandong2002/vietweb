@@ -1,35 +1,47 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { configCatPro } from '../../config/config-pet-position';
-import { VTri } from '../../config/config-pet-aliat';
-import { loadAliat } from '../../pet-utils';
+import { Application, Assets, DisplayObject, ExtensionType, Renderer, extensions } from 'pixi.js';
+import { Layer } from '@pixi/layers';
+
+import { useEffect, useRef } from 'react';
+import { spineLoaderExtension, spineTextureAtlasLoader } from '../../pet-utils';
 
 interface LayerPetType {
   skinName: string;
 }
 
 function LayerPet({ skinName }: LayerPetType) {
-  const [skins, setskins] = useState();
-  const [cat, setcat] = useState({
-    spineAtlas: {},
-    spineData: {},
-  });
-  // console.log(configPet);
-  useEffect(() => {
-    console.log(cat);
-  }, [cat]);
+  const divRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const loadConfig = async () => {
-      const aliat = await loadAliat(VTri);
-      setcat({
-        spineAtlas: aliat,
-        spineData: {},
+      let pgWorld = new Application();
+      Object.assign(DisplayObject.prototype, {
+        parentLayer: null,
+        _activeParentLayer: null,
+        parentGroup: null,
+        zOrder: 0,
+        zIndex: 0,
+        updateOrder: 0,
+        displayOrder: 0,
+        layerableChildren: !0,
+        isLayer: !1,
+      });
+      pgWorld.stage = new Layer();
+      pgWorld.renderer.plugins.interaction.autoPreventDefault = false;
+      pgWorld.renderer.view.style && (pgWorld.renderer.view.style.touchAction = 'auto');
+      pgWorld.ticker && (pgWorld.ticker.maxFPS = 60);
+      extensions.add(spineTextureAtlasLoader);
+      extensions.add(spineLoaderExtension);
+
+      console.log(extensions);
+      Assets.add('cat', '/assets/pet/spine/cat.json');
+      Assets.load(['cat'], function (a) {
+        console.log(a);
       });
     };
     loadConfig();
-  }, [setcat, VTri, loadAliat]);
-  return <canvas />;
+  }, [skinName, divRef]);
+  return <div ref={divRef}></div>;
 }
 
 export default LayerPet;

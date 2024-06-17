@@ -1,186 +1,248 @@
-import { ALPHA_MODES, BaseTexture, SCALE_MODES, WRAP_MODES, Texture, Rectangle } from 'pixi.js';
-import { TextTure, TexturePage, TextureRegion } from './pet-type';
+import { ISkeletonData, ISkeletonParser, TextureAtlas, BinaryInput } from '@pixi-spine/base';
+import { type AssetExtension, LoaderParserPriority, LoadAsset, Loader, checkExtension } from '@pixi/assets';
+import { BaseTexture, ExtensionType, settings, utils } from '@pixi/core';
+import type { ISpineMetadata } from '@pixi-spine/loader-base';
+import { ISpineResource } from '@pixi-spine/loader-base';
+import * as spine38 from '@pixi-spine/runtime-3.8';
+import * as spine37 from '@pixi-spine/runtime-3.7';
+import * as spine41 from '@pixi-spine/runtime-4.1';
+import { SPINE_VERSION, detectSpineVersion } from './versions';
 
-const initTexture = (): TextTure => ({
-  x: 0,
-  y: 0,
-  width: 0,
-  height: 0,
-  offsetX: 0,
-  offsetY: 0,
-  originalWidth: 0,
-  originalHeight: 0,
-  rotate: 0,
-  index: 0,
-});
+type RawAtlas = string;
 
-export const loadAliat = async (textureData: string) => {
-  return new Promise<{ pages: TexturePage[]; regions: TextureRegion[] }>((resolve) => {
-    const pages: TexturePage[] = [];
-    const regions: TextureRegion[] = [];
+export const spineTextureAtlasLoader: AssetExtension<RawAtlas | TextureAtlas, ISpineMetadata> = {
+  extension: ExtensionType.Asset,
+  loader: {
+    extension: {
+      type: ExtensionType.LoadParser,
+      priority: LoaderParserPriority.Normal,
+    },
+    test(url: string): boolean {
+      return checkExtension(url, '.atlas');
+    },
+    async load(url: string): Promise<RawAtlas> {
+      const response = await settings.ADAPTER.fetch(url);
+      const txt = await response.text();
+      return txt as RawAtlas;
+    },
 
-    let page: TexturePage | null = null;
-    let texture: TextTure | null = null;
-    let index = 0;
-    const lines = textureData.split(/\r\n|\r|\n/);
-    const readLine = () => (index >= lines.length ? null : lines[index++]);
-    let line = readLine();
+    testParse(asset: unknown, options: LoadAsset): Promise<boolean> {
+      const isExtensionRight = checkExtension(options.src, '.atlas');
+      const isString = typeof asset === 'string';
+      return Promise.resolve(isExtensionRight && isString);
+    },
 
-    for (;;) {
-      if (line == null) break;
-      if (line.trim().length === 0) {
-        page = null;
-        line = readLine();
+    async parse(asset: RawAtlas, options: LoadAsset, loader: Loader): Promise<TextureAtlas> {
+      const metadata: ISpineMetadata = options.data;
+      let basePath = utils.path.dirname(options.src);
+      if (basePath && basePath.lastIndexOf('/') !== basePath.length - 1) basePath += '/';
+      let resolve = (value: TextureAtlas | PromiseLike<TextureAtlas>) => {};
+      let reject = (reason?: any) => {};
+      const retPromise = new Promise<TextureAtlas>((res, rej) => {
+        resolve = res;
+        reject = rej;
+      });
+      let retval = new TextureAtlas();
+      const resolveCallback = (newAtlas: TextureAtlas): void => {
+        if (!newAtlas)
+          reject('Something went terribly wrong loading a spine .atlas file\nMost likely your texture failed to load.');
+        resolve(retval);
+      };
+      if (metadata.image || metadata.images) {
+        const pages = Object.assign(metadata.image ? { default: metadata.image } : {}, metadata.images);
+        retval = new TextureAtlas(
+          asset as RawAtlas,
+          (line: any, callback: any) => {
+            const page = (pages[line] as any) || (pages.default as any);
+            if (page && page.baseTexture) callback(page.baseTexture);
+            else callback(page);
+          },
+          resolveCallback,
+        );
       } else {
-        if (page == null) {
-          page = initTexturePage();
-          page.name = line.trim();
-          line = readLine();
-          let entry = readEntry(line);
-          while (entry.e !== 0) {
-            const values = entry.values;
-            switch (values[0]) {
-              case 'size':
-                page.width = parseInt(values[1]);
-                page.height = parseInt(values[2]);
-                break;
-              case 'filter':
-                page.minFilter = Ah(values[1]);
-                page.magFilter = Ah(values[2]);
-                break;
-              case 'repeat':
-                if (values[1].includes('x')) page.uWrap = WRAP_MODES.REPEAT;
-                if (values[1].includes('y')) page.vWrap = WRAP_MODES.REPEAT;
-                break;
-              case 'pma':
-                page.pma = values[1] === 'true' ? ALPHA_MODES.PMA : ALPHA_MODES.UNPACK;
-                break;
-            }
-            line = readLine();
-            entry = readEntry(line);
-          }
-          let baseTexture = new BaseTexture('/assets/pet/cat.png');
-          if (!baseTexture.valid) baseTexture.setSize(page.width, page.height);
-          if (page.pma) baseTexture.alphaMode = ALPHA_MODES.PMA;
-          baseTexture.scaleMode = page.minFilter;
-          if (!page.width || !page.height) {
-            page.width = baseTexture.realWidth;
-            page.height = baseTexture.realHeight;
-          }
-          page.baseTexture = baseTexture;
-          pages.push(page);
-        } else {
-          texture = initTexture();
-          let region = initTextureRegion();
-          region.name = line.trim();
-          region.page = page;
-          line = readLine();
-          let entry = readEntry(line);
-          while (entry.e !== 0) {
-            const values = entry.values;
-            switch (values[0]) {
-              case 'xy':
-                texture.x = parseInt(values[1]);
-                texture.y = parseInt(values[2]);
-                break;
-              case 'size':
-                texture.width = parseInt(values[1]);
-                texture.height = parseInt(values[2]);
-                break;
-              case 'rotate':
-                texture.rotate = values[1] === 'true' ? 6 : parseFloat(values[1]) / 45;
-                break;
-              case 'index':
-                texture.index = parseInt(values[1]);
-                break;
-            }
-            line = readLine();
-            entry = readEntry(line);
-          }
-          if (texture.originalHeight === 0 && texture.originalWidth === 0) {
-            texture.originalWidth = texture.width;
-            texture.originalHeight = texture.height;
-          }
-          const a = page.baseTexture.resolution;
-          texture.x /= a;
-          texture.y /= a;
-          texture.width /= a;
-          texture.height /= a;
-          texture.originalWidth /= a;
-          texture.originalHeight /= a;
-          texture.offsetX /= a;
-          texture.offsetY /= a;
-
-          const c = texture.rotate % 4 !== 0;
-          const u = new Rectangle(
-            texture.x,
-            texture.y,
-            c ? texture.height : texture.width,
-            c ? texture.width : texture.height,
-          );
-          const d = new Rectangle(0, 0, texture.originalWidth, texture.originalHeight);
-          const p = new Rectangle(
-            texture.offsetX,
-            texture.originalHeight - texture.height - texture.offsetY,
-            texture.width,
-            texture.height,
-          );
-          region.texture = new Texture(page.baseTexture, u, d, p, texture.rotate);
-          region.texture.updateUvs();
-          regions.push(region);
-        }
+        retval = new TextureAtlas(
+          asset as RawAtlas,
+          makeSpineTextureAtlasLoaderFunctionFromPixiLoaderObject(loader, basePath, metadata.imageMetadata),
+          resolveCallback,
+        );
       }
-    }
+      return (await retPromise) as TextureAtlas;
+    },
+    unload(atlas: TextureAtlas) {
+      atlas.dispose();
+    },
+  },
+} as AssetExtension<RawAtlas | TextureAtlas, ISpineMetadata>;
 
-    resolve({ pages, regions });
-  });
+export const makeSpineTextureAtlasLoaderFunctionFromPixiLoaderObject = (
+  loader: Loader,
+  atlasBasePath: string,
+  imageMetadata: any,
+) => {
+  return async (pageName: string, textureLoadedCallback: (tex: BaseTexture) => any): Promise<void> => {
+    const url = utils.path.normalize([...atlasBasePath.split(utils.path.sep), pageName].join(utils.path.sep));
+    const texture = await loader.load({ src: url, data: imageMetadata });
+    textureLoadedCallback(texture.baseTexture);
+  };
 };
 
-const initTexturePage = (): TexturePage => ({
-  name: null,
-  baseTexture: new BaseTexture('/assets/pet/cat.png'),
-  width: 0,
-  height: 0,
-  minFilter: SCALE_MODES.NEAREST,
-  magFilter: SCALE_MODES.NEAREST,
-  uWrap: WRAP_MODES.CLAMP,
-  vWrap: WRAP_MODES.CLAMP,
-  pma: ALPHA_MODES.NO_PREMULTIPLIED_ALPHA,
-});
+type SPINEJSON = any;
+type SPINEBINARY = ArrayBuffer;
+function isJson(resource: any): resource is SPINEJSON {
+  return resource.hasOwnProperty('bones');
+}
 
-const initTextureRegion = (): TextureRegion => ({
-  page: null,
-  name: null,
-  texture: null,
-  index: 0,
-});
-
-export const readEntry = (e: string | null) => {
-  const values = Array(4).fill('');
-  if (e == null) return { values, e: 0 };
-  if (e.trim().length === 0) return { values, e: 0 };
-  const s = e.indexOf(':');
-  if (s === -1) return { values, e: 0 };
-  values[0] = e.substr(0, s).trim();
-  for (let r = 1, n = s + 1; ; r++) {
-    const s = e.indexOf(',', n);
-    if (s === -1) {
-      values[r] = e.substr(n).trim();
-      return { values, e: r };
-    }
-    values[r] = e.substr(n, s - n).trim();
-    n = s + 1;
-    if (r === 3) return { values, e: 0 };
+function isBuffer(resource: unknown): resource is SPINEBINARY {
+  return resource instanceof ArrayBuffer;
+}
+class UniBinaryParser implements ISkeletonParser {
+  scale = 1;
+  readSkeletonData(atlas: TextureAtlas, dataToParse: Uint8Array): ISkeletonData {
+    let parser: any = null;
+    let version = this.readVersionOldFormat(dataToParse);
+    let ver = detectSpineVersion(version);
+    if (ver === SPINE_VERSION.VER38) parser = new spine38.SkeletonBinary(new spine38.AtlasAttachmentLoader(atlas));
+    version = this.readVersionNewFormat(dataToParse);
+    ver = detectSpineVersion(version);
+    if (ver === SPINE_VERSION.VER40 || ver === SPINE_VERSION.VER41)
+      parser = new spine41.SkeletonBinary(new spine41.AtlasAttachmentLoader(atlas));
+    if (!parser) console.error(`Unsupported version of spine model ${version}, please update pixi-spine`);
+    parser.scale = this.scale;
+    return parser.readSkeletonData(dataToParse);
   }
-};
 
-function Ah(t: string) {
-  switch (t.toLowerCase()) {
-    case 'nearest':
-      return SCALE_MODES.NEAREST;
-    case 'linear':
-      return SCALE_MODES.LINEAR;
-    default:
-      throw new Error(`Unknown texture filter ${t}`);
+  readVersionOldFormat(dataToParse: Uint8Array) {
+    const input = new BinaryInput(dataToParse);
+    let version;
+    try {
+      input.readString();
+      version = input.readString();
+    } catch (e) {
+      version = '';
+    }
+
+    return version || '';
+  }
+
+  readVersionNewFormat(dataToParse: Uint8Array) {
+    const input = new BinaryInput(dataToParse);
+    input.readInt32();
+    input.readInt32();
+    let version;
+    try {
+      version = input.readString();
+    } catch (e) {
+      version = '';
+    }
+    return version || '';
   }
 }
+
+class UniJsonParser implements ISkeletonParser {
+  scale = 1;
+  readSkeletonData(atlas: TextureAtlas, dataToParse: any): ISkeletonData {
+    const version = dataToParse.skeleton.spine;
+    const ver = detectSpineVersion(version);
+    let parser: any = null;
+    if (ver === SPINE_VERSION.VER37) parser = new spine37.SkeletonJson(new spine37.AtlasAttachmentLoader(atlas));
+    if (ver === SPINE_VERSION.VER38) parser = new spine38.SkeletonJson(new spine38.AtlasAttachmentLoader(atlas));
+    if (ver === SPINE_VERSION.VER40 || ver === SPINE_VERSION.VER41)
+      parser = new spine41.SkeletonJson(new spine41.AtlasAttachmentLoader(atlas));
+    if (!parser) console.error(`Unsupported version of spine model ${version}, please update pixi-spine`);
+    parser.scale = this.scale;
+    return parser.readSkeletonData(dataToParse);
+  }
+}
+const parseData = (parser: ISkeletonParser, atlas: TextureAtlas, dataToParse: any): ISpineResource<ISkeletonData> => {
+  const parserCast = parser as UniBinaryParser | UniJsonParser;
+
+  return {
+    spineData: parserCast.readSkeletonData(atlas, dataToParse),
+    spineAtlas: atlas,
+  };
+};
+export const spineLoaderExtension: AssetExtension<
+  SPINEJSON | SPINEBINARY | ISpineResource<ISkeletonData>,
+  ISpineMetadata
+> = {
+  extension: ExtensionType.Asset,
+  loader: {
+    extension: {
+      type: ExtensionType.LoadParser,
+      priority: LoaderParserPriority.Normal,
+    },
+    test(url) {
+      return checkExtension(url, '.skel');
+    },
+
+    async load<SPINEBINARY>(url: string): Promise<SPINEBINARY> {
+      const response = await settings.ADAPTER.fetch(url);
+      const buffer = await response.arrayBuffer();
+      return buffer as SPINEBINARY;
+    },
+
+    testParse(asset: unknown, options: LoadAsset): Promise<boolean> {
+      const isJsonSpineModel = checkExtension(options.src, '.json') && isJson(asset);
+      const isBinarySpineModel = checkExtension(options.src, '.skel') && isBuffer(asset);
+      const isMetadataAngry = options.data?.spineAtlas === false;
+      return Promise.resolve((isJsonSpineModel && !isMetadataAngry) || isBinarySpineModel);
+    },
+    async parse(
+      asset: SPINEJSON | SPINEBINARY,
+      loadAsset: LoadAsset,
+      loader: any,
+    ): Promise<ISpineResource<ISkeletonData>> {
+      const fileExt = utils.path.extname(loadAsset.src).toLowerCase();
+      const fileName = utils.path.basename(loadAsset.src, fileExt);
+      let basePath = utils.path.dirname(loadAsset.src);
+
+      if (basePath && basePath.lastIndexOf('/') !== basePath.length - 1) basePath += '/';
+      const isJsonSpineModel = checkExtension(loadAsset.src, '.json') && isJson(asset);
+      let parser: ISkeletonParser = new UniBinaryParser();
+      let dataToParse = asset;
+      if (isJsonSpineModel) parser = new UniJsonParser();
+      else dataToParse = new Uint8Array(asset);
+      const metadata = (loadAsset.data || {}) as ISpineMetadata;
+      const metadataSkeletonScale = metadata?.spineSkeletonScale ?? null;
+      if (metadataSkeletonScale) parser.scale = metadataSkeletonScale;
+      const metadataAtlas: TextureAtlas = metadata.spineAtlas as TextureAtlas;
+      if (metadataAtlas && metadataAtlas.pages) return parseData(parser, metadataAtlas, dataToParse);
+
+      const textAtlas = metadata.atlasRawData;
+
+      if (textAtlas) {
+        let auxResolve = (value: TextureAtlas | PromiseLike<TextureAtlas>) => {};
+        let auxReject = (reason?: any) => {};
+        const atlasPromise = new Promise<TextureAtlas>((resolve, reject) => {
+          auxResolve = resolve;
+          auxReject = reject;
+        });
+        const atlas = new TextureAtlas(
+          textAtlas,
+          makeSpineTextureAtlasLoaderFunctionFromPixiLoaderObject(loader, basePath, metadata.imageMetadata),
+          (newAtlas) => {
+            if (!newAtlas) {
+              auxReject(
+                'Something went terribly wrong loading a spine .atlas file\nMost likely your texture failed to load.',
+              );
+            }
+            auxResolve(atlas);
+          },
+        );
+        const textureAtlas = await atlasPromise;
+        return parseData(parser, textureAtlas, dataToParse);
+      }
+
+      let atlasPath = metadata.spineAtlasFile;
+      if (!atlasPath) atlasPath = `${basePath + fileName}.atlas`;
+
+      const textureAtlas = await loader.load({
+        src: atlasPath,
+        data: metadata,
+        alias: metadata.spineAtlasAlias,
+      });
+
+      return parseData(parser, textureAtlas, dataToParse);
+    },
+  },
+} as AssetExtension<SPINEJSON | SPINEBINARY | ISpineResource<ISkeletonData>, ISpineMetadata>;

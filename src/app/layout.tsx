@@ -39,11 +39,9 @@ export default async function RootLayout({ children }: defaultType) {
             },
           }}
         >
-          {/* <LiveblocksProvider> */}
           <Toaster />
           <ProgressBar />
           <body className="text-[var(--text-default)]">{children}</body>
-          {/* </LiveblocksProvider> */}
         </SettingProvider>
       </SessionProvider>
     </html>

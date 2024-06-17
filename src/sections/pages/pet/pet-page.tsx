@@ -23,7 +23,7 @@ function PetPage() {
         </FormProvider>
       </div>
       <div>
-        <LayerPet skinName="meow" />
+        <LayerPet skinName={form.watch('skinPet')} />
       </div>
     </div>
   );
