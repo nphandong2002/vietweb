@@ -1,10 +1,13 @@
 'use client';
 
-import { Application, Assets, DisplayObject, ExtensionType, Renderer, extensions } from 'pixi.js';
 import { Layer } from '@pixi/layers';
+import { Spine } from '@pixi-spine/loader-uni';
+import { useEffect, useRef, useState } from 'react';
+import { Application, Assets, LoaderParser, Container } from 'pixi.js';
 
-import { useEffect, useRef } from 'react';
 import { spineLoaderExtension, spineTextureAtlasLoader } from '../../pet-utils';
+import { renderMaganerType, resourcesType } from '../../pet-type';
+import { action, action2, feeling } from '../../config/config-pet';
 
 interface LayerPetType {
   skinName: string;
@@ -12,35 +15,20 @@ interface LayerPetType {
 
 function LayerPet({ skinName }: LayerPetType) {
   const divRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const loadConfig = async () => {
-      let pgWorld = new Application();
-      Object.assign(DisplayObject.prototype, {
-        parentLayer: null,
-        _activeParentLayer: null,
-        parentGroup: null,
-        zOrder: 0,
-        zIndex: 0,
-        updateOrder: 0,
-        displayOrder: 0,
-        layerableChildren: !0,
-        isLayer: !1,
-      });
-      pgWorld.stage = new Layer();
-      pgWorld.renderer.plugins.interaction.autoPreventDefault = false;
-      pgWorld.renderer.view.style && (pgWorld.renderer.view.style.touchAction = 'auto');
-      pgWorld.ticker && (pgWorld.ticker.maxFPS = 60);
-      extensions.add(spineTextureAtlasLoader);
-      extensions.add(spineLoaderExtension);
+  const [resources, setresources] = useState<resourcesType>({
+    spineData: [],
+    spineAtlas: {},
+  });
+  Assets.loader.parsers.push(spineTextureAtlasLoader.loader as LoaderParser);
+  Assets.loader.parsers.push(spineLoaderExtension.loader as LoaderParser);
 
-      console.log(extensions);
-      Assets.add('cat', '/assets/pet/spine/cat.json');
-      Assets.load(['cat'], function (a) {
-        console.log(a);
-      });
-    };
-    loadConfig();
-  }, [skinName, divRef]);
+  useEffect(() => {}, [divRef, skinName]);
+  useEffect(() => {
+    Assets.add('cat', '/assets/pet/spine/cat.json');
+    Assets.load(['cat']).then(function (a) {
+      setresources(a);
+    });
+  }, []);
   return <div ref={divRef}></div>;
 }
 

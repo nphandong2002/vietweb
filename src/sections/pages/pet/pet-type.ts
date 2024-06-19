@@ -1,4 +1,17 @@
-import { SCALE_MODES, BaseTexture, Resource, WRAP_MODES, Texture, ALPHA_MODES } from 'pixi.js';
+import { Layer } from '@pixi/layers';
+import { ISkeletonData, ISkeletonParser, TextureAtlas, BinaryInput } from '@pixi-spine/base';
+
+import {
+  SCALE_MODES,
+  BaseTexture,
+  Resource,
+  WRAP_MODES,
+  Texture,
+  ALPHA_MODES,
+  Application,
+  Container,
+  DisplayObject,
+} from 'pixi.js';
 export enum TextureFilter {
   Nearest = 9728,
   Linear = 9729,
@@ -36,4 +49,17 @@ export type TextTure = {
   originalHeight: number;
   rotate: number;
   index: number;
+};
+
+export type renderMaganerType = Partial<{
+  pgWorld: Application;
+  layer: Layer;
+  pets: Container<DisplayObject>;
+  resources: any;
+  currzIndex: number;
+}>;
+
+export type resourcesType = {
+  spineData: ISkeletonData;
+  spineAtlas: TextureAtlas;
 };

@@ -270,3 +270,39 @@ export const listPetPro = [
     diamonds: 30,
   },
 ];
+
+export const action = [
+  'idle',
+  'jump',
+  'walk',
+  'run',
+  'dance',
+  'dance-rock',
+  'dance-tap',
+  'dance-chill',
+  'throw',
+  'bite',
+  'chew',
+  'blink',
+  'wave',
+  'hurt',
+  'laugh',
+  'karate',
+  'tired',
+  'pet other',
+  'shoot-bow',
+];
+export const feeling = ['sad', 'thanks', 'please', 'slide'];
+export const action2 = [
+  'dead',
+  'sleep',
+  'lick',
+  'dig',
+  'mad',
+  'sit',
+  'sit-sad',
+  'fish-hook',
+  'fish-catch',
+  'fish',
+  'fish-catch',
+];
